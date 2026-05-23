@@ -18,14 +18,14 @@ private:
     virtual void Init(const WindowProperties& props);
     virtual void Shutdown();
 
-
+    // The actual window pointer from glfw. Is initialized in the implementation of this class in glfw_window.cpp
     GLFWwindow* _window;
 
+    // Acts as the window properties storing part of the class
     struct WinData{
         std::string title;
         uint32_t width, height;
         EventCallbackFn EventCallback;
     };
-
     WinData _data;
 };
