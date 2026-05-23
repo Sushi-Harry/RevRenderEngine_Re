@@ -1918,3 +1918,708 @@ events:
         - "/usr/pkg"
         - "/opt"
 ...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:468 (find_file)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:506 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "/usr/share/cmake/Modules/"
+    found: "/usr/share/cmake/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "/home/harry/.yarn/bin"
+        - "/home/harry/.config/yarn/global/node_modules/.bin"
+        - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin"
+        - "/home/harry/.config/hyde/scripts"
+        - "/home/harry/.local/bin"
+        - "/home/harry/.local/lib/hyde"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/include"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/harry/.config/polybar/scripts"
+        - "/home/harry/.scripts"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /usr/sbin/clang 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+      
+      The C compiler identification is Clang, found in:
+        /home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/4.3.1/CompilerIdC/a.out
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:26 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_AR"
+    description: "LLVM archiver"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ar-22.1"
+      - "llvm-ar-22"
+      - "llvm-ar22"
+      - "llvm-ar"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/home/harry/.yarn/bin/"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/"
+      - "/home/harry/.config/hyde/scripts/"
+      - "/home/harry/.local/bin/"
+      - "/home/harry/.local/lib/hyde/"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/include/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/harry/.config/polybar/scripts/"
+      - "/home/harry/.scripts/"
+    searched_directories:
+      - "/usr/bin/llvm-ar-22.1"
+      - "/usr/sbin/llvm-ar-22.1"
+      - "/home/harry/.yarn/bin/llvm-ar-22.1"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ar-22.1"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ar-22.1"
+      - "/home/harry/.config/hyde/scripts/llvm-ar-22.1"
+      - "/home/harry/.local/bin/llvm-ar-22.1"
+      - "/home/harry/.local/lib/hyde/llvm-ar-22.1"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ar-22.1"
+      - "/usr/local/sbin/llvm-ar-22.1"
+      - "/usr/local/bin/llvm-ar-22.1"
+      - "/sbin/llvm-ar-22.1"
+      - "/bin/llvm-ar-22.1"
+      - "/usr/include/llvm-ar-22.1"
+      - "/var/lib/flatpak/exports/bin/llvm-ar-22.1"
+      - "/usr/bin/site_perl/llvm-ar-22.1"
+      - "/usr/bin/vendor_perl/llvm-ar-22.1"
+      - "/usr/bin/core_perl/llvm-ar-22.1"
+      - "/home/harry/.config/polybar/scripts/llvm-ar-22.1"
+      - "/home/harry/.scripts/llvm-ar-22.1"
+      - "/usr/bin/llvm-ar-22"
+      - "/usr/sbin/llvm-ar-22"
+      - "/home/harry/.yarn/bin/llvm-ar-22"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ar-22"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ar-22"
+      - "/home/harry/.config/hyde/scripts/llvm-ar-22"
+      - "/home/harry/.local/bin/llvm-ar-22"
+      - "/home/harry/.local/lib/hyde/llvm-ar-22"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ar-22"
+      - "/usr/local/sbin/llvm-ar-22"
+      - "/usr/local/bin/llvm-ar-22"
+      - "/sbin/llvm-ar-22"
+      - "/bin/llvm-ar-22"
+      - "/usr/include/llvm-ar-22"
+      - "/var/lib/flatpak/exports/bin/llvm-ar-22"
+      - "/usr/bin/site_perl/llvm-ar-22"
+      - "/usr/bin/vendor_perl/llvm-ar-22"
+      - "/usr/bin/core_perl/llvm-ar-22"
+      - "/home/harry/.config/polybar/scripts/llvm-ar-22"
+      - "/home/harry/.scripts/llvm-ar-22"
+      - "/usr/bin/llvm-ar22"
+      - "/usr/sbin/llvm-ar22"
+      - "/home/harry/.yarn/bin/llvm-ar22"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ar22"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ar22"
+      - "/home/harry/.config/hyde/scripts/llvm-ar22"
+      - "/home/harry/.local/bin/llvm-ar22"
+      - "/home/harry/.local/lib/hyde/llvm-ar22"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ar22"
+      - "/usr/local/sbin/llvm-ar22"
+      - "/usr/local/bin/llvm-ar22"
+      - "/sbin/llvm-ar22"
+      - "/bin/llvm-ar22"
+      - "/usr/include/llvm-ar22"
+      - "/var/lib/flatpak/exports/bin/llvm-ar22"
+      - "/usr/bin/site_perl/llvm-ar22"
+      - "/usr/bin/vendor_perl/llvm-ar22"
+      - "/usr/bin/core_perl/llvm-ar22"
+      - "/home/harry/.config/polybar/scripts/llvm-ar22"
+      - "/home/harry/.scripts/llvm-ar22"
+      - "/usr/bin/llvm-ar"
+      - "/usr/sbin/llvm-ar"
+      - "/home/harry/.yarn/bin/llvm-ar"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ar"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ar"
+      - "/home/harry/.config/hyde/scripts/llvm-ar"
+      - "/home/harry/.local/bin/llvm-ar"
+      - "/home/harry/.local/lib/hyde/llvm-ar"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ar"
+      - "/usr/local/sbin/llvm-ar"
+      - "/usr/local/bin/llvm-ar"
+      - "/sbin/llvm-ar"
+      - "/bin/llvm-ar"
+      - "/usr/include/llvm-ar"
+      - "/var/lib/flatpak/exports/bin/llvm-ar"
+      - "/usr/bin/site_perl/llvm-ar"
+      - "/usr/bin/vendor_perl/llvm-ar"
+      - "/usr/bin/core_perl/llvm-ar"
+      - "/home/harry/.config/polybar/scripts/llvm-ar"
+      - "/home/harry/.scripts/llvm-ar"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/harry/.yarn/bin"
+        - "/home/harry/.config/yarn/global/node_modules/.bin"
+        - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin"
+        - "/home/harry/.config/hyde/scripts"
+        - "/home/harry/.local/bin"
+        - "/home/harry/.local/lib/hyde"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/include"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/harry/.config/polybar/scripts"
+        - "/home/harry/.scripts"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:38 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_RANLIB"
+    description: "Generate index for LLVM archive"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ranlib-22.1"
+      - "llvm-ranlib-22"
+      - "llvm-ranlib22"
+      - "llvm-ranlib"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/home/harry/.yarn/bin/"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/"
+      - "/home/harry/.config/hyde/scripts/"
+      - "/home/harry/.local/bin/"
+      - "/home/harry/.local/lib/hyde/"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/include/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/harry/.config/polybar/scripts/"
+      - "/home/harry/.scripts/"
+    searched_directories:
+      - "/usr/bin/llvm-ranlib-22.1"
+      - "/usr/sbin/llvm-ranlib-22.1"
+      - "/home/harry/.yarn/bin/llvm-ranlib-22.1"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ranlib-22.1"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ranlib-22.1"
+      - "/home/harry/.config/hyde/scripts/llvm-ranlib-22.1"
+      - "/home/harry/.local/bin/llvm-ranlib-22.1"
+      - "/home/harry/.local/lib/hyde/llvm-ranlib-22.1"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ranlib-22.1"
+      - "/usr/local/sbin/llvm-ranlib-22.1"
+      - "/usr/local/bin/llvm-ranlib-22.1"
+      - "/sbin/llvm-ranlib-22.1"
+      - "/bin/llvm-ranlib-22.1"
+      - "/usr/include/llvm-ranlib-22.1"
+      - "/var/lib/flatpak/exports/bin/llvm-ranlib-22.1"
+      - "/usr/bin/site_perl/llvm-ranlib-22.1"
+      - "/usr/bin/vendor_perl/llvm-ranlib-22.1"
+      - "/usr/bin/core_perl/llvm-ranlib-22.1"
+      - "/home/harry/.config/polybar/scripts/llvm-ranlib-22.1"
+      - "/home/harry/.scripts/llvm-ranlib-22.1"
+      - "/usr/bin/llvm-ranlib-22"
+      - "/usr/sbin/llvm-ranlib-22"
+      - "/home/harry/.yarn/bin/llvm-ranlib-22"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ranlib-22"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ranlib-22"
+      - "/home/harry/.config/hyde/scripts/llvm-ranlib-22"
+      - "/home/harry/.local/bin/llvm-ranlib-22"
+      - "/home/harry/.local/lib/hyde/llvm-ranlib-22"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ranlib-22"
+      - "/usr/local/sbin/llvm-ranlib-22"
+      - "/usr/local/bin/llvm-ranlib-22"
+      - "/sbin/llvm-ranlib-22"
+      - "/bin/llvm-ranlib-22"
+      - "/usr/include/llvm-ranlib-22"
+      - "/var/lib/flatpak/exports/bin/llvm-ranlib-22"
+      - "/usr/bin/site_perl/llvm-ranlib-22"
+      - "/usr/bin/vendor_perl/llvm-ranlib-22"
+      - "/usr/bin/core_perl/llvm-ranlib-22"
+      - "/home/harry/.config/polybar/scripts/llvm-ranlib-22"
+      - "/home/harry/.scripts/llvm-ranlib-22"
+      - "/usr/bin/llvm-ranlib22"
+      - "/usr/sbin/llvm-ranlib22"
+      - "/home/harry/.yarn/bin/llvm-ranlib22"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ranlib22"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ranlib22"
+      - "/home/harry/.config/hyde/scripts/llvm-ranlib22"
+      - "/home/harry/.local/bin/llvm-ranlib22"
+      - "/home/harry/.local/lib/hyde/llvm-ranlib22"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ranlib22"
+      - "/usr/local/sbin/llvm-ranlib22"
+      - "/usr/local/bin/llvm-ranlib22"
+      - "/sbin/llvm-ranlib22"
+      - "/bin/llvm-ranlib22"
+      - "/usr/include/llvm-ranlib22"
+      - "/var/lib/flatpak/exports/bin/llvm-ranlib22"
+      - "/usr/bin/site_perl/llvm-ranlib22"
+      - "/usr/bin/vendor_perl/llvm-ranlib22"
+      - "/usr/bin/core_perl/llvm-ranlib22"
+      - "/home/harry/.config/polybar/scripts/llvm-ranlib22"
+      - "/home/harry/.scripts/llvm-ranlib22"
+      - "/usr/bin/llvm-ranlib"
+      - "/usr/sbin/llvm-ranlib"
+      - "/home/harry/.yarn/bin/llvm-ranlib"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/llvm-ranlib"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/llvm-ranlib"
+      - "/home/harry/.config/hyde/scripts/llvm-ranlib"
+      - "/home/harry/.local/bin/llvm-ranlib"
+      - "/home/harry/.local/lib/hyde/llvm-ranlib"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/llvm-ranlib"
+      - "/usr/local/sbin/llvm-ranlib"
+      - "/usr/local/bin/llvm-ranlib"
+      - "/sbin/llvm-ranlib"
+      - "/bin/llvm-ranlib"
+      - "/usr/include/llvm-ranlib"
+      - "/var/lib/flatpak/exports/bin/llvm-ranlib"
+      - "/usr/bin/site_perl/llvm-ranlib"
+      - "/usr/bin/vendor_perl/llvm-ranlib"
+      - "/usr/bin/core_perl/llvm-ranlib"
+      - "/home/harry/.config/polybar/scripts/llvm-ranlib"
+      - "/home/harry/.scripts/llvm-ranlib"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/harry/.yarn/bin"
+        - "/home/harry/.config/yarn/global/node_modules/.bin"
+        - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin"
+        - "/home/harry/.config/hyde/scripts"
+        - "/home/harry/.local/bin"
+        - "/home/harry/.local/lib/hyde"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/include"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/harry/.config/polybar/scripts"
+        - "/home/harry/.scripts"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:50 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_CLANG_SCAN_DEPS"
+    description: "`clang-scan-deps` dependency scanner"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "clang-scan-deps-22.1"
+      - "clang-scan-deps-22"
+      - "clang-scan-deps22"
+      - "clang-scan-deps"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/home/harry/.yarn/bin/"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/"
+      - "/home/harry/.config/hyde/scripts/"
+      - "/home/harry/.local/bin/"
+      - "/home/harry/.local/lib/hyde/"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/include/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/home/harry/.config/polybar/scripts/"
+      - "/home/harry/.scripts/"
+    searched_directories:
+      - "/usr/bin/clang-scan-deps-22.1"
+      - "/usr/sbin/clang-scan-deps-22.1"
+      - "/home/harry/.yarn/bin/clang-scan-deps-22.1"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/clang-scan-deps-22.1"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/clang-scan-deps-22.1"
+      - "/home/harry/.config/hyde/scripts/clang-scan-deps-22.1"
+      - "/home/harry/.local/bin/clang-scan-deps-22.1"
+      - "/home/harry/.local/lib/hyde/clang-scan-deps-22.1"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/clang-scan-deps-22.1"
+      - "/usr/local/sbin/clang-scan-deps-22.1"
+      - "/usr/local/bin/clang-scan-deps-22.1"
+      - "/sbin/clang-scan-deps-22.1"
+      - "/bin/clang-scan-deps-22.1"
+      - "/usr/include/clang-scan-deps-22.1"
+      - "/var/lib/flatpak/exports/bin/clang-scan-deps-22.1"
+      - "/usr/bin/site_perl/clang-scan-deps-22.1"
+      - "/usr/bin/vendor_perl/clang-scan-deps-22.1"
+      - "/usr/bin/core_perl/clang-scan-deps-22.1"
+      - "/home/harry/.config/polybar/scripts/clang-scan-deps-22.1"
+      - "/home/harry/.scripts/clang-scan-deps-22.1"
+      - "/usr/bin/clang-scan-deps-22"
+      - "/usr/sbin/clang-scan-deps-22"
+      - "/home/harry/.yarn/bin/clang-scan-deps-22"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/clang-scan-deps-22"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/clang-scan-deps-22"
+      - "/home/harry/.config/hyde/scripts/clang-scan-deps-22"
+      - "/home/harry/.local/bin/clang-scan-deps-22"
+      - "/home/harry/.local/lib/hyde/clang-scan-deps-22"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/clang-scan-deps-22"
+      - "/usr/local/sbin/clang-scan-deps-22"
+      - "/usr/local/bin/clang-scan-deps-22"
+      - "/sbin/clang-scan-deps-22"
+      - "/bin/clang-scan-deps-22"
+      - "/usr/include/clang-scan-deps-22"
+      - "/var/lib/flatpak/exports/bin/clang-scan-deps-22"
+      - "/usr/bin/site_perl/clang-scan-deps-22"
+      - "/usr/bin/vendor_perl/clang-scan-deps-22"
+      - "/usr/bin/core_perl/clang-scan-deps-22"
+      - "/home/harry/.config/polybar/scripts/clang-scan-deps-22"
+      - "/home/harry/.scripts/clang-scan-deps-22"
+      - "/usr/bin/clang-scan-deps22"
+      - "/usr/sbin/clang-scan-deps22"
+      - "/home/harry/.yarn/bin/clang-scan-deps22"
+      - "/home/harry/.config/yarn/global/node_modules/.bin/clang-scan-deps22"
+      - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin/clang-scan-deps22"
+      - "/home/harry/.config/hyde/scripts/clang-scan-deps22"
+      - "/home/harry/.local/bin/clang-scan-deps22"
+      - "/home/harry/.local/lib/hyde/clang-scan-deps22"
+      - "/home/harry/Projects/RevRenderEngine_Re/$scrPath/clang-scan-deps22"
+      - "/usr/local/sbin/clang-scan-deps22"
+      - "/usr/local/bin/clang-scan-deps22"
+      - "/sbin/clang-scan-deps22"
+      - "/bin/clang-scan-deps22"
+      - "/usr/include/clang-scan-deps22"
+      - "/var/lib/flatpak/exports/bin/clang-scan-deps22"
+      - "/usr/bin/site_perl/clang-scan-deps22"
+      - "/usr/bin/vendor_perl/clang-scan-deps22"
+      - "/usr/bin/core_perl/clang-scan-deps22"
+      - "/home/harry/.config/polybar/scripts/clang-scan-deps22"
+      - "/home/harry/.scripts/clang-scan-deps22"
+    found: "/usr/bin/clang-scan-deps"
+    search_context:
+      ENV{PATH}:
+        - "/home/harry/.yarn/bin"
+        - "/home/harry/.config/yarn/global/node_modules/.bin"
+        - "/home/harry/.vscode-oss/extensions/vadimcn.vscode-lldb-1.12.1/bin"
+        - "/home/harry/.config/hyde/scripts"
+        - "/home/harry/.local/bin"
+        - "/home/harry/.local/lib/hyde"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/home/harry/.local/bin"
+        - "$scrPath"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/include"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/home/harry/.config/polybar/scripts"
+        - "/home/harry/.scripts"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo"
+      binary: "/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo'
+        
+        Run Build Command(s): /usr/sbin/ninja -v cmTC_74a5e
+        [1/2] /usr/sbin/clang   -v -MD -MT CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        clang version 22.1.3
+        Target: x86_64-pc-linux-gnu
+        Thread model: posix
+        InstalledDir: /usr/bin
+        Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-pc-linux-gnu/15.2.1
+        Found candidate GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1
+        Selected GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1
+        Candidate multilib: .;@m64
+        Candidate multilib: 32;@m32
+        Selected multilib: .;@m64
+         (in-process)
+         "/usr/bin/clang-22" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo -v -fcoverage-compilation-dir=/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 22.1.3 based upon LLVM 22.1.3 default target x86_64-pc-linux-gnu
+        ignoring nonexistent directory "/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"
+        ignoring nonexistent directory "/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/lib/clang/22/include
+         /usr/local/include
+         /usr/include
+        End of search list.
+        [2/2] : && /usr/sbin/clang  -v -Wl,-v CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -o cmTC_74a5e   && :
+        clang version 22.1.3
+        Target: x86_64-pc-linux-gnu
+        Thread model: posix
+        InstalledDir: /usr/bin
+        Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-pc-linux-gnu/15.2.1
+        Found candidate GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1
+        Selected GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1
+        Candidate multilib: .;@m64
+        Candidate multilib: 32;@m32
+        Selected multilib: .;@m64
+         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_74a5e /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o
+        GNU ld (GNU Binutils) 2.46
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:217 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/lib/clang/22/include]
+          add: [/usr/local/include]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/lib/clang/22/include] ==> [/usr/lib/clang/22/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/lib/clang/22/include;/usr/local/include;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/sbin/ninja -v cmTC_74a5e]
+        ignore line: [[1/2] /usr/sbin/clang   -v -MD -MT CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang version 22.1.3]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /usr/bin]
+        ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-pc-linux-gnu/15.2.1]
+        ignore line: [Found candidate GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1]
+        ignore line: [Selected GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1]
+        ignore line: [Candidate multilib: .]
+        ignore line: [@m64]
+        ignore line: [Candidate multilib: 32]
+        ignore line: [@m32]
+        ignore line: [Selected multilib: .]
+        ignore line: [@m64]
+        ignore line: [ (in-process)]
+        ignore line: [ "/usr/bin/clang-22" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo -v -fcoverage-compilation-dir=/home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/CMakeScratch/TryCompile-AugXbo -resource-dir /usr/lib/clang/22 -dependency-file CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -stack-protector 2 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 22.1.3 based upon LLVM 22.1.3 default target x86_64-pc-linux-gnu]
+        ignore line: [ignoring nonexistent directory "/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"]
+        ignore line: [ignoring nonexistent directory "/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/lib/clang/22/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [[2/2] : && /usr/sbin/clang  -v -Wl -v CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -o cmTC_74a5e   && :]
+        ignore line: [clang version 22.1.3]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /usr/bin]
+        ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-pc-linux-gnu/15.2.1]
+        ignore line: [Found candidate GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1]
+        ignore line: [Selected GCC installation: /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1]
+        ignore line: [Candidate multilib: .]
+        ignore line: [@m64]
+        ignore line: [Candidate multilib: 32]
+        ignore line: [@m32]
+        ignore line: [Selected multilib: .]
+        ignore line: [@m64]
+        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -pie -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_74a5e /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o]
+          arg [/usr/bin/ld] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--build-id] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_74a5e] ==> ignore
+          arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o]
+          arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o]
+          arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o]
+          arg [-L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1] ==> dir [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1]
+          arg [-L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64] ==> dir [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64]
+          arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+          arg [-L/usr/lib64] ==> dir [/usr/lib64]
+          arg [-L/lib] ==> dir [/lib]
+          arg [-L/usr/lib] ==> dir [/usr/lib]
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_74a5e.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [-lgcc] ==> lib [gcc]
+          arg [--as-needed] ==> ignore
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [--no-as-needed] ==> ignore
+          arg [-lc] ==> lib [c]
+          arg [-lgcc] ==> lib [gcc]
+          arg [--as-needed] ==> ignore
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [--no-as-needed] ==> ignore
+          arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o]
+          arg [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o] ==> obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o]
+        linker tool for 'C': /usr/bin/ld
+        collapse obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/Scrt1.o] ==> [/usr/lib64/Scrt1.o]
+        collapse obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crti.o] ==> [/usr/lib64/crti.o]
+        collapse obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o] ==> [/usr/lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o]
+        collapse obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o] ==> [/usr/lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o]
+        collapse obj [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64/crtn.o] ==> [/usr/lib64/crtn.o]
+        collapse library dir [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1] ==> [/usr/lib64/gcc/x86_64-pc-linux-gnu/15.2.1]
+        collapse library dir [/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib64] ==> [/usr/lib64]
+        collapse library dir [/lib/../lib64] ==> [/lib64]
+        collapse library dir [/usr/lib64] ==> [/usr/lib64]
+        collapse library dir [/lib] ==> [/lib]
+        collapse library dir [/usr/lib] ==> [/usr/lib]
+        implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+        implicit objs: [/usr/lib64/Scrt1.o;/usr/lib64/crti.o;/usr/lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o;/usr/lib64/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o;/usr/lib64/crtn.o]
+        implicit dirs: [/usr/lib64/gcc/x86_64-pc-linux-gnu/15.2.1;/usr/lib64;/lib64;/lib;/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "/usr/bin/ld" "-v"
+      GNU ld (GNU Binutils) 2.46
+...

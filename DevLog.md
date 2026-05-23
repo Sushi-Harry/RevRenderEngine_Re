@@ -8,3 +8,13 @@ __New: Trying to learn CMake to replace makefile for this project. Why? Because 
 ### 23 May, 2026 [8:27 A.M.]
 Alright so I spent yesterday trying to make sense of how CMake works. Simple enough to understand once you get the hang of the basics. (I still can't write cmake files without looking anywhere else but that's just for bigger projects like this one.)
 Now moving on to the main stuff. So far I've decided to split the window initialization process into a separate interface / virtual classes so that I don't have to do any random refactoring when all of my other classes will need to access the window's data. Last time I ended up writing a generic window implementation inside the main engine class and that meant I was including the Engine.hpp in almost every single header file which resulted in a lot of circular include statement errors. Not gonna happen this time around. (insert another :salute_emoji: here)
+
+__[Same Day, 5:16 P.M.]__: Started going through some of the relevant chapters of "Game Engine Architecture" by Jason Gregory. Great book. That and a little bit of googling led me to the decision of fully committing to just splitting everything into two parts: The OpenGL part controlled by the "backend" and then the actual abstract implementation of the rest of the engine by a separate layer. So the _backend handles the opengl stuff_ while the _engine kinda just layers over the backend and the engine files will not have any include statements that include the actual glfw files._
+
+__Here's the reasoning for why I'm doing it this way__: I'm hoping that when I eventually move on to a different API like Vulkan or DX12, I won't have to change the entirety of the code later.
+
+__[Same Day, 7:41 P.M.]__: Kinda in the middle of working on the events system. So far, I've added the basic event abstract class and an event dispatcher class. I've also added two Events right now: WindowResizeEvent and WindowCloseEvent. The former has been giving me some trouble cause I'm kinda clueless as to _where_ to write the framebuffer_size_callback function since it requires glfw3.h and I can't include glfw3.h anywhere in the engine/ directory according to my previously established rule of splitting everything into two parts. But the latter has been added successfully.
+
+__Need to Figure out next time__: Window Resize Callback function, other callbacks and the polling system has to be implemented
+
+That'll be it for today!

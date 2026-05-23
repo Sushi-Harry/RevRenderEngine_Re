@@ -69,6 +69,16 @@ rule CXX_STATIC_LIBRARY_LINKER__engine_core_Debug
 
 
 #############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__graphic_backend_unscanned_Debug
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}/usr/sbin/clang $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
 # Rule for generating CXX dependencies.
 
 rule CXX_SCAN__graphic_backend_Debug

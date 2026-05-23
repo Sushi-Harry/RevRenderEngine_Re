@@ -1,5 +1,7 @@
 #pragma once
 #include "core/window.hpp"
+#include "events/events.hpp"
+#include "events/event_dispatcher.hpp"
 #include <memory>
 
 class Application{
@@ -16,9 +18,12 @@ public:
     // Returns current application instance's pointer
     static Application* getInstance() { return _instance; }
 
+    void onEvent(Event& e);
+
 private:
     // This is a callback for when window is closed
-    bool onWindowClose();
+    bool onWindowClose(WindowCloseEvent& e);
+    bool onWindowResize(WindowResizeEvent& e);
 
     std::unique_ptr<Window> _window;
     bool _isRunning = true;

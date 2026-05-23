@@ -19,6 +19,18 @@
 },
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
+  "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -std=gnu++20 -o backend/CMakeFiles/graphic_backend.dir/src/opengl_context.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_context.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_context.cpp",
+  "output": "/home/harry/Projects/RevRenderEngine_Re/build/backend/CMakeFiles/graphic_backend.dir/src/opengl_context.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
+  "command": "/usr/sbin/clang -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -o backend/CMakeFiles/graphic_backend.dir/__/external/glad/src/glad.c.o -c /home/harry/Projects/RevRenderEngine_Re/external/glad/src/glad.c",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/external/glad/src/glad.c",
+  "output": "/home/harry/Projects/RevRenderEngine_Re/build/backend/CMakeFiles/graphic_backend.dir/__/external/glad/src/glad.c.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
   "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -std=gnu++20 -o revrender/CMakeFiles/engine.dir/src/main.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/revrender/src/main.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/revrender/src/main.cpp",
   "output": "/home/harry/Projects/RevRenderEngine_Re/build/revrender/CMakeFiles/engine.dir/src/main.cpp.o"

@@ -15,6 +15,23 @@ Application::Application(Window* window, const std::string& name) : _window(wind
 // Empty deconstructor
 Application::~Application() {}
 
+// Event Dispatcher / Event Handling code
+void Application::onEvent(Event& e){
+    EventDispatcher ed(e);
+
+    ed.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& event){ return onWindowResize(event); });
+    ed.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& event){ return onWindowClose(event); });
+}
+
+bool Application::onWindowClose(WindowCloseEvent& e){
+    _isRunning = false;
+    return true;
+}
+
+bool Application::onWindowResize(WindowResizeEvent& e){
+    return e.getWidth() != 0 && e.getHeight() != 0;
+}
+
 void Application::Close(){
     _isRunning = false;
 }

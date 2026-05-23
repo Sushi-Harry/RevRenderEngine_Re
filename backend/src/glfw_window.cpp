@@ -42,7 +42,8 @@ void glfw_window::Init(const WindowProperties& props){
 
     // This creates the window
     _window = glfwCreateWindow((int)_data.width, (int)_data.height, _data.title.c_str(), nullptr, nullptr);
-    glfwMakeContextCurrent(_window);
+    _context = new OpenGLContext(_window);
+    _context->Init();
 
     // This line allows me to use the window pointer later to check if the glfw window should close and to define the EventCallbackFn part of _data
     glfwSetWindowUserPointer(_window, &_data);
@@ -65,5 +66,5 @@ void glfw_window::Shutdown(){
 // This function starts event polling and swaps buffers
 void glfw_window::onUpdate(){
     glfwPollEvents();
-    glfwSwapBuffers(_window);
+    _context->SwapBuffers();
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include "core/window.hpp"
+#include "opengl_context.hpp"
+#include "events/events.hpp"
 
 class glfw_window : public Window{
 public:
@@ -28,4 +30,6 @@ private:
         EventCallbackFn EventCallback;
     };
     WinData _data;
+
+    GraphicsContext* _context;
 };
