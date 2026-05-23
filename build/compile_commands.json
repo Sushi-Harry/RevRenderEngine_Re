@@ -1,6 +1,12 @@
 [
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
+  "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -std=gnu++20 -o engine/CMakeFiles/engine_core.dir/src/core/application.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/engine/src/core/application.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/engine/src/core/application.cpp",
+  "output": "/home/harry/Projects/RevRenderEngine_Re/build/engine/CMakeFiles/engine_core.dir/src/core/application.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
   "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -std=gnu++20 -o engine/CMakeFiles/engine_core.dir/src/core/window.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/engine/src/core/window.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/engine/src/core/window.cpp",
   "output": "/home/harry/Projects/RevRenderEngine_Re/build/engine/CMakeFiles/engine_core.dir/src/core/window.cpp.o"

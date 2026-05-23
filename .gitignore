@@ -18,6 +18,7 @@ ninja_deps
 *.dylib
 *.a
 *.lib
+*.ninja
 
 compile_commands.json
 .cache/

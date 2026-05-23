@@ -78,6 +78,15 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 build cmake_object_order_depends_target_engine_core: phony || .
 
+build engine/CMakeFiles/engine_core.dir/src/core/application.cpp.o: CXX_COMPILER__engine_core_unscanned_Debug /home/harry/Projects/RevRenderEngine_Re/engine/src/core/application.cpp || cmake_object_order_depends_target_engine_core
+  CONFIG = Debug
+  DEP_FILE = engine/CMakeFiles/engine_core.dir/src/core/application.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm
+  OBJECT_DIR = engine/CMakeFiles/engine_core.dir
+  OBJECT_FILE_DIR = engine/CMakeFiles/engine_core.dir/src/core
+  TARGET_SUPPORT_DIR = engine/CMakeFiles/engine_core.dir
+
 build engine/CMakeFiles/engine_core.dir/src/core/window.cpp.o: CXX_COMPILER__engine_core_unscanned_Debug /home/harry/Projects/RevRenderEngine_Re/engine/src/core/window.cpp || cmake_object_order_depends_target_engine_core
   CONFIG = Debug
   DEP_FILE = engine/CMakeFiles/engine_core.dir/src/core/window.cpp.o.d
@@ -95,7 +104,7 @@ build engine/CMakeFiles/engine_core.dir/src/core/window.cpp.o: CXX_COMPILER__eng
 #############################################
 # Link the static library engine/libengine_core.a
 
-build engine/libengine_core.a: CXX_STATIC_LIBRARY_LINKER__engine_core_Debug engine/CMakeFiles/engine_core.dir/src/core/window.cpp.o
+build engine/libengine_core.a: CXX_STATIC_LIBRARY_LINKER__engine_core_Debug engine/CMakeFiles/engine_core.dir/src/core/application.cpp.o engine/CMakeFiles/engine_core.dir/src/core/window.cpp.o
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = engine/CMakeFiles/engine_core.dir

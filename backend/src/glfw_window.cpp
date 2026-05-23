@@ -5,9 +5,6 @@ Window* Window::create(const WindowProperties& prop){
     return new glfw_window(prop);
 }
 
-
-
-
 // glfw_window wrapper functions' definitions
 
 // Constructor for glfw_window class
@@ -24,6 +21,11 @@ void glfw_window::Init(const WindowProperties& props){
     _data.width = props.width;
     _data.height = props.height;
 
+    // Basic setup. Nothing much to say here
+    glfwWindowHint(GLFW_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     // Basic setup. Not much to say here
     static bool glfwInitialized = false;
     if(!glfwInitialized){
@@ -34,11 +36,6 @@ void glfw_window::Init(const WindowProperties& props){
         }
         glfwInitialized = true;
     }
-
-    // Basic setup. Nothing much to say here
-    glfwWindowHint(GLFW_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // This creates the window
     _window = glfwCreateWindow((int)_data.width, (int)_data.height, _data.title.c_str(), nullptr, nullptr);
