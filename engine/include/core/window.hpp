@@ -3,6 +3,7 @@
 #include <functional>
 #include <string>
 #include <utility>
+#include "events/events.hpp"
 
 struct WindowProperties{
     std::string name;
@@ -15,7 +16,7 @@ struct WindowProperties{
 
 class Window{
 public:
-    using EventCallbackFn = std::function<void()>;
+    using EventCallbackFn = std::function<void(Event&)>;
 
     virtual ~Window() = default;
     virtual void onUpdate() = 0;
@@ -24,7 +25,7 @@ public:
 
     // Window attributes
     virtual void setEventCallback(const EventCallbackFn& callback)= 0;
-    virtual void* getWindow() = 0;
+    virtual void* getWindow() const = 0;
 
     static Window* create(const WindowProperties& prop = WindowProperties());
 };

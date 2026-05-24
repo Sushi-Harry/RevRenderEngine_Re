@@ -9,7 +9,7 @@ Application::Application(Window* window, const std::string& name) : _window(wind
     _instance = this;
 
     // Setting the event callback
-    _window->setEventCallback([this](){ this->Close(); });
+    _window->setEventCallback([this](Event& ev){ this->onEvent(ev); });
 }
 
 // Empty deconstructor

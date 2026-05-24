@@ -14,7 +14,7 @@ public:
     uint32_t getHeight() override { return _data.height; }
 
     void setEventCallback(const EventCallbackFn& callback) override { _data.EventCallback = callback; }
-    void* getWindow() override { return  _window; }
+    void* getWindow() const override { return  _window; }
 
 private:
     virtual void Init(const WindowProperties& props);

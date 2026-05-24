@@ -47,13 +47,21 @@ void glfw_window::Init(const WindowProperties& props){
 
     // This line allows me to use the window pointer later to check if the glfw window should close and to define the EventCallbackFn part of _data
     glfwSetWindowUserPointer(_window, &_data);
+    // This is the window resize callback
+    glfwSetWindowSizeCallback(_window, [](GLFWwindow* window, int w, int h){
+        WinData& data = *(WinData*)glfwGetWindowUserPointer(window);
+        data.width = w;
+        data.height = h;
+
+        WindowResizeEvent event(w, h);
+        data.EventCallback(event);
+    });
+
     glfwSetWindowCloseCallback(_window, [](GLFWwindow* window){
         WinData& data = *(WinData*)glfwGetWindowUserPointer(window);
-        if(data.EventCallback){
-            // Trying some very new stuff. This should trigger glfwWindowShouldClose() if the EventCallbackFn variable in the data structure is defined
-            // and is a callback to glfwWindowShouldClose(). That's what I think at least
-            data.EventCallback();
-        }
+
+        WindowCloseEvent e;
+        data.EventCallback(e);
     });
 }
 

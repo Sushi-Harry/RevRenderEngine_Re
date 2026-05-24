@@ -6,14 +6,16 @@
 enum class EventType : uint8_t{
     WINDOW_RESIZE,
     WINDOW_CLOSE,
-    KEY_PRESSED,
-    MOUSE_MOVED
+    KEY_EVENT_PRESSED,
+    KEY_EVENT_RELEASED,
+    MOUSE_EVENT_PRESSED,
+    MOUSE_EVENT_RELEASED,
+    MOUSE_EVENT_MOVED
 };
 
 // This is the Event Category enum
 enum class EventCategory : uint8_t{
     EVENT_CATEGORY_APPLICATION,
-    EVENT_CATEGORY_KEYBOARD,
     EVENT_CATEGORY_INPUT
 };
 

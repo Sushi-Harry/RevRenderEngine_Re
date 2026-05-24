@@ -16,7 +16,7 @@ public:
     // Returns the address of window instance
     Window& getWindow() { return *_window; }
     // Returns current application instance's pointer
-    static Application* getInstance() { return _instance; }
+    static Application& getInstance() { return *_instance; }
 
     void onEvent(Event& e);
 

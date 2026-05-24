@@ -18,3 +18,11 @@ __[Same Day, 7:41 P.M.]__: Kinda in the middle of working on the events system. 
 __Need to Figure out next time__: Window Resize Callback function, other callbacks and the polling system has to be implemented
 
 That'll be it for today!
+
+### 24 May, 2026 [10:58 A.M.]
+Great start to the day. Just started working on it again and fixed the problem I was facing regarding the WindowResizeEvent yesterday. So now two events have been set up correctly and verified to be working properly. Will begin working on the polling and input system today.
+Starting to get more familiar with std::function and lambda functions. Feels good.
+__Forgot to mention: A LOT OF THE CODE IN THIS PROJECT IS INSPIRED FROM THE CHERNOS' HAZEL ENGINE__
+in fact, the events claas might look identical to the chernos' project cause I kinda had no idea how to write the events system.
+
+__[Same Day, 11:15 P.M.]__: Done adding the input interface. Need to implement the actual glfw backend part of the input system tomorrow. Couldn't get much work done today cause I was distracted with Forza Horizon 5. Will get back to everything tomorrow.
