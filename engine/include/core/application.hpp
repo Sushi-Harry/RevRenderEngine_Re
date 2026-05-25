@@ -3,6 +3,7 @@
 #include "events/events.hpp"
 #include "events/event_dispatcher.hpp"
 #include "core/input.hpp"
+#include "core/layer_stack.hpp"
 #include <memory>
 
 class Application{
@@ -29,6 +30,8 @@ private:
     std::unique_ptr<Window> _window;
     bool _isRunning = true;
     static Application* _instance;
+
+    LayerStack _layer_stack;
 };
 
 Application* CreateApplication();

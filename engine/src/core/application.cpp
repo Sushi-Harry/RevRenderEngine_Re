@@ -21,6 +21,13 @@ void Application::onEvent(Event& e){
 
     ed.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& event){ return onWindowResize(event); });
     ed.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& event){ return onWindowClose(event); });
+
+    for(auto iter = _layer_stack.rbegin(); iter != _layer_stack.rend(); iter++){
+        if(e.handled){
+            break;
+        }
+        (*iter)->onEvent(e);
+    }
 }
 
 bool Application::onWindowClose(WindowCloseEvent& e){
