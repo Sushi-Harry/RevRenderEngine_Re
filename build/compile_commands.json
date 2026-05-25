@@ -13,6 +13,12 @@
 },
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
+  "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -std=gnu++20 -o backend/CMakeFiles/graphic_backend.dir/src/glfw_input.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_input.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_input.cpp",
+  "output": "/home/harry/Projects/RevRenderEngine_Re/build/backend/CMakeFiles/graphic_backend.dir/src/glfw_input.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
   "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -std=gnu++20 -o backend/CMakeFiles/graphic_backend.dir/src/glfw_window.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_window.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_window.cpp",
   "output": "/home/harry/Projects/RevRenderEngine_Re/build/backend/CMakeFiles/graphic_backend.dir/src/glfw_window.cpp.o"
@@ -31,7 +37,7 @@
 },
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build",
-  "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -g -std=gnu++20 -o revrender/CMakeFiles/engine.dir/src/main.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/revrender/src/main.cpp",
+  "command": "/usr/sbin/clang++ -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -g -std=gnu++20 -o revrender/CMakeFiles/engine.dir/src/main.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/revrender/src/main.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/revrender/src/main.cpp",
   "output": "/home/harry/Projects/RevRenderEngine_Re/build/revrender/CMakeFiles/engine.dir/src/main.cpp.o"
 }

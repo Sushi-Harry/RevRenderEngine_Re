@@ -2,6 +2,7 @@
 #include "core/window.hpp"
 #include "events/events.hpp"
 #include "events/event_dispatcher.hpp"
+#include "core/input.hpp"
 #include <memory>
 
 class Application{

@@ -152,6 +152,15 @@ build engine/rebuild_cache: phony engine/CMakeFiles/rebuild_cache.util
 
 build cmake_object_order_depends_target_graphic_backend: phony || cmake_object_order_depends_target_engine_core
 
+build backend/CMakeFiles/graphic_backend.dir/src/glfw_input.cpp.o: CXX_COMPILER__graphic_backend_unscanned_Debug /home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_input.cpp || cmake_object_order_depends_target_graphic_backend
+  CONFIG = Debug
+  DEP_FILE = backend/CMakeFiles/graphic_backend.dir/src/glfw_input.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm
+  OBJECT_DIR = backend/CMakeFiles/graphic_backend.dir
+  OBJECT_FILE_DIR = backend/CMakeFiles/graphic_backend.dir/src
+  TARGET_SUPPORT_DIR = backend/CMakeFiles/graphic_backend.dir
+
 build backend/CMakeFiles/graphic_backend.dir/src/glfw_window.cpp.o: CXX_COMPILER__graphic_backend_unscanned_Debug /home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_window.cpp || cmake_object_order_depends_target_graphic_backend
   CONFIG = Debug
   DEP_FILE = backend/CMakeFiles/graphic_backend.dir/src/glfw_window.cpp.o.d
@@ -187,7 +196,7 @@ build backend/CMakeFiles/graphic_backend.dir/__/external/glad/src/glad.c.o: C_CO
 #############################################
 # Link the static library backend/libgraphic_backend.a
 
-build backend/libgraphic_backend.a: CXX_STATIC_LIBRARY_LINKER__graphic_backend_Debug backend/CMakeFiles/graphic_backend.dir/src/glfw_window.cpp.o backend/CMakeFiles/graphic_backend.dir/src/opengl_context.cpp.o backend/CMakeFiles/graphic_backend.dir/__/external/glad/src/glad.c.o || engine/libengine_core.a
+build backend/libgraphic_backend.a: CXX_STATIC_LIBRARY_LINKER__graphic_backend_Debug backend/CMakeFiles/graphic_backend.dir/src/glfw_input.cpp.o backend/CMakeFiles/graphic_backend.dir/src/glfw_window.cpp.o backend/CMakeFiles/graphic_backend.dir/src/opengl_context.cpp.o backend/CMakeFiles/graphic_backend.dir/__/external/glad/src/glad.c.o || engine/libengine_core.a
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = backend/CMakeFiles/graphic_backend.dir
@@ -239,7 +248,7 @@ build revrender/CMakeFiles/engine.dir/src/main.cpp.o: CXX_COMPILER__engine_unsca
   CONFIG = Debug
   DEP_FILE = revrender/CMakeFiles/engine.dir/src/main.cpp.o.d
   FLAGS = -g -std=gnu++20
-  INCLUDES = -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm
+  INCLUDES = -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include
   OBJECT_DIR = revrender/CMakeFiles/engine.dir
   OBJECT_FILE_DIR = revrender/CMakeFiles/engine.dir/src
   TARGET_SUPPORT_DIR = revrender/CMakeFiles/engine.dir
@@ -252,12 +261,12 @@ build revrender/CMakeFiles/engine.dir/src/main.cpp.o: CXX_COMPILER__engine_unsca
 #############################################
 # Link the executable revrender/engine
 
-build revrender/engine: CXX_EXECUTABLE_LINKER__engine_Debug revrender/CMakeFiles/engine.dir/src/main.cpp.o | backend/libgraphic_backend.a engine/libengine_core.a /usr/lib/libglfw.so.3.4 || backend/libgraphic_backend.a engine/libengine_core.a
+build revrender/engine: CXX_EXECUTABLE_LINKER__engine_Debug revrender/CMakeFiles/engine.dir/src/main.cpp.o | engine/libengine_core.a backend/libgraphic_backend.a /usr/lib/libglfw.so.3.4 engine/libengine_core.a || backend/libgraphic_backend.a engine/libengine_core.a
   CONFIG = Debug
   DEP_FILE = revrender/CMakeFiles/engine.dir/link.d
   FLAGS = -g
   LINK_FLAGS = -Xlinker --dependency-file=revrender/CMakeFiles/engine.dir/link.d
-  LINK_LIBRARIES = backend/libgraphic_backend.a  engine/libengine_core.a  /usr/lib/libglfw.so.3.4
+  LINK_LIBRARIES = engine/libengine_core.a  backend/libgraphic_backend.a  /usr/lib/libglfw.so.3.4  engine/libengine_core.a
   OBJECT_DIR = revrender/CMakeFiles/engine.dir
   POST_BUILD = cd /home/harry/Projects/RevRenderEngine_Re/build/revrender && /usr/sbin/cmake -E copy_directory /home/harry/Projects/RevRenderEngine_Re/revrender/assets /home/harry/Projects/RevRenderEngine_Re/build/revrender/assets
   PRE_LINK = :

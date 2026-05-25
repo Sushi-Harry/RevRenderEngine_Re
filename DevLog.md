@@ -26,3 +26,6 @@ __Forgot to mention: A LOT OF THE CODE IN THIS PROJECT IS INSPIRED FROM THE CHER
 in fact, the events claas might look identical to the chernos' project cause I kinda had no idea how to write the events system.
 
 __[Same Day, 11:15 P.M.]__: Done adding the input interface. Need to implement the actual glfw backend part of the input system tomorrow. Couldn't get much work done today cause I was distracted with Forza Horizon 5. Will get back to everything tomorrow.
+
+### 25 May, 2026 [2:47 P.M.]
+Alright so I just finished the input system. Tested it too and it works so far. Haven't tested the mouse inputs though but since the keyboard input and mouse input have extremely similar code, it should work fine. Will move on to something else now. Haven't decided what's next. Will do that after a cup of coffee.

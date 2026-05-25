@@ -25,7 +25,7 @@ public:
 
     // Window attributes
     virtual void setEventCallback(const EventCallbackFn& callback)= 0;
-    virtual void* getWindow() const = 0;
+    virtual void* getGLWindow() const = 0;
 
     static Window* create(const WindowProperties& prop = WindowProperties());
 };
