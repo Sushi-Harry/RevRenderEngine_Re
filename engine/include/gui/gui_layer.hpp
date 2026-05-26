@@ -5,7 +5,7 @@
 
 class gui_layer : public Layer{
 public:
-    gui_layer();
+    gui_layer() : Layer("gui_layer") {}
     ~gui_layer() = default;
 
     void onAttach() override;
@@ -16,10 +16,9 @@ public:
     void end();
 
     void blockEvents() { _blockEvents = true; }
-    void unblockEvents() { _blockEvents = true; }
+    void unblockEvents() { _blockEvents = false; }
     void setEventsStatus(bool stat) { _blockEvents = stat; }
 
 private:
     bool _blockEvents = false;
-    float _time = 0.0f;
 };

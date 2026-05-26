@@ -10,7 +10,7 @@ public:
     KeyEvent(const Key keycode) : _key(keycode) {}
 
     Key getCode() const { return _key; }
-    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_INPUT; }
+    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_KEYBOARD; }
     const char* getName() const override { return "KeyboardInput"; }
 
 protected:
@@ -24,7 +24,7 @@ public:
     static EventType getStaticType() { return EventType::KEY_EVENT_PRESSED; }
 
     Key getCode() const { return _key; }
-    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_INPUT; }
+    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_KEYBOARD; }
     const char* getName() const override { return "KeyPressed"; }
 
 private:
@@ -38,6 +38,6 @@ public:
     static EventType getStaticType() { return EventType::KEY_EVENT_RELEASED; }
 
     Key getCode() const { return _key; }
-    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_INPUT; }
+    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_KEYBOARD; }
     const char* getName() const override { return "KeyReleased"; }
 };

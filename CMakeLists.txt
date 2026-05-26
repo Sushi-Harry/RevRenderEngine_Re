@@ -23,7 +23,7 @@ endif()
 add_library(glm INTERFACE)
 target_include_directories(glm INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/glm)
 
-
+add_subdirectory(external)
 add_subdirectory(engine)
 add_subdirectory(backend)
 add_subdirectory(revrender)

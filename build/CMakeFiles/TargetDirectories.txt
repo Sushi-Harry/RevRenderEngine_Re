@@ -1,5 +1,10 @@
 /home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/edit_cache.dir
 /home/harry/Projects/RevRenderEngine_Re/build/CMakeFiles/rebuild_cache.dir
+/home/harry/Projects/RevRenderEngine_Re/build/external/CMakeFiles/edit_cache.dir
+/home/harry/Projects/RevRenderEngine_Re/build/external/CMakeFiles/rebuild_cache.dir
+/home/harry/Projects/RevRenderEngine_Re/build/external/imgui/CMakeFiles/ImGui.dir
+/home/harry/Projects/RevRenderEngine_Re/build/external/imgui/CMakeFiles/edit_cache.dir
+/home/harry/Projects/RevRenderEngine_Re/build/external/imgui/CMakeFiles/rebuild_cache.dir
 /home/harry/Projects/RevRenderEngine_Re/build/engine/CMakeFiles/engine_core.dir
 /home/harry/Projects/RevRenderEngine_Re/build/engine/CMakeFiles/edit_cache.dir
 /home/harry/Projects/RevRenderEngine_Re/build/engine/CMakeFiles/rebuild_cache.dir

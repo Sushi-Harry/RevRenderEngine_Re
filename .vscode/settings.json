@@ -190,5 +190,6 @@
     "clangd.arguments": [
         "--compile-commands-dir=${workspaceFolder}/build",
         "--header-insertion=never"
-    ]
+    ],
+    "cmake.buildDirectory": "${workspaceFolder}/build/"
 }

@@ -29,5 +29,9 @@ __[Same Day, 11:15 P.M.]__: Done adding the input interface. Need to implement t
 
 ### 25 May, 2026 [2:47 P.M.]
 Alright so I just finished the input system. Tested it too and it works so far. Haven't tested the mouse inputs though but since the keyboard input and mouse input have extremely similar code, it should work fine. Will move on to something else now. Haven't decided what's next. Will do that after a cup of coffee.
+
 __[Same Day, 10:17 P.M.]__: So I've added the layers part of the basic architecture and although it looks almost identical to how Hazel Engine is written, I kinda didn't know how else to write any of this since I've never undertaken such a big project. (I mean I have but never been completely successful) so I'm kinda just using the hazel engine architecture. But I'm sure it'll look different in the renderer part of the project so no worries. That's the actual meat and potatoes. (Coping but what can I say)
 Will do the Imgui layer tomorrow along with some renderer stuff so that'll be it for today.
+
+### 26 May, 2026 [10:16 A.M.]
+Just finished adding the gui layer and also tested it so should be good to go though it just shows the imgui default demo window for now. Will do the rendering part later today.

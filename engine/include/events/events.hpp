@@ -16,7 +16,8 @@ enum class EventType : uint8_t{
 // This is the Event Category enum
 enum class EventCategory : uint8_t{
     EVENT_CATEGORY_APPLICATION,
-    EVENT_CATEGORY_INPUT
+    EVENT_CATEGORY_KEYBOARD,
+    EVENT_CATEGORY_MOUSE
 };
 
 // This is the main Abstract Event Class
@@ -27,6 +28,7 @@ public:
     virtual EventType getEventType() const = 0;
     virtual EventCategory getEventCategoryFlags() const = 0;
     virtual const char* getName() const = 0;
+    bool isInCategory(EventCategory cat) const { return cat == getEventCategoryFlags(); }
 
     // This is a variable that keeps track of whether the task has been handled or not
     bool handled = false;

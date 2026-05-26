@@ -11,7 +11,7 @@ public:
     float Y() const { return _y; }
 
     EventType getEventType() const override { return EventType::MOUSE_EVENT_MOVED; }
-    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_INPUT; }
+    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_MOUSE; }
     static EventType getStaticType() { return EventType::MOUSE_EVENT_MOVED; }
     const char* getName() const override { return "MouseMoved"; }
 
@@ -26,7 +26,7 @@ public:
     Mouse getMB() const { return _mb; }
 
     EventType getEventType() const override { return EventType::MOUSE_EVENT_PRESSED; }
-    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_INPUT; }
+    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_MOUSE; }
     static EventType getStaticType() { return EventType::MOUSE_EVENT_PRESSED; }
     const char* getName() const override { return "MouseButtonPressed"; }
 
@@ -44,7 +44,7 @@ public:
     Mouse getMB() const { return _mb; }
 
     EventType getEventType() const override { return EventType::MOUSE_EVENT_RELEASED; }
-    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_INPUT; }
+    EventCategory getEventCategoryFlags() const override { return EventCategory::EVENT_CATEGORY_MOUSE; }
     static EventType getStaticType() { return EventType::MOUSE_EVENT_RELEASED; }
     const char* getName() const override { return "MouseReleased"; }
 

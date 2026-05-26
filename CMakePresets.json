@@ -2,14 +2,14 @@
     "version": 8,
     "configurePresets": [
         {
-            "name": "GCC 15.2.1 x86_64-pc-linux-gnu",
-            "displayName": "GCC 15.2.1 x86_64-pc-linux-gnu",
-            "description": "Using compilers: C = /usr/sbin/gcc, CXX = /usr/sbin/g++",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "name": "clang-preset",
+            "displayName": "Clang 22.1.3 x86_64-pc-linux-gnu",
+            "description": "Using compilers: C = /usr/sbin/clang, CXX = /usr/sbin/clang++",
+            "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-                "CMAKE_C_COMPILER": "/usr/sbin/gcc",
-                "CMAKE_CXX_COMPILER": "/usr/sbin/g++",
+                "CMAKE_C_COMPILER": "/usr/sbin/clang",
+                "CMAKE_CXX_COMPILER": "/usr/sbin/clang++",
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         }

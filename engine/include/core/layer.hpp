@@ -5,7 +5,7 @@
 
 class Layer{
 public:
-    Layer(const std::string& name = "layer");
+    Layer(const std::string& name = "layer") : _name(name) {}
     virtual ~Layer() = default;
 
     virtual void onAttach() {}

@@ -4,6 +4,7 @@
 #include "events/event_dispatcher.hpp"
 #include "core/input.hpp"
 #include "core/layer_stack.hpp"
+#include "gui/gui_layer.hpp"
 #include <memory>
 
 class Application{
@@ -30,6 +31,8 @@ private:
     std::unique_ptr<Window> _window;
     bool _isRunning = true;
     static Application* _instance;
+
+    gui_layer* _gui;
 
     LayerStack _layer_stack;
 };
