@@ -33,7 +33,7 @@ void gui_layer::begin(){
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    ImGui::ShowDemoWindow();
+    // ImGui::ShowDemoWindow();
 }
 
 void gui_layer::end(){

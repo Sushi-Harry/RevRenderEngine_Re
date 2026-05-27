@@ -35,3 +35,9 @@ Will do the Imgui layer tomorrow along with some renderer stuff so that'll be it
 
 ### 26 May, 2026 [10:16 A.M.]
 Just finished adding the gui layer and also tested it so should be good to go though it just shows the imgui default demo window for now. Will do the rendering part later today.
+It's evening right now and I'm reading through the book by Jason Gregory to get some more details down about the part I'm currently working on.
+Spent some time thinking about how exactly I should structure the shader class and the buffer classes but still no idea. Gonna look at some open source projects similar to this one and then decide what to do next. But that's all work for tomorrow.
+
+### 27 May, 2026 [11:32 P.M.]
+Couldn't get much work done today at all. Had some other work to do and was tired all day long due to that so yeah. But I did get the shader class done. The backend implementation (backend: opengl_shader.hpp / .cpp) and the interface (engine: shader.hpp / .cpp) are done. I decided to port over most of my shader class from my previous projects which made it faster that I was expecting. But yeah everything has been written the same way as other systems (Split into abstract interfaces that don't use opengl at all and their backend implementations that use opengl)
+Will do the rest of the work tomorrow.
