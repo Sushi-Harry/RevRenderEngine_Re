@@ -41,3 +41,7 @@ Spent some time thinking about how exactly I should structure the shader class a
 ### 27 May, 2026 [11:32 P.M.]
 Couldn't get much work done today at all. Had some other work to do and was tired all day long due to that so yeah. But I did get the shader class done. The backend implementation (backend: opengl_shader.hpp / .cpp) and the interface (engine: shader.hpp / .cpp) are done. I decided to port over most of my shader class from my previous projects which made it faster that I was expecting. But yeah everything has been written the same way as other systems (Split into abstract interfaces that don't use opengl at all and their backend implementations that use opengl)
 Will do the rest of the work tomorrow.
+
+### 28 May, 2026 [10:30 A.M.]
+Alright so I woke up at like 6 today and started working on it at around 7 am. I've added the buffer layout, vertex buffer and element buffer and thir backend implementations and also added the vertex array class and its backend implementation. Took well over 3hrs and I'm very happy with the result since I was just doing it all in one go and didn't even try compiling anything until after I added everything. And guess what? IT COMPILES WITH NO ISSUES!!! Let's go!
+Gonna get back to it in the afternoon.

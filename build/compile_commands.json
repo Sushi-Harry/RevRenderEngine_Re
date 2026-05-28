@@ -66,6 +66,12 @@
   "output": "engine/CMakeFiles/engine_core.dir/src/gui/gui_layer.cpp.o"
 },
 {
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build/engine",
+  "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/engine_core.dir/src/renderer/shader.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/shader.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/shader.cpp",
+  "output": "engine/CMakeFiles/engine_core.dir/src/renderer/shader.cpp.o"
+},
+{
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build/backend",
   "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/graphic_backend.dir/src/glfw_input.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_input.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/glfw_input.cpp",
@@ -79,9 +85,27 @@
 },
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build/backend",
+  "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/graphic_backend.dir/src/opengl_buffer.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_buffer.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_buffer.cpp",
+  "output": "backend/CMakeFiles/graphic_backend.dir/src/opengl_buffer.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build/backend",
   "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/graphic_backend.dir/src/opengl_context.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_context.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_context.cpp",
   "output": "backend/CMakeFiles/graphic_backend.dir/src/opengl_context.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build/backend",
+  "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/graphic_backend.dir/src/opengl_shader.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_shader.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_shader.cpp",
+  "output": "backend/CMakeFiles/graphic_backend.dir/src/opengl_shader.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build/backend",
+  "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/backend/include -I/home/harry/Projects/RevRenderEngine_Re/backend/../external/glad/include -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/graphic_backend.dir/src/opengl_vertex_array.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_vertex_array.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/backend/src/opengl_vertex_array.cpp",
+  "output": "backend/CMakeFiles/graphic_backend.dir/src/opengl_vertex_array.cpp.o"
 },
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build/backend",
