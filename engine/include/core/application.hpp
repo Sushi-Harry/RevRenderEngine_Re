@@ -5,6 +5,8 @@
 #include "core/input.hpp"
 #include "core/layer_stack.hpp"
 #include "gui/gui_layer.hpp"
+#include "renderer/shader.hpp"
+#include "renderer/vertex_array.hpp"
 #include <memory>
 
 class Application{

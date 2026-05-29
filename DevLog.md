@@ -45,3 +45,6 @@ Will do the rest of the work tomorrow.
 ### 28 May, 2026 [10:30 A.M.]
 Alright so I woke up at like 6 today and started working on it at around 7 am. I've added the buffer layout, vertex buffer and element buffer and thir backend implementations and also added the vertex array class and its backend implementation. Took well over 3hrs and I'm very happy with the result since I was just doing it all in one go and didn't even try compiling anything until after I added everything. And guess what? IT COMPILES WITH NO ISSUES!!! Let's go!
 Gonna get back to it in the afternoon.
+
+### 29 May, 2026 [2:02 P.M.]
+Alright so I spent a few hours on going through some of my own code and some of Hazel Engine's code and then I implemented the Rendering API class and the Texture class. Haven't tested if it compiles yet so that's the next step and then I'll check if those classes actually work and can draw a triangle on screenw without any issues. 
