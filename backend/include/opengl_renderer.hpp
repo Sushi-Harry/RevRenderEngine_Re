@@ -14,6 +14,4 @@ public:
     void drawLines(const std::shared_ptr<VertexArray>& vert_array, uint32_t vert_cnt) override;
 
     void setLineWidth(float width) override;
-
-private:
 };

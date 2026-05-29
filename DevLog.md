@@ -48,3 +48,5 @@ Gonna get back to it in the afternoon.
 
 ### 29 May, 2026 [2:02 P.M.]
 Alright so I spent a few hours on going through some of my own code and some of Hazel Engine's code and then I implemented the Rendering API class and the Texture class. Haven't tested if it compiles yet so that's the next step and then I'll check if those classes actually work and can draw a triangle on screenw without any issues. 
+
+__[Same Day, 8:50 P.M.]__ Added some more stuff, not worth mentioning. Will work on the 3D Free Look camera tomorrow along with testing most of the untested stuff so there's quite a lot of stuff left for tomorrow.
