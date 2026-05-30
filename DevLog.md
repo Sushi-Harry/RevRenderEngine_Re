@@ -50,3 +50,6 @@ Gonna get back to it in the afternoon.
 Alright so I spent a few hours on going through some of my own code and some of Hazel Engine's code and then I implemented the Rendering API class and the Texture class. Haven't tested if it compiles yet so that's the next step and then I'll check if those classes actually work and can draw a triangle on screenw without any issues. 
 
 __[Same Day, 8:50 P.M.]__ Added some more stuff, not worth mentioning. Will work on the 3D Free Look camera tomorrow along with testing most of the untested stuff so there's quite a lot of stuff left for tomorrow.
+
+### 30 May, 2026 [10:08 P.M.]
+Man I couldn't get anything done today. I just kept thinking about the ways I could implement the whole rendering system. I can either just create an ECS system that I created in my last rewrite for everything which would be pretty easy since I've done it before and most of the previous code can be reused with a tad bit of refactoring here and there or I could research some more on industry standard ways to implement everything. Either way, it shouldn't take longer than 10 days to finish if we're talking just about the renderer. 
