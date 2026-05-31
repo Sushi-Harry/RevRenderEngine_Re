@@ -1,7 +1,7 @@
 #include "opengl_buffer.hpp"
 
 // The static create functions from the abstract classes
-std::shared_ptr<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size, BufferUsageType utype){
+std::shared_ptr<VertexBuffer> VertexBuffer::Create(const void* vertices, uint32_t size, BufferUsageType utype){
     return std::make_shared<opengl_vertex_buffer>(vertices, size, utype);
 }
 
@@ -10,7 +10,7 @@ std::shared_ptr<ElementBuffer> ElementBuffer::Create(uint32_t* indices, uint32_t
 }
 
 // Opengl backend vertex buffer implementation
-opengl_vertex_buffer::opengl_vertex_buffer(float* vertices, uint32_t size, BufferUsageType utype) : _utype(utype){
+opengl_vertex_buffer::opengl_vertex_buffer(const void* vertices, uint32_t size, BufferUsageType utype) : _utype(utype){
     // glCreateBuffers(1, &_vbo);
     // Just found out that glCreateBuffers does the glGenBuffers job but also initializes the buffer obj state
     // But since the buffer obj state is initialized whenever I first bind the buffer, I don't need glCreateBuffers. glGenBuffers with do just fine

@@ -5,7 +5,7 @@
 
 class opengl_vertex_buffer : public VertexBuffer{
 public:
-    opengl_vertex_buffer(float* vertices, uint32_t size, BufferUsageType utype);
+    opengl_vertex_buffer(const void* vertices, uint32_t size, BufferUsageType utype);
     ~opengl_vertex_buffer();
 
     void bind() const override;

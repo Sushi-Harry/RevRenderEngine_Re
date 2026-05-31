@@ -43,5 +43,3 @@ struct RenderCall{
     glm::mat4 _transform;
     float _depth;
 };
-
-// --------CONTINUE FROM HERE------------

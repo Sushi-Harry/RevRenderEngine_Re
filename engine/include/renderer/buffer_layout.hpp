@@ -120,6 +120,9 @@ public:
     BufferLayout(std::vector<BufferElement> elements) : _elements(std::move(elements)) {
         calculate_offset_stride();
     }
+    BufferLayout(std::initializer_list<BufferElement> elements) : _elements(elements){
+        calculate_offset_stride();
+    }
 
     uint32_t getStride() const { return _stride; }
 
@@ -158,7 +161,7 @@ public:
     virtual const BufferLayout& getLayout() const = 0;
     virtual void setLayout(const BufferLayout& layout) = 0;
 
-    static std::shared_ptr<VertexBuffer> Create(float* vertices, uint32_t size, BufferUsageType _utype);
+    static std::shared_ptr<VertexBuffer> Create(const void* vertices, uint32_t size, BufferUsageType _utype);
 };
 
 // EBO Wrapper

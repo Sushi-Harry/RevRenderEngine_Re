@@ -53,3 +53,7 @@ __[Same Day, 8:50 P.M.]__ Added some more stuff, not worth mentioning. Will work
 
 ### 30 May, 2026 [10:08 P.M.]
 Man I couldn't get anything done today. I just kept thinking about the ways I could implement the whole rendering system. I can either just create an ECS system that I created in my last rewrite for everything which would be pretty easy since I've done it before and most of the previous code can be reused with a tad bit of refactoring here and there or I could research some more on industry standard ways to implement everything. Either way, it shouldn't take longer than 10 days to finish if we're talking just about the renderer. 
+
+### 31 May, 2026 [7:25 P.M.]
+So I've added quite a bit of stuff today and have also decided on some design decisions for the project going forward. Commiting to the ECS way of things and I've added some basic component structs, a model loader and a resource manager. 
+Leaving the implementation of the resource manager for tomorrow.
