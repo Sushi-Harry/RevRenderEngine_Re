@@ -13,6 +13,10 @@ std::shared_ptr<Texture2D> Texture2D::Create(const std::string& path){
     return std::make_shared<opengl_texture_2d>(path);
 }
 
+std::shared_ptr<Texture2D> Texture2D::CreateDefault(){
+    return std::make_shared<opengl_texture_2d>();
+}
+
 GLenum opengl_texture_2d::rev_format_to_gl_int_format(PixelFormat pf){
     switch (pf) {
         case PixelFormat::RGB8:
@@ -30,6 +34,19 @@ GLenum opengl_texture_2d::rev_format_to_gl_data_format(PixelFormat pf){
             return GL_RGBA;
     }
     return 0;
+}
+
+opengl_texture_2d::opengl_texture_2d(){
+    glCreateTextures(GL_TEXTURE_2D, 1, &_texture_id);
+    glTextureStorage2D(_texture_id, 1, GL_RGBA, 1, 1);
+
+    glTextureParameteri(_texture_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTextureParameteri(_texture_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTextureParameteri(_texture_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureParameteri(_texture_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    unsigned char whitePixel[] = {255, 255, 255, 255 };
+    glTextureSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, whitePixel);
 }
 
 opengl_texture_2d::opengl_texture_2d(const std::string& path) : _path(path){

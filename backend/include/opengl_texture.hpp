@@ -7,6 +7,7 @@ class opengl_texture_2d : public Texture2D{
 public:
     opengl_texture_2d(const TextureInfo& info);
     opengl_texture_2d(const std::string& path);
+    opengl_texture_2d();
 
     ~opengl_texture_2d();
 

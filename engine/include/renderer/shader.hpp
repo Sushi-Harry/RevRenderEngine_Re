@@ -31,22 +31,8 @@ public:
     virtual std::string getName() const = 0;
 
     static std::shared_ptr<Shader> Create(const std::string& name, const std::string& v_path, const std::string& f_path);
+
+    uint32_t _id;
 protected:
-    unsigned int _id;
     std::string _name;
-};
-
-class ShaderLoader{
-public:
-    // This is the addShader function for when I have a pre-built shader and just want to give it to the shaderloader's cache
-    void addShader(const std::string& name, const std::shared_ptr<Shader>& shader );
-
-    // This is the addShader function for when I want to buiild the shader from scratch and then push it to the cache
-    void addShader(const std::string& name, const std::string& v_path, const std::string& f_path);
-
-    // This function gets the shader if it exists in the cache, otherwise it returns nullptr
-    std::shared_ptr<Shader> getShader(const std::string& name) const;
-
-private:
-    std::unordered_map<std::string, std::shared_ptr<Shader>> _shader_cache;
 };

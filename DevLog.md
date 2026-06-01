@@ -57,3 +57,7 @@ Man I couldn't get anything done today. I just kept thinking about the ways I co
 ### 31 May, 2026 [7:25 P.M.]
 So I've added quite a bit of stuff today and have also decided on some design decisions for the project going forward. Commiting to the ECS way of things and I've added some basic component structs, a model loader and a resource manager. 
 Leaving the implementation of the resource manager for tomorrow.
+
+### 1 June, 2026 [7:00 P.M.]
+Did a lot of refactoring and rethinking about how the resource manager has to be implemented. And I think I'm on the right track. The resource manager now has function definitions for loading and managing shaders and textures. Need to add the same for Models so I'll work on that today in the remaining time before I go to sleep tonight.
+Added default shader and textures in case the user requested shaders and textures don't exist in the cache.

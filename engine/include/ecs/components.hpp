@@ -15,7 +15,6 @@ struct Material{
     std::vector<uint32_t> _diffuse_textures;
     std::vector<uint32_t> _specular_textures;
     std::vector<uint32_t> _normal_textures;
-
     uint32_t _id;
 };
 
@@ -27,6 +26,7 @@ struct Mesh{
 struct Model{
     std::vector<Mesh> _meshes;
     std::string _path;
+    uint32_t _id;
 };
 
 struct TextureComponent{
