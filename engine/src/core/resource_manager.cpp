@@ -2,7 +2,12 @@
 
 void ResourceManager::Init(){
     default_shader = Shader::Create("default_shader", "revrender/assets/core/default_shader.vert", "revrender/assets/core/default_shader.frag");
+    load_shader(default_shader->getName(), default_shader);
     default_texture = Texture2D::CreateDefault();
+    load_texture(default_texture);
+    // Initialized every single vector to just a vector with a single value (0) because 0 basically means it's a default white pixel texture.
+    default_material = {._diffuse_textures={0}, ._specular_textures={0}, ._normal_textures={0}};
+    load_material("default_material", default_material);
 }
 
 
@@ -47,6 +52,7 @@ std::shared_ptr<Shader> ResourceManager::get_shader(uint32_t id) const {
     return default_shader;
 }
 
+
 //=========      ||
 //   ||          ||
 //   ||          ||
@@ -89,3 +95,43 @@ std::shared_ptr<Texture2D> ResourceManager::get_texture(uint32_t id) const {
     }
     return default_texture;
 }
+
+
+// |\    /|          ||
+// |\\  //|          ||
+// ||\\//||          ||
+// ||    ||          ||
+// ||    || ATERIAL  ======== OADING
+uint32_t ResourceManager::load_material(const std::string& name, const Material& mat){
+    if(_materials_name_to_id.contains(name)){
+        return _materials_name_to_id.at(name);
+    }
+    uint32_t id = _next_mat_id++;
+    _materials[id] = mat;
+    _materials_name_to_id[name] = id;
+    return id;
+}
+
+uint32_t ResourceManager::load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular){
+    if(_materials_name_to_id.contains(name)){
+        return _materials_name_to_id.at(name);
+    }
+    uint32_t id = _next_mat_id++;
+    _materials[id] = {._diffuse_textures=diffuse, ._specular_textures=specular, ._normal_textures={0}};
+    _materials_name_to_id[name] = id;
+    return id;
+}
+
+const Material& ResourceManager::get_material(uint32_t id) const {
+    if(_materials.contains(id)){
+        return _materials.at(id);
+    }
+    return default_material;
+}
+
+
+// |\    /|       ||
+// |\\  //|       ||
+// ||\\//||       ||
+// ||    ||       ||
+// ||    || ODEL  ======== OADING

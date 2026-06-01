@@ -4,7 +4,7 @@
 #include "renderer/vertex_array.hpp"
 #include "glm/glm.hpp"
 
-enum class REV_TEXTURE_TYPE{
+enum class REV_TEXTURE_TYPE : uint8_t{
     REV_DIFFUSE,
     REV_SPECULAR,
     REV_NORMAL,

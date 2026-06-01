@@ -61,3 +61,5 @@ Leaving the implementation of the resource manager for tomorrow.
 ### 1 June, 2026 [7:00 P.M.]
 Did a lot of refactoring and rethinking about how the resource manager has to be implemented. And I think I'm on the right track. The resource manager now has function definitions for loading and managing shaders and textures. Need to add the same for Models so I'll work on that today in the remaining time before I go to sleep tonight.
 Added default shader and textures in case the user requested shaders and textures don't exist in the cache.
+
+__[Same Day, 11:47 P.M.]__ Getting late so I'm gonna end today's work here but will continue it as soon as I wake up tomorrow morning. Only got the material loding part done after the last session.

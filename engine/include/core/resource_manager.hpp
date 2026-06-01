@@ -18,8 +18,9 @@ public:
 
 
     // Material Loading and Management
-    uint32_t load_material(const Material& mat);
-    Material& get_material(uint32_t) const;
+    uint32_t load_material(const std::string& name, const Material& mat);
+    uint32_t load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular);
+    const Material& get_material(uint32_t) const;
 
     // Shader Loading and Management
     uint32_t load_shader(const std::string& name, const std::shared_ptr<Shader>& shader);
@@ -30,16 +31,18 @@ public:
 
     // Model Loading and Management
     uint32_t load_model(const std::shared_ptr<Model>& model);
+    uint32_t load_model(const std::string& path);
     std::shared_ptr<Model> get_model(const std::string& path) const;
 
 private:
-    uint32_t _next_mat_id = 1;
-    uint32_t _next_shader_id = 1;
+    uint32_t _next_mat_id = 0;
+    uint32_t _next_shader_id = 0;
     uint32_t _next_model_id = 1;
-    uint32_t _next_tex_id = 1;
+    uint32_t _next_tex_id = 0;
 
     std::shared_ptr<Shader> default_shader;
     std::shared_ptr<Texture2D> default_texture;
+    Material default_material;
 
     std::unordered_map<std::string, uint32_t> _models_name_to_id;
     std::unordered_map<uint32_t, std::shared_ptr<Model>> _models;
@@ -51,4 +54,5 @@ private:
     std::unordered_map<std::string, uint32_t> _tex_path_to_id;
 
     std::unordered_map<uint32_t, Material> _materials;
+    std::unordered_map<std::string, uint32_t> _materials_name_to_id;
 };
