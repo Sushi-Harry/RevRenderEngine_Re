@@ -82,7 +82,9 @@ Mesh ModelLoader::upload_mesh(aiMesh* mesh, const aiScene* scene, const std::str
     std::shared_ptr<ElementBuffer> ebo = ElementBuffer::Create(indices.data(), indices.size(), BufferUsageType::STATIC);
     vao->setElementBuffer(ebo);
 
-    return Mesh{ ._vert_array=vao, ._material_id=mat._id };
+    std::string mat_name = std::string(mesh->mName.C_Str()) + ("_material");
+    uint32_t generated_mat_id = resMgr.load_material(mat_name, mat);
+    return Mesh{ ._vert_array=vao, ._material_id=generated_mat_id };
 
 }
 

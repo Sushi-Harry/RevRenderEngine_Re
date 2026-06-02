@@ -30,22 +30,27 @@ public:
 
 
     // Model Loading and Management
-    uint32_t load_model(const std::shared_ptr<Model>& model);
+    uint32_t load_model(const Model& model);
     uint32_t load_model(const std::string& path);
-    std::shared_ptr<Model> get_model(const std::string& path) const;
+    const Model& get_model(const std::string& path) const;
+    const Model& get_model(uint32_t id) const;
 
 private:
+
+    // These values start from 0 and increase as the respective objects in the unordered maps increase in number.
+    // 0 = default / debugging materials, shaders, models and textures
     uint32_t _next_mat_id = 0;
     uint32_t _next_shader_id = 0;
-    uint32_t _next_model_id = 1;
+    uint32_t _next_model_id = 0;
     uint32_t _next_tex_id = 0;
 
     std::shared_ptr<Shader> default_shader;
     std::shared_ptr<Texture2D> default_texture;
     Material default_material;
+    Model default_model;
 
-    std::unordered_map<std::string, uint32_t> _models_name_to_id;
-    std::unordered_map<uint32_t, std::shared_ptr<Model>> _models;
+    std::unordered_map<std::string, uint32_t> _models_path_to_id;
+    std::unordered_map<uint32_t, Model> _models;
 
     std::unordered_map<uint32_t, std::shared_ptr<Shader>> _shaders;
     std::unordered_map<std::string, uint32_t> _shaders_name_to_id;

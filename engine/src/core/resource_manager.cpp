@@ -1,4 +1,5 @@
 #include "core/resource_manager.hpp"
+#include "ecs/model_loader.hpp"
 
 void ResourceManager::Init(){
     default_shader = Shader::Create("default_shader", "revrender/assets/core/default_shader.vert", "revrender/assets/core/default_shader.frag");
@@ -8,6 +9,8 @@ void ResourceManager::Init(){
     // Initialized every single vector to just a vector with a single value (0) because 0 basically means it's a default white pixel texture.
     default_material = {._diffuse_textures={0}, ._specular_textures={0}, ._normal_textures={0}};
     load_material("default_material", default_material);
+    default_model = {{}, {}};
+    load_model(default_model);
 }
 
 
@@ -133,5 +136,39 @@ const Material& ResourceManager::get_material(uint32_t id) const {
 // |\    /|       ||
 // |\\  //|       ||
 // ||\\//||       ||
-// ||    ||       ||
+// || \/ ||       ||
 // ||    || ODEL  ======== OADING
+uint32_t ResourceManager::load_model(const Model& model){
+    if(_models_path_to_id.contains(model._path)){
+        return _models_path_to_id.at(model._path);
+    }
+    uint32_t id = _next_model_id++;
+    _models[id] = model;
+    _models_path_to_id[model._path] = id;
+    return _models_path_to_id.at(model._path);
+    // This reminds me that
+}
+
+uint32_t ResourceManager::load_model(const std::string& path){
+    if(_models_path_to_id.contains(path)){
+        return _models_path_to_id.at(path);
+    }
+    uint32_t id = _next_model_id++;
+    _models[id] = ModelLoader::load_to_gpu(path, *this);
+    _models_path_to_id[path] = id;
+    return id;
+}
+
+const Model& ResourceManager::get_model(const std::string& path) const{
+    if(_models_path_to_id.contains(path)){
+        return _models.at(_models_path_to_id.at(path));
+    }
+    return default_model;
+}
+
+const Model& ResourceManager::get_model(uint32_t id) const {
+    if(_models.contains(id)){
+        return _models.at(id);
+    }
+    return default_model;
+}

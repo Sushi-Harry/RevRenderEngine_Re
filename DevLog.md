@@ -63,3 +63,8 @@ Did a lot of refactoring and rethinking about how the resource manager has to be
 Added default shader and textures in case the user requested shaders and textures don't exist in the cache.
 
 __[Same Day, 11:47 P.M.]__ Getting late so I'm gonna end today's work here but will continue it as soon as I wake up tomorrow morning. Only got the material loding part done after the last session.
+
+### 2 June, 2026 [1:19 P.M.]
+The model struct has a uint32_t _id variable that was supposed to contain the abstract id generated for the model by the resource manager but now that I'm writing this, I feel like that extra variable is kinda useless since the resource manager is the only thing that cares about those ids. So I'm removing it.
+
+__[Same Day, 5:56 P.M.]__ Added the render system too. Just need to patch out some minor issues and we'll be ready to render. Need to write the camera class too though.

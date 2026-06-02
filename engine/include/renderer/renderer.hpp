@@ -3,6 +3,7 @@
 #include "renderer/camera.hpp"
 #include "renderer/render_calls.hpp"
 #include "renderer/shader.hpp"
+#include "core/resource_manager.hpp"
 
 class Renderer{
 public:

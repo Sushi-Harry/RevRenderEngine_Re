@@ -1,8 +1,7 @@
 #pragma once
 
 #include "renderer/api.hpp"
-#include "renderer/shader.hpp"
-#include "renderer/texture.hpp"
+
 
 class GeneralRenderCalls{
 public:
@@ -37,9 +36,17 @@ private:
 
 // A relatively lightweight struct to establish a base for a general draw call
 struct RenderCall{
-    std::shared_ptr<VertexArray> _vertex_array;
-    std::shared_ptr<Shader> _shader;
-    std::shared_ptr<Texture2D> _texture;
-    glm::mat4 _transform;
-    float _depth;
+    uint32_t _shader_id;
+    uint32_t _material_id;
+
+    std::shared_ptr<VertexArray> _vao;
+    uint32_t _idx_count;
+
+    glm::mat4 _model_matrix;
+};
+
+class DrawCommands{
+public:
+    static void DrawIndexed(const std::shared_ptr<VertexArray>& vao, uint32_t indexCount);
+
 };

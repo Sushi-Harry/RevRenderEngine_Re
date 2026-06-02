@@ -26,7 +26,6 @@ struct Mesh{
 struct Model{
     std::vector<Mesh> _meshes;
     std::string _path;
-    uint32_t _id;
 };
 
 struct TextureComponent{
