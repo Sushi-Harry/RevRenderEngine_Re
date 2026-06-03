@@ -68,3 +68,10 @@ __[Same Day, 11:47 P.M.]__ Getting late so I'm gonna end today's work here but w
 The model struct has a uint32_t _id variable that was supposed to contain the abstract id generated for the model by the resource manager but now that I'm writing this, I feel like that extra variable is kinda useless since the resource manager is the only thing that cares about those ids. So I'm removing it.
 
 __[Same Day, 5:56 P.M.]__ Added the render system too. Just need to patch out some minor issues and we'll be ready to render. Need to write the camera class too though.
+
+### 3 June, 2026 [2:00 P.M.]
+So I'll admit that I'm guilty of using AI for this rewrite. I couldn't understand the linker errors that came up after compiling the project for the first time in 3 days and I had to use some AI to debug that stuff. But I'll try my best not to use it next time.
+
+Other than that: Major progress made today. Compiled the project, tested it and it runs great. Camera works too (can't move it yet but I'll have it done by tonight.), Default shaders and materials work nicely along with a default model.
+
+The default model isn't really working too well right now cause I kinda ignored the fact that exporting a model with multiple separate objects also means that each one of those objects in the model is centered at 0,0,0 coordinates locally which is different from the global 0,0,0 coordinates. So I'll add a local transformation matrix to the mesh struct and look up how to account for that while loading a model using assimp

@@ -53,6 +53,7 @@ public:
         _world_up = up;
         _yaw = yaw;
         _pitch = pitch;
+        _projection = glm::perspective(glm::radians(45.0F), 16.0F / 9.0F, 0.1F, 100.0F);
         update_cam_vectors();
     }
 

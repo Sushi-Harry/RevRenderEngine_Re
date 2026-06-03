@@ -85,6 +85,12 @@
 },
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build/engine",
+  "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/engine_core.dir/src/renderer/render_calls.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/render_calls.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/render_calls.cpp",
+  "output": "engine/CMakeFiles/engine_core.dir/src/renderer/render_calls.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build/engine",
   "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/engine_core.dir/src/renderer/render_system.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/render_system.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/render_system.cpp",
   "output": "engine/CMakeFiles/engine_core.dir/src/renderer/render_system.cpp.o"

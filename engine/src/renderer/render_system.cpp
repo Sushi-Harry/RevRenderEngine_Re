@@ -26,8 +26,8 @@ void RenderSystem::EndFrame(const ResourceManager& res_mgr, const glm::mat4& vie
     });
 
     // Executing the drawing stuff
-    uint32_t current_shader_id = 0;
-    uint32_t current_material_id = 0;
+    uint32_t current_shader_id = std::numeric_limits<uint32_t>::max();
+    uint32_t current_material_id = std::numeric_limits<uint32_t>::max();
     for(const auto& call : _render_queue){
         // Binding the shader
         if(call._shader_id != current_shader_id){
@@ -50,7 +50,7 @@ void RenderSystem::EndFrame(const ResourceManager& res_mgr, const glm::mat4& vie
 
         // Uploading the model matrix and other stuff
         std::shared_ptr<Shader> activeShader = res_mgr.get_shader(current_shader_id);
-        activeShader->setMat4("u_Model", call._model_matrix);
+        activeShader->setMat4("u_ModelMatrix", call._model_matrix);
         DrawCommands::DrawIndexed(call._vao, call._idx_count);
     }
 
