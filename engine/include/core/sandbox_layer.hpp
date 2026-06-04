@@ -6,6 +6,9 @@
 #include "renderer/camera.hpp"
 #include "renderer/render_system.hpp"
 
+#include "ecs/scene.hpp"
+#include "ecs/entity.hpp"
+
 class SandboxLayer : public Layer{
 public:
     void onAttach() override;
@@ -15,6 +18,8 @@ private:
     ResourceManager _resource_manager;
     RenderSystem _render_system;
     Camera3D _cam;
+
+    Scene _scene;
 
     uint32_t _model_id;
     uint32_t active_shader_id;

@@ -3,6 +3,7 @@
 #include <vector>
 #include "renderer/vertex_array.hpp"
 #include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 enum class REV_TEXTURE_TYPE : uint8_t{
     REV_DIFFUSE,
@@ -45,10 +46,23 @@ struct TransformComponent{
     glm::vec3 _position = {0, 0, 0};
     glm::vec3 _rotation = {0, 0, 0};
     glm::vec3 _scale    = {1.0F, 1.0F, 1.0F};
-
-    glm::mat4 _local_matrix = glm::mat4(1.0F);
     glm::mat4 _model_matrix = glm::mat4(1.0F);
 
-    uint32_t _parent = 0; // 0 for root object / for an object with no parents (orphan?)
-    std::vector<uint32_t> _children;
+    glm::mat4 getTransform() const {
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), _rotation.x, { 1, 0, 0 })
+                           * glm::rotate(glm::mat4(1.0f), _rotation.y, { 0, 1, 0 })
+                           * glm::rotate(glm::mat4(1.0f), _rotation.z, { 0, 0, 1 });
+
+        return glm::translate(glm::mat4(1.0f), _position)
+               * rotation
+               * glm::scale(glm::mat4(1.0f), _scale);
+    }
+};
+
+struct TagComponent{
+    std::string _tag;
+};
+
+struct MeshComponent{
+    uint32_t _model_id;
 };

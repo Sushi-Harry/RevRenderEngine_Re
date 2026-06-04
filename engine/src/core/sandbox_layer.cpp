@@ -3,10 +3,24 @@
 
 void SandboxLayer::onAttach(){
     _resource_manager.Init();
-    _cam = Camera3D(glm::vec3(0.0F));
+
+    _cam = Camera3D(glm::vec3(0.0F, 0.0F, 20.0F));
     _cam.setProjection(glm::perspective(glm::radians(60.0F), (float)1280 / (float)720, 0.1F, 1000.0F));
+
+    // ENSURE THE SHADER IS LOADED!
+    _resource_manager.get_shader("default_shader");
+
     _model_id = _resource_manager.load_model("revrender/assets/core/default_rev/default_rev.fbx");
-    active_shader_id = 0;
+
+    Entity model_entity = _scene.create_entity("default_model");
+
+    // Ensure the MeshComponent is explicitly attached
+    model_entity.addComponent<MeshComponent>(MeshComponent{_model_id});
+
+    // Apply the local math fixes
+    auto& transform = model_entity.getComponent<TransformComponent>();
+    transform._scale = glm::vec3(0.1f);
+    transform._rotation = glm::vec3(glm::radians(-90.0f), 0.0f, 0.0f);
 }
 
 void SandboxLayer::onUpdate(float deltaTime){
@@ -23,20 +37,5 @@ void SandboxLayer::onUpdate(float deltaTime){
         _cam.processKeyboard(camera_movement::RIGHT, deltaTime);
 
 
-    _render_system.BeginFrame();
-    auto model_transform = glm::mat4(1.0F);
-    model_transform = glm::translate(model_transform, glm::vec3(-10.0f, -20.0f, -100.0f));
-    model_transform = glm::scale(model_transform, glm::vec3(0.01F));
-    model_transform = glm::rotate(model_transform, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    const Model& model = _resource_manager.get_model(_model_id);
-    for (const auto& mesh : model._meshes) {
-        RenderCall packet;
-        packet._shader_id   = active_shader_id;
-        packet._material_id = mesh._material_id;
-        packet._vao         = mesh._vert_array;
-        packet._idx_count   = mesh._vert_array->getElementBuffer()->getCount();
-        packet._model_matrix = model_transform * mesh._local_transform;
-        _render_system.Submit(packet);
-    }
-    _render_system.EndFrame(_resource_manager, _cam.getViewProjMatrix());
+    _scene.onUpdate(deltaTime, _cam, _render_system, _resource_manager);
 }
