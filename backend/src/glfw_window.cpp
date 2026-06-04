@@ -1,3 +1,4 @@
+#include "glad/glad.h"
 #include "glfw_window.hpp"
 #include <iostream>
 
@@ -45,14 +46,17 @@ void glfw_window::Init(const WindowProperties& props){
     _context = new OpenGLContext(_window);
     _context->Init();
 
+    int fbWidth, fbHeight;
+    glfwGetFramebufferSize(_window, &fbWidth, &fbHeight);
+    glViewport(0, 0, fbWidth, fbHeight);
+
     // This line allows me to use the window pointer later to check if the glfw window should close and to define the EventCallbackFn part of _data
     glfwSetWindowUserPointer(_window, &_data);
     // This is the window resize callback
-    glfwSetWindowSizeCallback(_window, [](GLFWwindow* window, int w, int h){
+    glfwSetFramebufferSizeCallback(_window, [](GLFWwindow* window, int w, int h){
         WinData& data = *(WinData*)glfwGetWindowUserPointer(window);
         data.width = w;
         data.height = h;
-
         WindowResizeEvent event(w, h);
         data.EventCallback(event);
     });

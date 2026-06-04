@@ -10,6 +10,6 @@ class ModelLoader {
 public:
     static Model load_to_gpu(const std::string& path, ResourceManager& resMgr);
 private:
-    static Mesh upload_mesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, ResourceManager& resMgr);
-    static void process_node(aiNode* node, const aiScene* scene, Model& container, const std::string& directory, ResourceManager& resMgr);
+    static Mesh upload_mesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, ResourceManager& resMgr, glm::mat4 global_transform);
+    static void process_node(aiNode* node, const aiScene* scene, Model& container, const std::string& directory, ResourceManager& resMgr, glm::mat4 parent_transform);
 };

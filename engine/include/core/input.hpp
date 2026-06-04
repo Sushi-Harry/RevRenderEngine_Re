@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include "core/keys.hpp"
 #include "core/mouse.hpp"
+#include "core/window.hpp"
 
 //   \      /
 //    \    /
@@ -11,6 +12,7 @@
 
 class Input {
 public:
+    static void Init();
     inline static bool isKeyPressed(Key keycode) { return _instance->v_isKeyPressed(keycode); }
     inline static bool isMBPressed(Mouse mbcode) { return _instance->v_isMBPressed(mbcode); }
     inline static glm::vec2 getMousePos() { return _instance->v_getMousePos(); }

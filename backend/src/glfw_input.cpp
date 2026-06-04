@@ -2,6 +2,11 @@
 
 Input* Input::_instance = new glfw_input();
 
+void Input::Init(){
+    auto *window = static_cast<GLFWwindow*>(Application::getInstance().getWindow().getGLWindow());
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
 bool glfw_input::v_isKeyPressed(Key keycode) {
     auto *window = static_cast<GLFWwindow*>(Application::getInstance().getWindow().getGLWindow());
     auto key_state = glfwGetKey(window, static_cast<int>(keycode));

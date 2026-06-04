@@ -7,6 +7,7 @@
 #include "gui/gui_layer.hpp"
 #include "renderer/shader.hpp"
 #include "renderer/vertex_array.hpp"
+#include "core/delta_time.hpp"
 #include <memory>
 
 class Application{

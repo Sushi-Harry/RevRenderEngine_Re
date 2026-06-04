@@ -20,6 +20,7 @@ struct Material{
 
 struct Mesh{
     std::shared_ptr<VertexArray> _vert_array;
+    glm::mat4 _local_transform;
     uint32_t _material_id;
 };
 

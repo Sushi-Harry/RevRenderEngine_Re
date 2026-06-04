@@ -75,3 +75,6 @@ So I'll admit that I'm guilty of using AI for this rewrite. I couldn't understan
 Other than that: Major progress made today. Compiled the project, tested it and it runs great. Camera works too (can't move it yet but I'll have it done by tonight.), Default shaders and materials work nicely along with a default model.
 
 The default model isn't really working too well right now cause I kinda ignored the fact that exporting a model with multiple separate objects also means that each one of those objects in the model is centered at 0,0,0 coordinates locally which is different from the global 0,0,0 coordinates. So I'll add a local transformation matrix to the mesh struct and look up how to account for that while loading a model using assimp
+
+### 4 June, 2026 [3:04 P.M.]
+I have to be the dumbest guy to ever walk this planet. I had some "placeholder" code in the event dispatching part of the Application class. (specifically the Application::onEvent function) I forgot to set the viewport for the window on initialization and spent an hour straight, figuring out what the hell is wrong with the code.

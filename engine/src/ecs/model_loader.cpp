@@ -1,5 +1,14 @@
 #include "ecs/model_loader.hpp"
 
+inline glm::mat4 aiMatrix4x4_to_glm_mat4(const aiMatrix4x4& from){
+    glm::mat4 to;
+    to[0][0] = from.a1; to[1][0] = from.a2; to[2][0] = from.a3; to[3][0] = from.a4;
+    to[0][1] = from.b1; to[1][1] = from.b2; to[2][1] = from.b3; to[3][1] = from.b4;
+    to[0][2] = from.c1; to[1][2] = from.c2; to[2][2] = from.c3; to[3][2] = from.c4;
+    to[0][3] = from.d1; to[1][3] = from.d2; to[2][3] = from.d3; to[3][3] = from.d4;
+    return to;
+}
+
 Model ModelLoader::load_to_gpu(const std::string& path, ResourceManager& resMgr){
     Assimp::Importer importer;
 
@@ -12,11 +21,11 @@ Model ModelLoader::load_to_gpu(const std::string& path, ResourceManager& resMgr)
     }
 
     Model modelContainer;
-    process_node(scene->mRootNode, scene, modelContainer, directory, resMgr);
+    process_node(scene->mRootNode, scene, modelContainer, directory, resMgr, glm::mat4(1.0F));
     return modelContainer;
 }
 
-Mesh ModelLoader::upload_mesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, ResourceManager& resMgr){
+Mesh ModelLoader::upload_mesh(aiMesh* mesh, const aiScene* scene, const std::string& directory, ResourceManager& resMgr, glm::mat4 global_transform){
     std::vector<VertexComponent> vertices;
     std::vector<uint32_t> indices;
 
@@ -84,17 +93,21 @@ Mesh ModelLoader::upload_mesh(aiMesh* mesh, const aiScene* scene, const std::str
 
     std::string mat_name = std::string(mesh->mName.C_Str()) + ("_material");
     uint32_t generated_mat_id = resMgr.load_material(mat_name, mat);
-    return Mesh{ ._vert_array=vao, ._material_id=generated_mat_id };
+    return Mesh{ ._vert_array=vao, ._local_transform=global_transform, ._material_id=generated_mat_id };
 
 }
 
-void ModelLoader::process_node(aiNode* node, const aiScene* scene, Model& container, const std::string& directory, ResourceManager& resMgr){
+void ModelLoader::process_node(aiNode* node, const aiScene* scene, Model& container, const std::string& directory, ResourceManager& resMgr, glm::mat4 parent_transform){
+    glm::mat4 node_transform = aiMatrix4x4_to_glm_mat4(node->mTransformation);
+
+    glm::mat4 global_transform = parent_transform * node_transform;
+
     for(unsigned int i = 0; i < node->mNumMeshes; i++){
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        container._meshes.push_back(upload_mesh(mesh, scene, directory, resMgr));
+        container._meshes.push_back(upload_mesh(mesh, scene, directory, resMgr, global_transform));
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++) {
-        process_node(node->mChildren[i], scene, container, directory, resMgr);
+        process_node(node->mChildren[i], scene, container, directory, resMgr, global_transform);
     }
 }

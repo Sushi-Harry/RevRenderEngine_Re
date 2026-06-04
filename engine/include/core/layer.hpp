@@ -10,7 +10,7 @@ public:
 
     virtual void onAttach() {}
     virtual void onDetach() {}
-    virtual void onUpdate() {}
+    virtual void onUpdate(float deltaTime) {}
     virtual void onRenderGUI() {}
     virtual void onEvent(Event& e) {}
 
