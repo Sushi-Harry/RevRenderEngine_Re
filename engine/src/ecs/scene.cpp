@@ -22,8 +22,6 @@ void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_
 
     auto view = _registry.view<TransformComponent, MeshComponent>();
 
-    int count = 0;
-
     for(auto entity : view){
         auto [transform, mesh_comp] = view.get<TransformComponent, MeshComponent>(entity);
         const Model& model = res_mgr.get_model(mesh_comp._model_id);
@@ -32,11 +30,11 @@ void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_
         for(const auto& mesh : model._meshes){
             RenderCall packet;
             packet._shader_id   = 0;
-            packet._material_id = 0;
+            packet._material_id = mesh._material_id;
             packet._vao         = mesh._vert_array;
             packet._idx_count   = mesh._vert_array->getElementBuffer()->getCount();
             packet._model_matrix = entity_transform * mesh._local_transform;
-            render_sys.Submit(packet);
+            render_sys.Submit(packet, res_mgr);
         }
     }
     render_sys.EndFrame(res_mgr, cam.getViewProjMatrix());

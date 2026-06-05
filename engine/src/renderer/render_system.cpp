@@ -6,7 +6,36 @@ void RenderSystem::BeginFrame(){
     _render_queue.clear();
 }
 
-void RenderSystem::Submit(const RenderCall& _render_packet){
+void RenderSystem::Submit(const RenderCall& _render_packet, ResourceManager& res_mgr){
+    // COMMENTING THIS OUT CAUSE I THINK THE TEXTURE SLOT UNIFORMS SHOULD BE SET ONCE EVERY SINGLE FRAME
+    // /\
+    ///  \
+    // ||
+    // ||
+
+    // auto shader = res_mgr.get_shader(_render_packet._shader_id);
+    // shader->bindShader();
+    // const Material& material = res_mgr.get_material(_render_packet._material_id);
+
+    // uint32_t texture_slot = 0;
+
+    // for(size_t i = 0; i < material._diffuse_textures.size(); i++){
+    //     auto tex = res_mgr.get_texture(material._diffuse_textures[i]);
+    //     tex->bind(texture_slot);
+
+    //     std::string uniform_name = "u_TextureDiffuse" + std::to_string(i);
+    //     shader->setInt(uniform_name, texture_slot);
+
+    //     texture_slot++;
+    // }
+
+    // for(size_t i = 0; i < material._specular_textures.size(); i++){
+    //     auto tex = res_mgr.get_texture(material._specular_textures[i]);
+    //     tex->bind(texture_slot);
+    //     std::string uniform_name = "u_TextureSpecular" + std::to_string(i);
+    //     shader->setInt(uniform_name, texture_slot);
+    //     texture_slot++;
+    // }
     _render_queue.push_back(_render_packet);
 }
 
@@ -25,27 +54,46 @@ void RenderSystem::EndFrame(const ResourceManager& res_mgr, const glm::mat4& vie
         return a._vao < b._vao;
     });
 
+    // WORK IN PROGRESS HERE
+    // /\
+    ///  \
+    // ||
+    // ||
     // Executing the drawing stuff
     uint32_t current_shader_id = std::numeric_limits<uint32_t>::max();
     uint32_t current_material_id = std::numeric_limits<uint32_t>::max();
     for(const auto& call : _render_queue){
         // Binding the shader
         if(call._shader_id != current_shader_id){
+            // Getting the SHADER!!
             std::shared_ptr<Shader> shader = res_mgr.get_shader(call._shader_id);
             shader->bindShader();
+
+            // Now setting the material data in the shader if material data exists
+            if(call._material_id != current_material_id){
+                const Material& mat = res_mgr.get_material(call._material_id);
+                int texture_slot = 0;
+                if(!mat._diffuse_textures.empty()){
+                    // Setting the diffuse textures
+                    for(int i = 0; i < mat._diffuse_textures.size(); i++){
+                        auto tex = res_mgr.get_texture(mat._diffuse_textures[0]);
+                        tex->bind(texture_slot);
+                        std::string uniform_name = "u_TextureDiffuse" + std::to_string(i);
+                        shader->setInt(uniform_name, texture_slot);
+                    }
+                    // Setting the specular textures
+                    for(int i = 0; i < mat._specular_textures.size(); i++){
+                        auto tex = res_mgr.get_texture(mat._specular_textures[i]);
+                        tex->bind(texture_slot);
+                        std::string uniform_name = "u_TextureSpecular" + std::to_string(i);
+                        shader->setInt(uniform_name, texture_slot);
+                    }
+                }
+                current_material_id = call._material_id;
+            }
             // CAMERA MATH HERE!!!!!!!!!!!!1!!!!
             shader->setMat4("u_ViewProjection", view_proj_mat);
             current_shader_id = call._shader_id;
-        }
-
-        // Binding the material
-        if(call._material_id != current_material_id){
-            const Material& mat = res_mgr.get_material(call._material_id);
-            if(!mat._diffuse_textures.empty()){
-                std::shared_ptr<Texture2D> tex = res_mgr.get_texture(mat._diffuse_textures[0]);
-                tex->bind(0);
-            }
-            current_material_id = call._material_id;
         }
 
         // Uploading the model matrix and other stuff

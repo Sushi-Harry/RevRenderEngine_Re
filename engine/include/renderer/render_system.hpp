@@ -6,7 +6,7 @@
 class RenderSystem {
 public:
     void BeginFrame();
-    void Submit(const RenderCall& _render_packet);
+    void Submit(const RenderCall& _render_packet, ResourceManager& res_mgr);
     void EndFrame(const ResourceManager& res_mgr, const glm::mat4& view_proj_mat);
 private:
     std::vector<RenderCall> _render_queue;
