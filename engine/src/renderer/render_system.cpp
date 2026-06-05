@@ -65,41 +65,42 @@ void RenderSystem::EndFrame(const ResourceManager& res_mgr, const glm::mat4& vie
     for(const auto& call : _render_queue){
         // Binding the shader
         if(call._shader_id != current_shader_id){
-            // Getting the SHADER!!
             std::shared_ptr<Shader> shader = res_mgr.get_shader(call._shader_id);
             shader->bindShader();
 
-            // Now setting the material data in the shader if material data exists
-            if(call._material_id != current_material_id){
-                const Material& mat = res_mgr.get_material(call._material_id);
-                int texture_slot = 0;
-                if(!mat._diffuse_textures.empty()){
-                    // Setting the diffuse textures
-                    for(int i = 0; i < mat._diffuse_textures.size(); i++){
-                        auto tex = res_mgr.get_texture(mat._diffuse_textures[0]);
-                        tex->bind(texture_slot);
-                        std::string uniform_name = "u_TextureDiffuse" + std::to_string(i);
-                        shader->setInt(uniform_name, texture_slot);
-                    }
-                    // Setting the specular textures
-                    for(int i = 0; i < mat._specular_textures.size(); i++){
-                        auto tex = res_mgr.get_texture(mat._specular_textures[i]);
-                        tex->bind(texture_slot);
-                        std::string uniform_name = "u_TextureSpecular" + std::to_string(i);
-                        shader->setInt(uniform_name, texture_slot);
-                    }
-                }
-                current_material_id = call._material_id;
-            }
-            // CAMERA MATH HERE!!!!!!!!!!!!1!!!!
+            // Camera math only needs to be sent once per shader
             shader->setMat4("u_ViewProjection", view_proj_mat);
             current_shader_id = call._shader_id;
         }
+        std::shared_ptr<Shader> activeShader = res_mgr.get_shader(call._shader_id);
 
+        // Now setting the material data in the shader if material data exists
+        if(call._material_id != current_material_id){
+            const Material& mat = res_mgr.get_material(call._material_id);
+            int texture_slot = 0;
+
+            if(!mat._diffuse_textures.empty() || !mat._specular_textures.empty()){
+
+                // Diffuse textures
+                for(int i = 0; i < mat._diffuse_textures.size(); i++){
+                    auto tex = res_mgr.get_texture(mat._diffuse_textures[i]); // Fixed [i]
+                    tex->bind(texture_slot);
+                    activeShader->setInt("u_TextureDiffuse" + std::to_string(i), texture_slot);
+                    texture_slot++; // Fixed increment!
+                }
+
+                // Specular textures
+                for(int i = 0; i < mat._specular_textures.size(); i++){
+                    auto tex = res_mgr.get_texture(mat._specular_textures[i]);
+                    tex->bind(texture_slot);
+                    activeShader->setInt("u_TextureSpecular" + std::to_string(i), texture_slot);
+                    texture_slot++; // Fixed increment!
+                }
+            }
+            current_material_id = call._material_id;
+        }
         // Uploading the model matrix and other stuff
-        std::shared_ptr<Shader> activeShader = res_mgr.get_shader(current_shader_id);
         activeShader->setMat4("u_ModelMatrix", call._model_matrix);
         DrawCommands::DrawIndexed(call._vao, call._idx_count);
     }
-
 }

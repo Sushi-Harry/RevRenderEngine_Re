@@ -14,6 +14,7 @@ Application::Application(Window* window, const std::string& name) : _window(wind
     _layer_stack.push_overlay(_gui);
     _layer_stack.push_layer(new SandboxLayer());
     _window->setEventCallback([this](Event& ev){ this->onEvent(ev); });
+    GeneralRenderCalls::Init();
 }
 
 // Empty deconstructor
