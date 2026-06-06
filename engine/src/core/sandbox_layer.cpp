@@ -1,7 +1,11 @@
 #include "core/sandbox_layer.hpp"
-#include "core/delta_time.hpp"
+#include "events/event_dispatcher.hpp"
 
 void SandboxLayer::onAttach(){
+    _lastMouseX = 0.0F;
+    _lastMouseY = 0.0F;
+    _firstMouse = true;
+
     _resource_manager.Init();
 
     _cam = Camera3D(glm::vec3(0.0F, 2.0F, 4.0F));
@@ -23,12 +27,38 @@ void SandboxLayer::onAttach(){
     // transform._rotation = glm::vec3(glm::radians(-90.0f), 0.0f, 0.0f);
 }
 
+
+void SandboxLayer::onEvent(Event& e){
+    EventDispatcher ed(e);
+    ed.Dispatch<MouseMoved>([this](MouseMoved& event){
+        return onMouseMoved(event);
+    });
+}
+
+bool SandboxLayer::onMouseMoved(MouseMoved& e){
+    auto xpos = e.X();
+    auto ypos = e.Y();
+
+    if (_firstMouse) {
+        _lastMouseX = xpos;
+        _lastMouseY = ypos;
+        _firstMouse = false;
+    }
+
+    float xOffset = xpos - _lastMouseX;
+    float yOffset = _lastMouseY - ypos;
+
+    _lastMouseX = xpos;
+    _lastMouseY = ypos;
+
+    _cam.processMouseMovement(xOffset, yOffset);
+    return false;
+}
+
 void SandboxLayer::onUpdate(float deltaTime){
 
-    if (Input::isKeyPressed(Key::REV_KEY_W)) {
+    if (Input::isKeyPressed(Key::REV_KEY_W))
         _cam.processKeyboard(camera_movement::FORWARD, deltaTime);
-        std::cout << "PRESSED W\n";
-    }
     if (Input::isKeyPressed(Key::REV_KEY_S))
         _cam.processKeyboard(camera_movement::BACKWARD, deltaTime);
     if (Input::isKeyPressed(Key::REV_KEY_A))

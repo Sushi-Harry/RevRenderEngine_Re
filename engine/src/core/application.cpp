@@ -15,6 +15,7 @@ Application::Application(Window* window, const std::string& name) : _window(wind
     _layer_stack.push_layer(new SandboxLayer());
     _window->setEventCallback([this](Event& ev){ this->onEvent(ev); });
     GeneralRenderCalls::Init();
+    Input::Init();
 }
 
 // Empty deconstructor
@@ -24,9 +25,7 @@ Application::~Application() {}
 void Application::onEvent(Event& e){
     EventDispatcher ed(e);
 
-    ed.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& event){
-        return onWindowResize(event);
-    });
+    ed.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& event){ return onWindowResize(event); });
     ed.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& event){ return onWindowClose(event); });
 
     for(auto iter = _layer_stack.rbegin(); iter != _layer_stack.rend(); iter++){
@@ -64,7 +63,7 @@ void Application::Run(){
         // draw stuff here
         // Do everything here
         Time::calculateDeltaTime();
-        GeneralRenderCalls::clearColor({1.0f, 0.0f, 0.0f, 0.0f});
+        GeneralRenderCalls::clearColor({0.0F, 0.0F, 0.0F, 0.0F});
         GeneralRenderCalls::clear();
 
         // Layer Updates

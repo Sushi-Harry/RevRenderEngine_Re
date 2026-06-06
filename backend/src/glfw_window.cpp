@@ -1,3 +1,4 @@
+#include "events/mouse_events.hpp"
 #include "glad/glad.h"
 #include "glfw_window.hpp"
 #include <iostream>
@@ -52,6 +53,7 @@ void glfw_window::Init(const WindowProperties& props){
 
     // This line allows me to use the window pointer later to check if the glfw window should close and to define the EventCallbackFn part of _data
     glfwSetWindowUserPointer(_window, &_data);
+
     // This is the window resize callback
     glfwSetFramebufferSizeCallback(_window, [](GLFWwindow* window, int w, int h){
         WinData& data = *(WinData*)glfwGetWindowUserPointer(window);
@@ -61,10 +63,19 @@ void glfw_window::Init(const WindowProperties& props){
         data.EventCallback(event);
     });
 
+    // Window Close callback
     glfwSetWindowCloseCallback(_window, [](GLFWwindow* window){
         WinData& data = *(WinData*)glfwGetWindowUserPointer(window);
 
         WindowCloseEvent e;
+        data.EventCallback(e);
+    });
+
+    // Mouse Callbac GLFWwindow *windowSetting
+    glfwSetCursorPosCallback(_window, [](GLFWwindow* window, double xPosIn, double yPosIn){
+        WinData& data = *(WinData*)glfwGetWindowUserPointer(window);
+
+        MouseMoved e((float)xPosIn, (float)yPosIn);
         data.EventCallback(e);
     });
 }

@@ -28,4 +28,5 @@ protected:
 
 private:
     static Input* _instance;
+protected:
 };

@@ -81,5 +81,8 @@ I have to be the dumbest guy to ever walk this planet. I had some "placeholder" 
 
 __[Same Day, 5:37 P.M.]__ ALRIGHT! So I decided to add EnTT to the project for implementing ECS. AND IT WORKS! Major overhaul. Spent longer than I'd like to admit on adding it to the project. Tore up the main rendering function and refactored it into an ecs compatible alternative and gave rise to a bunch of errors. But all of that is fixed now. Models load perfectly, shaders load perfectly and for now, the test code works like intended. On that note, I'll end this session.
 
-### 5 and 6 June, 2026 [12:16 P.M. of 6 June]
+### 5 and 6 June, 2026 [12:16 A.M. of 6 June]
 So I finally hooked up the textures being extracted from assimp to the rendering pipeline. ANd it works for now. (Tested it with a custom ideal case shader at revrender/assets/models/cyborg/directory) And it works. Also offloaded some more hardcoded stuff to the appropriate locations / interfaces. Good work done today overall.
+
+### 6 June, 2026 [10.40 A.M.]
+So I've now also added the mouse callback function's implementation so the camera can be moved around with both the mouse and the keyboard.
