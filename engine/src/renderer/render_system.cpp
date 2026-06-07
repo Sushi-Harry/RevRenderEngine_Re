@@ -83,7 +83,7 @@ void RenderSystem::EndFrame(const ResourceManager& res_mgr, const glm::mat4& vie
 
                 // Diffuse textures
                 for(int i = 0; i < mat._diffuse_textures.size(); i++){
-                    auto tex = res_mgr.get_texture(mat._diffuse_textures[i]); // Fixed [i]
+                    auto tex = res_mgr.get_texture(mat._diffuse_textures[i]);
                     tex->bind(texture_slot);
                     activeShader->setInt("u_TextureDiffuse" + std::to_string(i), texture_slot);
                     texture_slot++; // Fixed increment!

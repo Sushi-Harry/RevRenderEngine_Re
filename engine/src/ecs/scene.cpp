@@ -17,6 +17,23 @@ Entity Scene::create_entity(const std::string& name){
     return entity;
 }
 
+Entity Scene::create_point_light(const std::string& name, glm::vec3 color){
+    Entity entity(_registry.create(), this);
+    entity.addComponent<TransformComponent>();
+
+    auto& light = entity.addComponent<PointLightComponent>();
+    light._color = color;
+
+    auto& tag = entity.addComponent<TagComponent>();
+    tag._tag = name;
+
+    return entity;
+}
+
+// Entity Scene::create_camera(const std::string& name){
+//     return create_entity(name);
+// }
+
 void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr){
     render_sys.BeginFrame();
 

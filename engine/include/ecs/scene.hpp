@@ -15,7 +15,16 @@ public:
     Scene();
     ~Scene();
 
+    // Creates a kind of default entity that has just the transform component and the tag component.
     Entity create_entity(const std::string& name = "Empty Entity");
+    // Creates a point light type of entity
+    Entity create_point_light(const std::string& name = "Point Light Object", glm::vec3 color = {1.0, 1.0, 1.0});
+
+    //  ============================================
+    //  || THIS PART IS STILL A WORK IN PROGRESS! ||
+    //  ============================================
+    // Entity create_camera(const std::string& name = "Camera Object");
+
     void onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr);
 
 private:

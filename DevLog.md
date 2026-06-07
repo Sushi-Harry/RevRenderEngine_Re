@@ -86,3 +86,8 @@ So I finally hooked up the textures being extracted from assimp to the rendering
 
 ### 6 June, 2026 [10.40 A.M.]
 So I've now also added the mouse callback function's implementation so the camera can be moved around with both the mouse and the keyboard.
+Man I don't know what to do right now. I wrote a basic shader with lighting and stuff but nothing else done today. Don't know what to do. Don't even feel like doing anything at all to be very honest.
+
+### 7 June, 2026 [6:44 P.M.]
+So yesterday and most of today has been an absolute waste in terms of productivity. But back in business now. So I thought I should create separate classes for different types of object and just found out that that's not standard practice and it's kinda inefficient in the long run for me since I would run into virtual inheritance and the like when implementing it and I REALLYYY don't wanna deal with that if it's not necessary. Not because I'm unaware about how those concepts work, but because I'd rather not waste time debugging stuff later if I can avoid it beforehand using a better approach. So I'm just gonna create more functions int he entity class to create entities of different types by attaching different components as per the requirement in the new functions.
+Man keeping everything structured is harder than I imagined. I'm trying to improve the material class to make it so that the shader uniforms can be set using just an Apply() function defined in the material class but I need to access the resource manager for getting the texture data and if I include resource_manager.hpp in the same file as the material class, I'll run into circular dependency problems in the render_system.hpp file

@@ -66,6 +66,5 @@ void SandboxLayer::onUpdate(float deltaTime){
     if (Input::isKeyPressed(Key::REV_KEY_D))
         _cam.processKeyboard(camera_movement::RIGHT, deltaTime);
 
-
     _scene.onUpdate(deltaTime, _cam, _render_system, _resource_manager);
 }
