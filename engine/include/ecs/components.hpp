@@ -14,36 +14,6 @@ enum class REV_TEXTURE_TYPE : uint8_t{
     REV_NONE
 };
 
-class Material{
-public:
-    std::vector<uint32_t> _diffuse_textures;
-    std::vector<uint32_t> _specular_textures;
-    std::vector<uint32_t> _normal_textures;
-    float _shininess = 32.0F;
-    uint32_t _id;
-
-    Material(std::shared_ptr<Shader> shader) : _shader(std::move(shader)) {}
-    std::shared_ptr<Shader> get_shader() const { return _shader; }
-
-    // This is the meat and potatoes of this class. This is the reason I went through the trouble of modifying this from a basic struct to a separate class
-    // void Apply() const {
-    //     _shader->bindShader();
-    //     // UNIFORM SETTING!!!!
-    //     _shader->setFloat("u_Material._shininess", _shininess);
-    //     int tex_slot = 0;
-    //     for(unsigned int i = 0; i < _diffuse_textures.size(); i++){
-    //         if(!_diffuse_textures.empty() || !_specular_textures.empty()){
-    //             if(!_diffuse_textures.empty()){
-
-    //             }
-    //         }
-    //     }
-    // }
-
-private:
-    std::shared_ptr<Shader> _shader;
-};
-
 struct Mesh{
     std::shared_ptr<VertexArray> _vert_array;
     glm::mat4 _local_transform;

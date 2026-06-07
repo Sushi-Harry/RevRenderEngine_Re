@@ -1,15 +1,24 @@
 #include "core/resource_manager.hpp"
+
+#include <utility>
 #include "ecs/model_loader.hpp"
+#include "renderer/material.hpp"
 
 void ResourceManager::Init(){
     default_shader = Shader::Create("default_shader", "revrender/assets/core/default_shader.vert", "revrender/assets/core/default_shader.frag");
     load_shader(default_shader->getName(), default_shader);
     default_texture = Texture2D::CreateDefault();
     load_texture(default_texture);
-    // Initialized every single vector to just a vector with a single value (0) because 0 basically means it's a default white pixel texture.
-    default_material = {._diffuse_textures={0}, ._specular_textures={0}, ._normal_textures={0}};
+
+    // HAD TO DO THIS IN ORDER TO GET AROUND CIRCULAR DEPENDENCY PROBLEM I WAS FACING. (See the devlog's 7 July, 2026 entry for detail)
+    Material default_material;
+    default_material._diffuse_textures = {0};
+    default_material._normal_textures = {0};
+    default_material._specular_textures = {0};
     load_material("default_material", default_material);
-    default_model = {{}, {}};
+
+    // Default model loading
+    default_model = {._meshes={}, ._path={}};
     load_model(default_model);
 }
 
@@ -115,13 +124,19 @@ uint32_t ResourceManager::load_material(const std::string& name, const Material&
     return id;
 }
 
-uint32_t ResourceManager::load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular){
+uint32_t ResourceManager::load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular, std::shared_ptr<Shader> shader){
     if(_materials_name_to_id.contains(name)){
         return _materials_name_to_id.at(name);
     }
     uint32_t id = _next_mat_id++;
-    _materials[id] = {._diffuse_textures=diffuse, ._specular_textures=specular, ._normal_textures={0}};
+
+    Material new_mat;
+    new_mat._diffuse_textures = diffuse;
+    new_mat._specular_textures = specular;
+    new_mat._normal_textures = {0};
+    _materials[id] = new_mat;
     _materials_name_to_id[name] = id;
+
     return id;
 }
 
@@ -129,7 +144,7 @@ const Material& ResourceManager::get_material(uint32_t id) const {
     if(_materials.contains(id)){
         return _materials.at(id);
     }
-    return default_material;
+    return _materials.at(0);
 }
 
 

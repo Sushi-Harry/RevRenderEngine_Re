@@ -48,6 +48,7 @@ void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_
             RenderCall packet;
             packet._shader_id   = res_mgr.load_shader("cyborg_model", "revrender/assets/models/cyborg/cyborg.vert", "revrender/assets/models/cyborg/cyborg.frag");
             packet._material_id = mesh._material_id;
+            // res_mgr.get_material(packet._material_id)._shader = res_mgr.get_shader(packet._material_id);
             packet._vao         = mesh._vert_array;
             packet._idx_count   = mesh._vert_array->getElementBuffer()->getCount();
             packet._model_matrix = entity_transform * mesh._local_transform;

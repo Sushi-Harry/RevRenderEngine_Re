@@ -1,4 +1,5 @@
 #include "ecs/model_loader.hpp"
+#include "renderer/material.hpp"
 
 inline glm::mat4 aiMatrix4x4_to_glm_mat4(const aiMatrix4x4& from){
     glm::mat4 to;

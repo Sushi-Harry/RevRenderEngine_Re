@@ -91,6 +91,12 @@
 },
 {
   "directory": "/home/harry/Projects/RevRenderEngine_Re/build/engine",
+  "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/engine/../external/entt/src -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/engine_core.dir/src/renderer/material.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/material.cpp",
+  "file": "/home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/material.cpp",
+  "output": "engine/CMakeFiles/engine_core.dir/src/renderer/material.cpp.o"
+},
+{
+  "directory": "/home/harry/Projects/RevRenderEngine_Re/build/engine",
   "command": "/usr/sbin/clang++  -I/home/harry/Projects/RevRenderEngine_Re/engine/include -I/home/harry/Projects/RevRenderEngine_Re/engine/../external/entt/src -I/home/harry/Projects/RevRenderEngine_Re/external/glm -I/home/harry/Projects/RevRenderEngine_Re/external/imgui -I/home/harry/Projects/RevRenderEngine_Re/external/imgui/backends -g -std=gnu++20 -o CMakeFiles/engine_core.dir/src/renderer/ortho_camera.cpp.o -c /home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/ortho_camera.cpp",
   "file": "/home/harry/Projects/RevRenderEngine_Re/engine/src/renderer/ortho_camera.cpp",
   "output": "engine/CMakeFiles/engine_core.dir/src/renderer/ortho_camera.cpp.o"

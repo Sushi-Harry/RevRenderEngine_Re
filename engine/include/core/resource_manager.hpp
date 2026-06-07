@@ -3,8 +3,11 @@
 #include "renderer/shader.hpp"
 #include "ecs/components.hpp"
 #include "renderer/texture.hpp"
+#include "renderer/material.hpp"
 
 #include <unordered_map>
+
+class Material;
 
 class ResourceManager{
 public:
@@ -19,7 +22,7 @@ public:
 
     // Material Loading and Management
     uint32_t load_material(const std::string& name, const Material& mat);
-    uint32_t load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular);
+    uint32_t load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular, std::shared_ptr<Shader> shader);
     const Material& get_material(uint32_t) const;
 
     // Shader Loading and Management
@@ -46,7 +49,8 @@ private:
 
     std::shared_ptr<Shader> default_shader;
     std::shared_ptr<Texture2D> default_texture;
-    Material default_material;
+    // Deleted the default material cause I don't need it to be present in this class since it's guaranteed to be stored at id = 0 in the respective map.
+
     Model default_model;
 
     std::unordered_map<std::string, uint32_t> _models_path_to_id;
