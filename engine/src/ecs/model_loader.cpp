@@ -22,6 +22,26 @@ Model ModelLoader::load_to_gpu(const std::string& path, ResourceManager& resMgr)
     }
 
     Model modelContainer;
+    // Loading the materials befor anything else
+    for(int i = 0; i < scene->mNumMaterials; i++){
+        aiMaterial* aiMat = scene->mMaterials[i];
+        Material new_mat;
+        if(aiMat->GetTextureCount(aiTextureType_DIFFUSE) > 0){
+            aiString texPath;
+            aiMat->GetTexture(aiTextureType_DIFFUSE, 0, &texPath);
+            std::string fullPath = directory + "/" + texPath.C_Str();
+            new_mat._diffuse_texture = resMgr.load_texture(fullPath, REV_TEXTURE_TYPE::REV_DIFFUSE);
+        }
+        if(aiMat->GetTextureCount(aiTextureType_SPECULAR) > 0){
+            aiString texPath;
+            aiMat->GetTexture(aiTextureType_SPECULAR, 0, &texPath);
+            std::string fullPath = directory + "/" + texPath.C_Str();
+            new_mat._specular_texture = resMgr.load_texture(fullPath, REV_TEXTURE_TYPE::REV_SPECULAR);
+        }
+        uint32_t generated_mat_id = resMgr.load_material(modelContainer._path + "_material_"+std::to_string(i), new_mat);
+        modelContainer._material_ids.push_back(generated_mat_id);
+    }
+
     process_node(scene->mRootNode, scene, modelContainer, directory, resMgr, glm::mat4(1.0F));
     return modelContainer;
 }
@@ -56,27 +76,6 @@ Mesh ModelLoader::upload_mesh(aiMesh* mesh, const aiScene* scene, const std::str
             indices.push_back(face.mIndices[j]);
         }
     }
-
-    // Material data extraction
-    Material mat;
-    if(mesh->mMaterialIndex >= 0){
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        // Extracting diffuse maps
-        for(unsigned int i = 0; i < material->GetTextureCount(aiTextureType_DIFFUSE); i++){
-            aiString str;
-            material->GetTexture(aiTextureType_DIFFUSE, i, &str);
-            std::string fullPath = directory + "/" + std::string(str.C_Str());
-            mat._diffuse_textures.push_back(resMgr.load_texture(fullPath, REV_TEXTURE_TYPE::REV_DIFFUSE));
-        }
-        // Extracting specular maps
-        for(unsigned int i = 0; i < material->GetTextureCount(aiTextureType_SPECULAR); i++){
-            aiString str;
-            material->GetTexture(aiTextureType_SPECULAR, i, &str);
-            std::string fullPath = directory + "/" + std::string(str.C_Str());
-            mat._specular_textures.push_back(resMgr.load_texture(fullPath, REV_TEXTURE_TYPE::REV_SPECULAR));
-        }
-    }
-
     // Now's the part of the model loader that's specific to this rewrite and different from last one
     std::shared_ptr<VertexBuffer> vbo = VertexBuffer::Create(vertices.data(), vertices.size()*sizeof(VertexComponent), BufferUsageType::STATIC);
     std::shared_ptr<VertexArray> vao = VertexArray::Create();
@@ -92,10 +91,7 @@ Mesh ModelLoader::upload_mesh(aiMesh* mesh, const aiScene* scene, const std::str
     std::shared_ptr<ElementBuffer> ebo = ElementBuffer::Create(indices.data(), indices.size(), BufferUsageType::STATIC);
     vao->setElementBuffer(ebo);
 
-    std::string mat_name = std::string(mesh->mName.C_Str()) + ("_material");
-    uint32_t generated_mat_id = resMgr.load_material(mat_name, mat);
-    return Mesh{ ._vert_array=vao, ._local_transform=global_transform, ._material_id=generated_mat_id };
-
+    return Mesh{ ._vert_array=vao, ._local_transform=global_transform };
 }
 
 void ModelLoader::process_node(aiNode* node, const aiScene* scene, Model& container, const std::string& directory, ResourceManager& resMgr, glm::mat4 parent_transform){
@@ -105,7 +101,9 @@ void ModelLoader::process_node(aiNode* node, const aiScene* scene, Model& contai
 
     for(unsigned int i = 0; i < node->mNumMeshes; i++){
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        container._meshes.push_back(upload_mesh(mesh, scene, directory, resMgr, global_transform));
+        Mesh sub_mesh = upload_mesh(mesh, scene, directory, resMgr, global_transform);
+        sub_mesh._material_idx = mesh->mMaterialIndex;
+        container._meshes.push_back(sub_mesh);
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++) {

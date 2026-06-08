@@ -10,11 +10,9 @@ void ResourceManager::Init(){
     default_texture = Texture2D::CreateDefault();
     load_texture(default_texture);
 
-    // HAD TO DO THIS IN ORDER TO GET AROUND CIRCULAR DEPENDENCY PROBLEM I WAS FACING. (See the devlog's 7 July, 2026 entry for detail)
     Material default_material;
-    default_material._diffuse_textures = {0};
-    default_material._normal_textures = {0};
-    default_material._specular_textures = {0};
+    default_material._diffuse_texture = 0;
+    default_material._specular_texture = 0;
     load_material("default_material", default_material);
 
     // Default model loading
@@ -124,15 +122,15 @@ uint32_t ResourceManager::load_material(const std::string& name, const Material&
     return id;
 }
 
-uint32_t ResourceManager::load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular, std::shared_ptr<Shader> shader){
+uint32_t ResourceManager::load_material(const std::string& name, uint32_t diffuse, uint32_t specular, std::shared_ptr<Shader> shader){
     if(_materials_name_to_id.contains(name)){
         return _materials_name_to_id.at(name);
     }
     uint32_t id = _next_mat_id++;
 
     Material new_mat;
-    new_mat._diffuse_textures = diffuse;
-    new_mat._specular_textures = specular;
+    new_mat._diffuse_texture = diffuse;
+    new_mat._specular_texture = specular;
     new_mat._normal_textures = {0};
     _materials[id] = new_mat;
     _materials_name_to_id[name] = id;

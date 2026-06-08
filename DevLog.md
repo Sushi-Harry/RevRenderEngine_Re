@@ -96,3 +96,11 @@ Man keeping everything structured is harder than I imagined. I'm trying to impro
 Created a separate file for material class but still can't think of a way to get around the circular dependency thing. Cause I need a material type of object in the ResourceManager class to serve as the default material but I don't think that's allowed if I remove the include statement for material.hpp and use just the forward declaration. I need to have a defined class to make an object of its type. (At least that's what I think, judging by the red squiggly lines)
 
 DONE!!! Fixed the circular dependency thing and managed to get everything working somehow. Though it still seems to be held together by hopes and prayers but it runs exactly like it should. Will explain more about it during tomorrow's devlog entry. Too sleepy to carry on right now. 
+
+### 8 June, 2026 [9:10 A.M.]
+Alright so had to transfer the material struct from the components.hpp to its own header called material.hpp and to fix the circular dependency problem, I used forward declaration of resource manager in material class and included the actual header in the source file for the material class instead of the header file and defined the apply function in the source file instead of keeping it inside the header file. 
+That was the simple fix I used last night. 
+BUT! Now the problem is that my apply function loops through all the textures in the _diffuse and _specular arrays and applies all of them to the saampler 2d uniform in the current iterration's shader. Which means that if the material class in the header has only one specular and diffuse texture but the cpp material object contains more than one of each then this loop won't work as intended. So I'll start fixing that for now.
+
+I've managed to fix the previously stated problem. How? Well I changed the material class to store just singular texture ids instead of an array of them. So basically, each sub mesh in a model will have its own material now instead of just one material having ids for all the submeshes' textures.
+For now, the project compiles fine and runs as expected but the default_lit_shader.frag/.vert can't be used right now cause they're having some issues due to lack of pointlights in the scene. (Those default lit shaders are the ones with lighting implementations so yeah...)

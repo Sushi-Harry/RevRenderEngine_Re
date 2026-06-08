@@ -17,11 +17,12 @@ enum class REV_TEXTURE_TYPE : uint8_t{
 struct Mesh{
     std::shared_ptr<VertexArray> _vert_array;
     glm::mat4 _local_transform;
-    uint32_t _material_id;
+    uint32_t _material_idx;
 };
 
 struct Model{
     std::vector<Mesh> _meshes;
+    std::vector<uint32_t> _material_ids;
     std::string _path;
 };
 
@@ -56,6 +57,7 @@ struct TagComponent{
 
 struct MeshComponent{
     uint32_t _model_id;
+    uint32_t _shader_id = 0;
 };
 
 struct PointLightComponent{

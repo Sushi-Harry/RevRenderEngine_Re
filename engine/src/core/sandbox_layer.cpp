@@ -14,17 +14,15 @@ void SandboxLayer::onAttach(){
     // ENSURE THE SHADER IS LOADED!
     _resource_manager.get_shader("default_shader");
 
+    uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/models/cyborg/cyborg.vert", "revrender/assets/models/cyborg/cyborg.frag");
     _model_id = _resource_manager.load_model("revrender/assets/models/cyborg/cyborg.obj");
 
     Entity model_entity = _scene.create_entity("cyborg");
-
     // Ensure the MeshComponent is explicitly attached
-    model_entity.addComponent<MeshComponent>(MeshComponent{_model_id});
+    auto& model = model_entity.addComponent<MeshComponent>(MeshComponent{._model_id=_model_id});
+    model._shader_id = _shader_id;
 
-    // Apply the local math fixes
     auto& transform = model_entity.getComponent<TransformComponent>();
-    // transform._scale = glm::vec3(0.1f);
-    // transform._rotation = glm::vec3(glm::radians(-90.0f), 0.0f, 0.0f);
 }
 
 

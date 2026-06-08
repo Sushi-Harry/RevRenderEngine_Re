@@ -22,7 +22,7 @@ public:
 
     // Material Loading and Management
     uint32_t load_material(const std::string& name, const Material& mat);
-    uint32_t load_material(const std::string& name, const std::vector<uint32_t>& diffuse, const std::vector<uint32_t>& specular, std::shared_ptr<Shader> shader);
+    uint32_t load_material(const std::string& name, uint32_t diffuse, uint32_t specular, std::shared_ptr<Shader> shader);
     const Material& get_material(uint32_t) const;
 
     // Shader Loading and Management

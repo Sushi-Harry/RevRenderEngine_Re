@@ -55,6 +55,7 @@ void main(){
     }
 
     FragColor = vec4(result, diffuseTexColor.a);
+    // FragColor = vec4(1.0, 0.0, 1.0, 1.0);
 }
 
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, Material mat){
