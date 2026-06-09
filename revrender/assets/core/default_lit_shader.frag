@@ -12,6 +12,17 @@ struct Material{
     float _shininess;
 };
 
+struct DirectionalLight{
+    bool _enabled;
+
+    vec3 _direction;
+    vec3 _color;
+
+    float _ambient;
+    float _specular;
+    float _diffuse;
+};
+
 struct PointLight{
     bool _enabled;
     vec3 _position;
@@ -31,11 +42,13 @@ struct PointLight{
 
 #define MAX_POINT_LIGHTS 4
 
-layout (location = 2) uniform vec3 u_ViewPos;
-layout (location = 3) uniform Material u_Material;
-layout (location = 4) uniform PointLight u_PointLights[MAX_POINT_LIGHTS];
+uniform vec3 u_ViewPos;
+uniform Material u_Material;
+uniform PointLight u_PointLights[MAX_POINT_LIGHTS];
+uniform DirectionalLight u_DirectionalLight;
 
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, Material mat);
+vec3 calc_directional_light(DirectionalLight light, vec3 normal, vec3 fragPos, vec3 viewDir, Material mat);
 
 void main(){
     vec4 diffuseTexColor = texture(u_Material._texture_diffuse, u_TexCoords);
@@ -53,6 +66,8 @@ void main(){
             result += calc_point_light(u_PointLights[i], norm, u_FragPos, viewDir, u_Material);
         }
     }
+
+    result += calc_directional_light(u_DirectionalLight, norm, u_FragPos, viewDir, u_Material);
 
     FragColor = vec4(result, diffuseTexColor.a);
     // FragColor = vec4(1.0, 0.0, 1.0, 1.0);
@@ -78,4 +93,23 @@ vec3 calc_point_light(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir,
     vec3 specular = light._color * spec * light._specular * texture(mat._texture_diffuse, u_TexCoords).rgb;
 
     return (ambient + diffuse + specular) * attenuation;
+}
+
+vec3 calc_directional_light(DirectionalLight light, vec3 normal, vec3 fragPos, vec3 viewDir, Material mat){
+    if(!light._enabled){
+        return vec3(0.0);
+    }
+
+    vec3 lightDir = normalize(-light._direction);
+    vec3 reflectDir = reflect(-lightDir, normal);
+
+    vec3 ambient = light._color * light._ambient * texture(mat._texture_diffuse, u_TexCoords).rgb;
+
+    float diff = max(dot(normal, lightDir), 0.0);
+    vec3 diffuse = light._color * light._diffuse * diff * texture(mat._texture_diffuse, u_TexCoords).rgb;
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), mat._shininess);
+    vec3 specular = light._color * light._specular * spec * texture(mat._texture_specular, u_TexCoords).rgb;
+
+    return (ambient + diffuse + specular);
 }

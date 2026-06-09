@@ -14,6 +14,6 @@ void Material::Apply(ResourceManager& res_mgr, std::shared_ptr<Shader> _shader) 
     if(_specular_texture != 0){
         auto tex = res_mgr.get_texture(_specular_texture);
         tex->bind(1);
-        _shader->setInt("u_Material._texture_diffuse", 1);
+        _shader->setInt("u_Material._texture_specular", 1);
     }
 }

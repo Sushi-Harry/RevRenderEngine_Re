@@ -19,7 +19,8 @@ public:
     Entity create_entity(const std::string& name = "Empty Entity");
     // Creates a point light type of entity
     Entity create_point_light(const std::string& name = "Point Light Object", glm::vec3 color = {1.0, 1.0, 1.0});
-
+    // Creates a DIrectional Light type of entity
+    Entity create_directional_light(const std::string& name = "Directional Light Object", glm::vec3 color = {1.0, 1.0, 1.0});
     //  ============================================
     //  || THIS PART IS STILL A WORK IN PROGRESS! ||
     //  ============================================
@@ -29,5 +30,9 @@ public:
 
 private:
     entt::registry _registry;
+
+    // Skybox Variables
+    uint32_t _skybox_id = 0;
+
     friend class Entity;
 };

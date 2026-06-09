@@ -1,5 +1,6 @@
 #include "core/sandbox_layer.hpp"
 #include "events/event_dispatcher.hpp"
+#include <chrono>
 
 void SandboxLayer::onAttach(){
     _lastMouseX = 0.0F;
@@ -22,9 +23,14 @@ void SandboxLayer::onAttach(){
     auto& model = model_entity.addComponent<MeshComponent>(MeshComponent{._model_id=_model_id});
     model._shader_id = _shader_id;
 
-    auto& transform = model_entity.getComponent<TransformComponent>();
-}
+    // Entity p_light = _scene.create_point_light();
+    // auto& light_comp = p_light.getComponent<PointLightComponent>();
+    // light_comp._position = { 0.0, 0.0, 3.0};
 
+    Entity d_light = _scene.create_directional_light();
+    auto& dl_comp = d_light.getComponent<DirectionalLightComponent>();
+    dl_comp._direction = {1.0, 0.0, 0.0};
+}
 
 void SandboxLayer::onEvent(Event& e){
     EventDispatcher ed(e);
@@ -64,5 +70,11 @@ void SandboxLayer::onUpdate(float deltaTime){
     if (Input::isKeyPressed(Key::REV_KEY_D))
         _cam.processKeyboard(camera_movement::RIGHT, deltaTime);
 
+
+    // I wrapped the _scene.onUpdate function call in this code cause I wanted to see how much time it was taking since the application felt kinda slow
+    // auto start = std::chrono::high_resolution_clock::now();
     _scene.onUpdate(deltaTime, _cam, _render_system, _resource_manager);
+    // auto end = std::chrono::high_resolution_clock::now();
+    // float time = std::chrono::duration<float, std::milli>(end - start).count();
+    // std::cout << "_scene.onUpdate exec time: " << time << '\n';
 }

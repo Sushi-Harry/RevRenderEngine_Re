@@ -104,3 +104,8 @@ BUT! Now the problem is that my apply function loops through all the textures in
 
 I've managed to fix the previously stated problem. How? Well I changed the material class to store just singular texture ids instead of an array of them. So basically, each sub mesh in a model will have its own material now instead of just one material having ids for all the submeshes' textures.
 For now, the project compiles fine and runs as expected but the default_lit_shader.frag/.vert can't be used right now cause they're having some issues due to lack of pointlights in the scene. (Those default lit shaders are the ones with lighting implementations so yeah...)
+
+### 9 June, 2026 [4:38 P.M.]
+Yeah so the default lighting shader works now. Point lights are done. Will move on to other types of lights now.
+Alright so I've added directional lilghts too. But I haven't managed to add a skybox yet. Will add it in the next session.
+Still kinda confused by how I should implement the skybox but I'll figure it out soon enough.

@@ -77,6 +77,10 @@ public:
         return _projection * getViewMatrix();
     }
 
+    glm::vec3 getViewPos() const {
+        return _position;
+    }
+
     void processMouseMovement(float x_offset, float y_offset){
         x_offset *= _mouse_sensitivity;
         y_offset *= _mouse_sensitivity;

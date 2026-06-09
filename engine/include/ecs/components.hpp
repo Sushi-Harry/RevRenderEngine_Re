@@ -76,6 +76,17 @@ struct PointLightComponent{
     float _specular = 1.0F;
 };
 
+struct DirectionalLightComponent{
+    bool _enabled = true;
+
+    glm::vec3 _direction = {0.0, -1.0, 0.0};
+    glm::vec3 _color = {1.0, 1.0, 1.0};
+
+    float _ambient = 0.02F;
+    float _specular = 1.0F;
+    float _diffuse = 1.0F;
+};
+
 struct CameraComponent{
     uint32_t _id;
 };
