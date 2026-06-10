@@ -109,3 +109,6 @@ For now, the project compiles fine and runs as expected but the default_lit_shad
 Yeah so the default lighting shader works now. Point lights are done. Will move on to other types of lights now.
 Alright so I've added directional lilghts too. But I haven't managed to add a skybox yet. Will add it in the next session.
 Still kinda confused by how I should implement the skybox but I'll figure it out soon enough.
+
+### 10 June, 2026 [10:55 A.M.]
+So I've added a separate cubemap class in order to prepare for adding the skybox later. Adding the skybox should be quite easy so I'll get it done as fast as possible and move on to shadow mapping and I'll try to get shadow mapping done by today too. But for now I'm going on break.

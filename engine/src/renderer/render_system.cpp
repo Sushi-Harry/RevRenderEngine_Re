@@ -11,7 +11,7 @@ void RenderSystem::Submit(const RenderCall& _render_packet, ResourceManager& res
     _render_queue.push_back(_render_packet);
 }
 
-void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj_mat, const Camera3D& cam, const std::vector<PointLightComponent>& active_pl_data, const DirectionalLightComponent& dirLight){
+void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj_mat, const Camera3D& cam, const std::vector<PointLightComponent>& active_pl_data, const DirectionalLightComponent& dirLight, uint32_t skybox_id){
     std::sort(_render_queue.begin(), _render_queue.end(), [](const RenderCall& a, const RenderCall& b){
         // So first we're gonna be sorting according to the shader
         if(a._shader_id != b._shader_id){
@@ -88,5 +88,15 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj
         // Uploading the model matrix and other stuff
         activeShader->setMat4("u_ModelMatrix", call._model_matrix);
         DrawCommands::DrawIndexed(call._vao, call._idx_count);
+
+        // =========================
+        // || SKYBOX DRAWING PART ||
+        // =========================
+        // if(skybox_id != 0){
+
+        //     auto skybox_shader = res_mgr.get_shader("skybox");
+        //     skybox_shader->bindShader();
+
+        // }
     }
 }
