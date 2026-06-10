@@ -98,5 +98,6 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj
         //     skybox_shader->bindShader();
 
         // }
+        // Update: I decided to move the skybox drawing part to the sandbox layer
     }
 }

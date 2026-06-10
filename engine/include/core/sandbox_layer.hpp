@@ -9,6 +9,7 @@
 
 #include "ecs/scene.hpp"
 #include "ecs/entity.hpp"
+#include "renderer/skybox.hpp"
 
 class SandboxLayer : public Layer{
 public:
@@ -24,6 +25,7 @@ private:
     ResourceManager _resource_manager;
     RenderSystem _render_system;
     Camera3D _cam;
+    Skybox* _sbox;
 
     Scene _scene;
 

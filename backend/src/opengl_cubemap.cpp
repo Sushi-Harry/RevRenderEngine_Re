@@ -5,6 +5,7 @@
 
 
 Cubemap::Cubemap(const std::vector<std::string>& faces){
+    stbi_set_flip_vertically_on_load_thread(0);
     glCreateTextures(GL_TEXTURE_CUBE_MAP, 1, &_id);
 
     int width = 0;
@@ -22,7 +23,7 @@ Cubemap::Cubemap(const std::vector<std::string>& faces){
     for(int i = 1; i < faces.size(); i++){
         data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
         if(data){
-            glTextureSubImage3D(_id, 0, 0, 0, 0, width, height, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glTextureSubImage3D(_id, 0, 0, 0, i, width, height, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
         }else{
             std::cerr << "ERROR::CUBEMAP::BASE_FACE_COULD_NOT_LOAD" << '\n';
@@ -33,6 +34,8 @@ Cubemap::Cubemap(const std::vector<std::string>& faces){
     glTextureParameteri(_id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTextureParameteri(_id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTextureParameteri(_id, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    stbi_set_flip_vertically_on_load_thread(1);
 }
 
 void Cubemap::bind(uint32_t slot) const {
@@ -41,4 +44,13 @@ void Cubemap::bind(uint32_t slot) const {
 
 Cubemap::~Cubemap(){
     glDeleteTextures(1, &_id);
+}
+
+Cubemap& Cubemap::operator=(Cubemap&& other) noexcept{
+    if(this != &other){
+        glDeleteTextures(1, &_id);
+        _id = other._id;
+        other._id = 0;
+    }
+    return *this;
 }

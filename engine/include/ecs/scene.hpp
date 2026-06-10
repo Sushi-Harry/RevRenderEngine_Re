@@ -7,6 +7,7 @@
 #include "entt/entt.hpp"
 #include "renderer/camera.hpp"
 #include "renderer/render_system.hpp"
+#include "renderer/skybox.hpp"
 
 class Entity;
 

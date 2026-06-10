@@ -5,6 +5,16 @@
 #include "renderer/material.hpp"
 
 void ResourceManager::Init(){
+
+    std::vector<std::string> default_faces = {
+        "revrender/assets/skybox/basicDay/right.jpg",
+        "revrender/assets/skybox/basicDay/left.jpg",
+        "revrender/assets/skybox/basicDay/top.jpg",
+        "revrender/assets/skybox/basicDay/bottom.jpg",
+        "revrender/assets/skybox/basicDay/back.jpg",
+        "revrender/assets/skybox/basicDay/front.jpg"
+    };
+
     default_shader = Shader::Create("default_shader", "revrender/assets/core/default_shader.vert", "revrender/assets/core/default_shader.frag");
     load_shader(default_shader->getName(), default_shader);
     default_texture = Texture2D::CreateDefault();
@@ -18,6 +28,12 @@ void ResourceManager::Init(){
     // Default model loading
     default_model = {._meshes={}, ._path={}};
     load_model(default_model);
+
+    // Skybox shader loaded with all the other default shaders
+    load_shader("skybox", "revrender/assets/core/skybox.vert", "revrender/assets/core/skybox.frag");
+
+    // Loading the default cubemap
+    load_cubemap("skybox", std::make_shared<Cubemap>(default_faces));
 }
 
 
@@ -159,7 +175,6 @@ uint32_t ResourceManager::load_model(const Model& model){
     _models[id] = model;
     _models_path_to_id[model._path] = id;
     return _models_path_to_id.at(model._path);
-    // This reminds me that
 }
 
 uint32_t ResourceManager::load_model(const std::string& path){
@@ -184,4 +199,43 @@ const Model& ResourceManager::get_model(uint32_t id) const {
         return _models.at(id);
     }
     return default_model;
+}
+
+// =========         ||
+// ||                ||
+// ||                ||
+// ||                ||
+// ========= UBEMAP  ======== OADING
+uint32_t ResourceManager::load_cubemap(const std::string& name, std::shared_ptr<Cubemap> cube_map){
+    if(_cubemaps_name_to_id.contains(name)){
+        return _cubemaps_name_to_id.at(name);
+    }
+    uint32_t id = _next_cmap_id++;
+    _cubemaps[id] = std::move(cube_map);
+    _cubemaps_name_to_id[name] = id;
+    return id;
+}
+
+uint32_t ResourceManager::load_cubemap(const std::string& name, const std::vector<std::string>& faces_path){
+    if(_cubemaps_name_to_id.contains(name)){
+        return _cubemaps_name_to_id.at(name);
+    }
+    uint32_t id = _next_cmap_id++;
+    _cubemaps[id] = std::make_shared<Cubemap>(faces_path);
+    _cubemaps_name_to_id[name] = id;
+    return id;
+}
+
+std::shared_ptr<Cubemap> ResourceManager::get_cubemap(const std::string& name){
+    if(_cubemaps_name_to_id.contains(name)){
+        return _cubemaps.at(_cubemaps_name_to_id.at(name));
+    }
+    return _cubemaps.at(0);
+}
+
+std::shared_ptr<Cubemap> ResourceManager::get_cubemap(uint32_t id){
+    if(_cubemaps.contains(id)){
+        return _cubemaps.at(id);
+    }
+    return _cubemaps.at(0);
 }

@@ -30,6 +30,16 @@ void SandboxLayer::onAttach(){
     Entity d_light = _scene.create_directional_light();
     auto& dl_comp = d_light.getComponent<DirectionalLightComponent>();
     dl_comp._direction = {1.0, 0.0, 0.0};
+
+    // Testing skybox
+    _sbox = new Skybox(_resource_manager, "skybox_1", {
+        "revrender/assets/skybox/basicDay/right.jpg",
+        "revrender/assets/skybox/basicDay/left.jpg",
+        "revrender/assets/skybox/basicDay/top.jpg",
+        "revrender/assets/skybox/basicDay/bottom.jpg",
+        "revrender/assets/skybox/basicDay/back.jpg",
+        "revrender/assets/skybox/basicDay/front.jpg"
+    });
 }
 
 void SandboxLayer::onEvent(Event& e){
@@ -77,4 +87,5 @@ void SandboxLayer::onUpdate(float deltaTime){
     // auto end = std::chrono::high_resolution_clock::now();
     // float time = std::chrono::duration<float, std::milli>(end - start).count();
     // std::cout << "_scene.onUpdate exec time: " << time << '\n';
+    _sbox->draw(_resource_manager, _cam);
 }

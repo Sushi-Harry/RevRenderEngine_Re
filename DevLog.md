@@ -112,3 +112,5 @@ Still kinda confused by how I should implement the skybox but I'll figure it out
 
 ### 10 June, 2026 [10:55 A.M.]
 So I've added a separate cubemap class in order to prepare for adding the skybox later. Adding the skybox should be quite easy so I'll get it done as fast as possible and move on to shadow mapping and I'll try to get shadow mapping done by today too. But for now I'm going on break.
+
+__[Same Day, 7:07 P.M.]__ Yeah so shadow mapping isn't gonna happen today. No chance. I just finished adding the skybox. I am not kidding when I say that I am the dumbest person to ever step foot on this earth. I spent over an hour figuring out why the skybox wouldn't get drawn at all. Turns out there was a typo in the vertex shader. (Misspelled the out variable name as TexCoords instead of u_TexCoords that the fragment shader was expecting.) and then I spent another hour figuring out why that shader fix wasn't working either. Turns out there was ANOTHER type in the shader loading statement for the skybox shader. I was loading default_shader.vert/.frag instead of skybox.vert/.frag
