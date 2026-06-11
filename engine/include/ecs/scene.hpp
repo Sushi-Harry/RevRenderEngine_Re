@@ -27,7 +27,11 @@ public:
     //  ============================================
     // Entity create_camera(const std::string& name = "Camera Object");
 
+    const entt::registry& get_registry() const { return _registry; }
+
     void onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr);
+    std::vector<PointLightComponent> get_active_point_lights() const;
+    DirectionalLightComponent get_directional_light() const;
 
 private:
     entt::registry _registry;

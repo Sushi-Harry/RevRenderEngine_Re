@@ -4,3 +4,11 @@ void DrawCommands::DrawIndexed(const std::shared_ptr<VertexArray> &vao, uint32_t
     vao->bind();
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 }
+
+void DrawCommands::DrawIndexed(uint32_t indexCount){
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+}
+
+void DrawCommands::UnbindVAO(){
+    glBindVertexArray(0);
+}

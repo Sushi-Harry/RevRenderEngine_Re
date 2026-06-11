@@ -32,6 +32,9 @@ void ResourceManager::Init(){
     // Skybox shader loaded with all the other default shaders
     load_shader("skybox", "revrender/assets/core/skybox.vert", "revrender/assets/core/skybox.frag");
 
+    // Shadow Map Shader
+    load_shader("shadow_map_shader", "revrender/assets/core/default_shadow_map.vert", "revrender/assets/core/default_shadow_map.frag");
+
     // Loading the default cubemap
     load_cubemap("skybox", std::make_shared<Cubemap>(default_faces));
 }

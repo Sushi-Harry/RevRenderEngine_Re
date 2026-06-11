@@ -5,6 +5,7 @@
 #include "core/resource_manager.hpp"
 #include "events/mouse_events.hpp"
 #include "renderer/camera.hpp"
+#include "renderer/framebuffer.hpp"
 #include "renderer/render_system.hpp"
 
 #include "ecs/scene.hpp"
@@ -28,6 +29,8 @@ private:
     Skybox* _sbox;
 
     Scene _scene;
+
+    std::shared_ptr<Framebuffer> _shadow_fbo;
 
     uint32_t _model_id;
     uint32_t active_shader_id;

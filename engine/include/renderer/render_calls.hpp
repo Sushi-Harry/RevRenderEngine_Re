@@ -29,6 +29,10 @@ public:
         _render_api->setLineWidth(width);
     }
 
+    static void clear_depth_buffer_bit_only(){
+        _render_api->clear_depth_buffer_bit_only();
+    }
+
 private:
     static std::unique_ptr<RenderingAPI> _render_api;
 };
@@ -47,6 +51,10 @@ struct RenderCall{
 
 class DrawCommands{
 public:
+    // Binds the VAO even if it's been previously bound
     static void DrawIndexed(const std::shared_ptr<VertexArray>& vao, uint32_t indexCount);
-
+    // Assumes that the required vao is already bound
+    static void DrawIndexed(uint32_t indexCount);
+    // Static function to unbind any currently bound vao
+    static void UnbindVAO();
 };

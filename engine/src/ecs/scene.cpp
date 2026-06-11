@@ -51,16 +51,7 @@ Entity Scene::create_directional_light(const std::string& name, glm::vec3 color)
 void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr){
     render_sys.BeginFrame();
 
-    // Extracting the point lights
-    std::vector<PointLightComponent> _active_pl_data;
-    auto pl_view = _registry.view<TransformComponent, PointLightComponent>();
-    for(auto entity : pl_view){
-        auto [transform, light_comp] = pl_view.get<TransformComponent, PointLightComponent>(entity);
-        _active_pl_data.push_back(light_comp);
-    }
-
     auto mesh_view = _registry.view<TransformComponent, MeshComponent>();
-
     for(auto entity : mesh_view){
         auto [transform, mesh_comp] = mesh_view.get<TransformComponent, MeshComponent>(entity);
         const Model& model = res_mgr.get_model(mesh_comp._model_id);
@@ -76,15 +67,26 @@ void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_
             render_sys.Submit(packet, res_mgr);
         }
     }
-    // This is all makeshift first draft code kind of thing.
-    DirectionalLightComponent dirLight;
-    if(!_registry.storage<DirectionalLightComponent>().empty()){
-        auto entity = _registry.view<TransformComponent, DirectionalLightComponent>().front();
-        auto [transform, light_comp] = _registry.view<TransformComponent, DirectionalLightComponent>().get<TransformComponent, DirectionalLightComponent>(entity);
-        dirLight = light_comp;
-        render_sys.EndFrame(res_mgr, cam.getViewProjMatrix(), cam, _active_pl_data, dirLight);
+}
+
+std::vector<PointLightComponent> Scene::get_active_point_lights() const {
+    std::vector<PointLightComponent> lights;
+    auto view = _registry.view<PointLightComponent>();
+    for(auto entity : view) {
+        lights.push_back(view.get<PointLightComponent>(entity));
     }
-    render_sys.EndFrame(res_mgr, cam.getViewProjMatrix(), cam, _active_pl_data);
+    return lights;
+}
+
+DirectionalLightComponent Scene::get_directional_light() const {
+    if(!_registry.storage<DirectionalLightComponent>()->empty()){
+        auto entity = _registry.view<DirectionalLightComponent>().front();
+        return _registry.view<DirectionalLightComponent>().get<DirectionalLightComponent>(entity);
+    }
+    // Return an inactive fallback if no entity contains a light component
+    DirectionalLightComponent inactive_light;
+    inactive_light._enabled = false;
+    return inactive_light;
 }
 
 // Coast to coast, LA to Chicago, western male

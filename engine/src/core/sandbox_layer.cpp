@@ -40,6 +40,10 @@ void SandboxLayer::onAttach(){
         "revrender/assets/skybox/basicDay/back.jpg",
         "revrender/assets/skybox/basicDay/front.jpg"
     });
+
+    // Initializing the framebuffer for shadow mapping
+    _shadow_fbo = Framebuffer::Create({FramebufferTextureFormat::REV_FB_DEPTH32F});
+
 }
 
 void SandboxLayer::onEvent(Event& e){
@@ -81,11 +85,38 @@ void SandboxLayer::onUpdate(float deltaTime){
         _cam.processKeyboard(camera_movement::RIGHT, deltaTime);
 
 
+    // "This may look like it's becoming cluttered,
+    //          It is, in fact, becoming very cluttered." - Harry Chauhan, 11 June, 2026, 7:47 P.M.
+
     // I wrapped the _scene.onUpdate function call in this code cause I wanted to see how much time it was taking since the application felt kinda slow
     // auto start = std::chrono::high_resolution_clock::now();
     _scene.onUpdate(deltaTime, _cam, _render_system, _resource_manager);
+    auto dirLight = _scene.get_directional_light();
+    auto pointLights = _scene.get_active_point_lights();
+    if(dirLight._enabled){
+        glm::mat4 lightSpaceMat = _render_system.CalculateLightSpaceMatrix(dirLight, _cam);
+        _shadow_fbo->bind();
+        GeneralRenderCalls::clear_depth_buffer_bit_only();
+        _render_system.ShadowMappingRenderPass(_resource_manager, lightSpaceMat);
+        _shadow_fbo->unbind();
+    }
+    GeneralRenderCalls::setViewport(0, 0, 1280, 720);
+    GeneralRenderCalls::clear();
+    uint32_t depth_map_texture = _shadow_fbo->get_depth_attachment_id();
+
+
+
+    // ======================================
+    // ||         CONTINUE HERE            ||
+    // ======================================
+
+
+
+
+    _render_system.EndFrame(_resource_manager, _cam.getViewProjMatrix(), _cam, pointLights);
     // auto end = std::chrono::high_resolution_clock::now();
     // float time = std::chrono::duration<float, std::milli>(end - start).count();
     // std::cout << "_scene.onUpdate exec time: " << time << '\n';
     _sbox->draw(_resource_manager, _cam);
+    _render_system.ClearRenderQueue();
 }
