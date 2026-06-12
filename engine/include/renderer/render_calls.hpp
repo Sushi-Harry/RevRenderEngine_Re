@@ -33,6 +33,10 @@ public:
         _render_api->clear_depth_buffer_bit_only();
     }
 
+    static void bindTexture(uint32_t _id, uint32_t slot){
+        _render_api->bindTexture(_id, slot);
+    }
+
 private:
     static std::unique_ptr<RenderingAPI> _render_api;
 };

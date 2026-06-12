@@ -11,7 +11,7 @@ void RenderSystem::Submit(const RenderCall& _render_packet, ResourceManager& res
     _render_queue.push_back(_render_packet);
 }
 
-void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj_mat, const Camera3D& cam, const std::vector<PointLightComponent>& active_pl_data, const DirectionalLightComponent& dirLight, uint32_t skybox_id){
+void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj_mat, const Camera3D& cam, const std::vector<PointLightComponent>& active_pl_data, const DirectionalLightComponent& dirLight, uint32_t depth_map_texture_directional){
     std::sort(_render_queue.begin(), _render_queue.end(), [](const RenderCall& a, const RenderCall& b){
         // So first we're gonna be sorting according to the shader
         if(a._shader_id != b._shader_id){
@@ -30,7 +30,6 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj
     uint32_t current_shader_id = std::numeric_limits<uint32_t>::max();
     uint32_t current_material_id = std::numeric_limits<uint32_t>::max();
     for(const auto& call : _render_queue){
-        // Binding the shader
         if(call._shader_id != current_shader_id){
             std::shared_ptr<Shader> activeShader = res_mgr.get_shader(call._shader_id);
             activeShader->bindShader();
@@ -73,8 +72,16 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj
                 activeShader->setFloat(_base + "_ambient", dirLight._ambient);
                 activeShader->setFloat(_base + "_diffuse", dirLight._diffuse);
                 activeShader->setFloat(_base + "_specular", dirLight._specular);
+
+                activeShader->setMat4("u_LightSpaceMatrix", CalculateLightSpaceMatrix(dirLight, cam));
+
+                if(depth_map_texture_directional){
+                    GeneralRenderCalls::bindTexture(depth_map_texture_directional, 2);
+                    activeShader->setInt("u_ShadowMap", 2);
+                }
             }
             current_shader_id = call._shader_id;
+            current_material_id = std::numeric_limits<uint32_t>::max();
         }
         std::shared_ptr<Shader> activeShader = res_mgr.get_shader(call._shader_id);
 
@@ -88,17 +95,6 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj
         // Uploading the model matrix and other stuff
         activeShader->setMat4("u_ModelMatrix", call._model_matrix);
         DrawCommands::DrawIndexed(call._vao, call._idx_count);
-
-        // =========================
-        // || SKYBOX DRAWING PART ||
-        // =========================
-        // if(skybox_id != 0){
-
-        //     auto skybox_shader = res_mgr.get_shader("skybox");
-        //     skybox_shader->bindShader();
-
-        // }
-        // Update: I decided to move the skybox drawing part to the sandbox layer
     }
 }
 
@@ -120,7 +116,7 @@ void RenderSystem::ShadowMappingRenderPass(ResourceManager& res_mgr, const glm::
     DrawCommands::UnbindVAO();
 }
 
-const glm::mat4& RenderSystem::CalculateLightSpaceMatrix(const DirectionalLightComponent& dirLight, const Camera3D& cam){
+glm::mat4 RenderSystem::CalculateLightSpaceMatrix(const DirectionalLightComponent& dirLight, const Camera3D& cam){
     glm::mat4 lightProj = glm::ortho(-10.0F, 10.0F, -10.0F, 10.0F, 0.1F, 50.0F);
 
     glm::vec3 lightPos = cam.getViewPos() - (glm::normalize(dirLight._direction) * 20.0F);

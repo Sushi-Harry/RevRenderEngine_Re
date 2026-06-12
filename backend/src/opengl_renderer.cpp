@@ -39,3 +39,7 @@ void opengl_renderer::drawLines(const std::shared_ptr<VertexArray>& vert_array, 
     vert_array->bind();
     glDrawArrays(GL_LINES, 0, vert_cnt);
 }
+
+void opengl_renderer::bindTexture(uint32_t _id, uint32_t slot){
+    glBindTextureUnit(slot, _id);
+}

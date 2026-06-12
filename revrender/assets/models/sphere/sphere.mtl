@@ -1,0 +1,13 @@
+# MTL file - created by a modified js OBJExporter
+
+newmtl Gradient
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 0.6000000238418579
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 0.5203462839126587 0.5203462839126587 0.5203462839126587
+Ke 0 0 0
+map_Kd diffuse.png

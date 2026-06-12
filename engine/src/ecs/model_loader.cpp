@@ -22,6 +22,7 @@ Model ModelLoader::load_to_gpu(const std::string& path, ResourceManager& resMgr)
     }
 
     Model modelContainer;
+    modelContainer._path = path;
     // Loading the materials befor anything else
     for(int i = 0; i < scene->mNumMaterials; i++){
         aiMaterial* aiMat = scene->mMaterials[i];

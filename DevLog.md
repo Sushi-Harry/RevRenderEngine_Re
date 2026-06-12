@@ -118,3 +118,8 @@ __[Same Day, 7:07 P.M.]__ Yeah so shadow mapping isn't gonna happen today. No ch
 ### 11 June, 2026 [8:12 P.M.]
 Shadow Mapping is still a work in progress but I did end up adding a framebuffer class and it works (kinda). But Visually, the shadow maps are broken since I haven't implemented them in the shaders used for rendering the other models and stuff so yeah.
 This took an unnecessarily large amount of time and effort. I am so braindead right now that I literally don't even remember where I'm binding texture units. And that is my cue to call it a day.
+
+### 12 June, 2026 [4:22 P.M.]
+I cannot express in words how happy I am right now. I have finally added shadow mapping for directional lights. Took a lot of debugging cause I wrote the framebuffer class in a half asleep state. I basically had a lot of bugs lying around in the framebuffer code. I was sending the wrong framebuffer specs to the framebuffer object (width and height data to be specific). It the framebuffer needed to have a 1:1 aspect ratio and I was literally sending it 1280x720 resolution insteado of 1024x1024 or 2048x2048. And then another problem I was facing was related to the viewport size getting messed up whenever I was using the framebuffer. Turns out I was never resetting the viewport after binding to the default framebuffer. But I've managed to fix all those stupid mistakes and stuff is working great.
+
+This was so annoying to fix that I managed to forget that I had a cup of coffee waiting for me to drink it. It was a hot cup of coffee. Now that I'm drinking it, it feels like it's a standard cup of cold coffee.

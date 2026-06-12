@@ -20,7 +20,7 @@ struct FramebufferSpecs{
     uint32_t _height = 720;
 
     FramebufferSpecs() = default;
-    FramebufferSpecs(std::initializer_list<FramebufferTextureFormat> tex_attchments) : _attachments(tex_attchments) {}
+    FramebufferSpecs(std::initializer_list<FramebufferTextureFormat> tex_attchments, uint32_t width, uint32_t height) : _attachments(tex_attchments), _width(width), _height(height) {}
 
     std::vector<FramebufferTextureFormat> _attachments;
 };

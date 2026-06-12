@@ -1,6 +1,7 @@
 #include "core/sandbox_layer.hpp"
 #include "events/event_dispatcher.hpp"
 #include <chrono>
+#include "core/application.hpp"
 
 void SandboxLayer::onAttach(){
     _lastMouseX = 0.0F;
@@ -10,18 +11,30 @@ void SandboxLayer::onAttach(){
     _resource_manager.Init();
 
     _cam = Camera3D(glm::vec3(0.0F, 2.0F, 4.0F));
-    _cam.setProjection(glm::perspective(glm::radians(60.0F), (float)1280 / (float)720, 0.1F, 1000.0F));
+    _cam.setProjection(glm::perspective(glm::radians(60.0F), (float)Application::getInstance().getWindow().getWidth() / (float)Application::getInstance().getWindow().getHeight(), 0.1F, 1000.0F));
 
     // ENSURE THE SHADER IS LOADED!
     _resource_manager.get_shader("default_shader");
 
-    uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/models/cyborg/cyborg.vert", "revrender/assets/models/cyborg/cyborg.frag");
+    // uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/models/cyborg/cyborg.vert", "revrender/assets/models/cyborg/cyborg.frag");
+    uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/core/default_lit_shader.vert", "revrender/assets/core/default_lit_shader.frag");
     _model_id = _resource_manager.load_model("revrender/assets/models/cyborg/cyborg.obj");
+
+    uint32_t _flat_plane_id = _resource_manager.load_model("revrender/assets/models/FlatPlane/flatPlane.obj");
 
     Entity model_entity = _scene.create_entity("cyborg");
     // Ensure the MeshComponent is explicitly attached
     auto& model = model_entity.addComponent<MeshComponent>(MeshComponent{._model_id=_model_id});
     model._shader_id = _shader_id;
+
+    Entity flat_plane = _scene.create_entity("flat_plane");
+    uint32_t _flat_shader_id = _resource_manager.load_shader("flat_plane_shader", "revrender/assets/core/default_lit_shader.vert", "revrender/assets/core/default_lit_shader.frag");
+    auto& flat_plane_model = flat_plane.addComponent<MeshComponent>(MeshComponent{._model_id=_flat_plane_id});
+    flat_plane_model._shader_id = _flat_shader_id;
+    auto& transform = flat_plane.getComponent<TransformComponent>();
+    transform.setPosition(glm::vec3(0.0F, -1.0F, -2.0F));
+    transform.setScale(glm::vec3(4.0F));
+    transform.setRotation(glm::vec3(90.0F, 0.0F, 0.0F));
 
     // Entity p_light = _scene.create_point_light();
     // auto& light_comp = p_light.getComponent<PointLightComponent>();
@@ -29,7 +42,7 @@ void SandboxLayer::onAttach(){
 
     Entity d_light = _scene.create_directional_light();
     auto& dl_comp = d_light.getComponent<DirectionalLightComponent>();
-    dl_comp._direction = {1.0, 0.0, 0.0};
+    dl_comp._direction = glm::normalize(glm::vec3(0.0f, -1.0f, -1.0f));
 
     // Testing skybox
     _sbox = new Skybox(_resource_manager, "skybox_1", {
@@ -42,7 +55,8 @@ void SandboxLayer::onAttach(){
     });
 
     // Initializing the framebuffer for shadow mapping
-    _shadow_fbo = Framebuffer::Create({FramebufferTextureFormat::REV_FB_DEPTH32F});
+    FramebufferSpecs _shadow_specs({FramebufferTextureFormat::REV_FB_DEPTH32F}, 2048, 2048);
+    _shadow_fbo = Framebuffer::Create(_shadow_specs);
 
 }
 
@@ -50,6 +64,11 @@ void SandboxLayer::onEvent(Event& e){
     EventDispatcher ed(e);
     ed.Dispatch<MouseMoved>([this](MouseMoved& event){
         return onMouseMoved(event);
+    });
+    ed.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& event){
+        float aspect = (float)event.getWidth() / (float)event.getHeight();
+        _cam.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 1000.0F));
+        return false;
     });
 }
 
@@ -75,6 +94,7 @@ bool SandboxLayer::onMouseMoved(MouseMoved& e){
 
 void SandboxLayer::onUpdate(float deltaTime){
 
+
     if (Input::isKeyPressed(Key::REV_KEY_W))
         _cam.processKeyboard(camera_movement::FORWARD, deltaTime);
     if (Input::isKeyPressed(Key::REV_KEY_S))
@@ -88,8 +108,6 @@ void SandboxLayer::onUpdate(float deltaTime){
     // "This may look like it's becoming cluttered,
     //          It is, in fact, becoming very cluttered." - Harry Chauhan, 11 June, 2026, 7:47 P.M.
 
-    // I wrapped the _scene.onUpdate function call in this code cause I wanted to see how much time it was taking since the application felt kinda slow
-    // auto start = std::chrono::high_resolution_clock::now();
     _scene.onUpdate(deltaTime, _cam, _render_system, _resource_manager);
     auto dirLight = _scene.get_directional_light();
     auto pointLights = _scene.get_active_point_lights();
@@ -100,23 +118,10 @@ void SandboxLayer::onUpdate(float deltaTime){
         _render_system.ShadowMappingRenderPass(_resource_manager, lightSpaceMat);
         _shadow_fbo->unbind();
     }
-    GeneralRenderCalls::setViewport(0, 0, 1280, 720);
+    auto& window = Application::getInstance().getWindow();
     GeneralRenderCalls::clear();
     uint32_t depth_map_texture = _shadow_fbo->get_depth_attachment_id();
-
-
-
-    // ======================================
-    // ||         CONTINUE HERE            ||
-    // ======================================
-
-
-
-
-    _render_system.EndFrame(_resource_manager, _cam.getViewProjMatrix(), _cam, pointLights);
-    // auto end = std::chrono::high_resolution_clock::now();
-    // float time = std::chrono::duration<float, std::milli>(end - start).count();
-    // std::cout << "_scene.onUpdate exec time: " << time << '\n';
+    _render_system.EndFrame(_resource_manager, _cam.getViewProjMatrix(), _cam, pointLights, dirLight, depth_map_texture);
     _sbox->draw(_resource_manager, _cam);
     _render_system.ClearRenderQueue();
 }

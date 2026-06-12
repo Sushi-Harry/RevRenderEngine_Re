@@ -1,6 +1,7 @@
 #include "opengl_framebuffer.hpp"
 #include "glad/glad.h"
 #include <iostream>
+#include "core/application.hpp"
 
 std::shared_ptr<Framebuffer> Framebuffer::Create(const FramebufferSpecs &specs){
     return std::make_shared<opengl_framebuffer>(specs);
@@ -81,6 +82,7 @@ void opengl_framebuffer::bind(){
 
 void opengl_framebuffer::unbind(){
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, Application::getInstance().getWindow().getWidth(), Application::getInstance().getWindow().getHeight());
 }
 
 void opengl_framebuffer::resize(uint32_t width, uint32_t height){

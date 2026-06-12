@@ -19,5 +19,7 @@ public:
 
     virtual void setLineWidth(float width) = 0;
 
+    virtual void bindTexture(uint32_t _id, uint32_t slot) = 0;
+
     static std::unique_ptr<RenderingAPI> create();
 };
