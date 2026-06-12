@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ecs/components.hpp"
 #include <string>
 #include <cstdint>
 #include <memory>
@@ -34,6 +35,6 @@ public:
 class Texture2D : public Texture{
 public:
     static std::shared_ptr<Texture2D> Create(const TextureInfo& info);
-    static std::shared_ptr<Texture2D> CreateDefault();
+    static std::shared_ptr<Texture2D> CreateDefault(REV_TEXTURE_TYPE type);
     static std::shared_ptr<Texture2D> Create(const std::string& path);
 };

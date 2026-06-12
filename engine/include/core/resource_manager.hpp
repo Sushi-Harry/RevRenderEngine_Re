@@ -57,11 +57,6 @@ private:
     uint32_t _next_tex_id = 0;
     uint32_t _next_cmap_id = 0;
 
-    std::shared_ptr<Shader> default_shader;
-    std::shared_ptr<Texture2D> default_texture;
-    // Deleted the default material cause I don't need it to be present in this class since it's guaranteed to be stored at id = 0 in the respective map.
-    Model default_model;
-
     // MODEL CACHE
     std::unordered_map<std::string, uint32_t> _models_path_to_id;
     std::unordered_map<uint32_t, Model> _models;

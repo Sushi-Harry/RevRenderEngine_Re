@@ -13,8 +13,8 @@ std::shared_ptr<Texture2D> Texture2D::Create(const std::string& path){
     return std::make_shared<opengl_texture_2d>(path);
 }
 
-std::shared_ptr<Texture2D> Texture2D::CreateDefault(){
-    return std::make_shared<opengl_texture_2d>();
+std::shared_ptr<Texture2D> Texture2D::CreateDefault(REV_TEXTURE_TYPE type){
+    return std::make_shared<opengl_texture_2d>(type);
 }
 
 GLenum opengl_texture_2d::rev_format_to_gl_int_format(PixelFormat pf){
@@ -36,17 +36,37 @@ GLenum opengl_texture_2d::rev_format_to_gl_data_format(PixelFormat pf){
     return 0;
 }
 
-opengl_texture_2d::opengl_texture_2d(){
+opengl_texture_2d::opengl_texture_2d(REV_TEXTURE_TYPE type){
     glCreateTextures(GL_TEXTURE_2D, 1, &_texture_id);
-    glTextureStorage2D(_texture_id, 1, GL_RGBA, 1, 1);
+    glTextureStorage2D(_texture_id, 1, GL_RGBA8, 1, 1);
 
     glTextureParameteri(_texture_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(_texture_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTextureParameteri(_texture_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(_texture_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    unsigned char whitePixel[] = {255, 255, 255, 255 };
-    glTextureSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, whitePixel);
+    switch (type) {
+        case REV_TEXTURE_TYPE::REV_DIFFUSE:{
+            unsigned char whitePixel[] = {255, 255, 255, 255 };
+            glTextureSubImage2D(_texture_id, 0, 0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, whitePixel);
+            break;
+        }
+        case REV_TEXTURE_TYPE::REV_SPECULAR:{
+            unsigned char black[] = {0, 0, 0, 0 };
+            glTextureSubImage2D(_texture_id, 0, 0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, black);
+            break;
+        }
+        case REV_TEXTURE_TYPE::REV_NORMAL:{
+            unsigned char normalBlue[] = {128, 128, 255, 255 };
+            glTextureSubImage2D(_texture_id, 0, 0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, normalBlue);
+            break;
+        }
+        case REV_TEXTURE_TYPE::REV_NONE:{
+            unsigned char whitePixel[] = {255, 255, 255, 255 };
+            glTextureSubImage2D(_texture_id, 0, 0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, whitePixel);
+            break;
+        }
+    }
 }
 
 opengl_texture_2d::opengl_texture_2d(const std::string& path) : _path(path){

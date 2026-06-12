@@ -20,21 +20,20 @@ void SandboxLayer::onAttach(){
     uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/core/default_lit_shader.vert", "revrender/assets/core/default_lit_shader.frag");
     _model_id = _resource_manager.load_model("revrender/assets/models/cyborg/cyborg.obj");
 
-    uint32_t _flat_plane_id = _resource_manager.load_model("revrender/assets/models/FlatPlane/flatPlane.obj");
-
     Entity model_entity = _scene.create_entity("cyborg");
     // Ensure the MeshComponent is explicitly attached
     auto& model = model_entity.addComponent<MeshComponent>(MeshComponent{._model_id=_model_id});
     model._shader_id = _shader_id;
 
+    uint32_t _flat_plane_id = _resource_manager.load_model("revrender/assets/models/ground_flat/ground.obj");
     Entity flat_plane = _scene.create_entity("flat_plane");
     uint32_t _flat_shader_id = _resource_manager.load_shader("flat_plane_shader", "revrender/assets/core/default_lit_shader.vert", "revrender/assets/core/default_lit_shader.frag");
     auto& flat_plane_model = flat_plane.addComponent<MeshComponent>(MeshComponent{._model_id=_flat_plane_id});
     flat_plane_model._shader_id = _flat_shader_id;
     auto& transform = flat_plane.getComponent<TransformComponent>();
-    transform.setPosition(glm::vec3(0.0F, -1.0F, -2.0F));
-    transform.setScale(glm::vec3(4.0F));
-    transform.setRotation(glm::vec3(90.0F, 0.0F, 0.0F));
+    transform.setPosition(glm::vec3(0.0F, -5.0F, -2.0F));
+    transform.setScale(glm::vec3(8.0F));
+    transform.setRotation(glm::vec3(0.0F, 0.0F, 0.0F));
 
     // Entity p_light = _scene.create_point_light();
     // auto& light_comp = p_light.getComponent<PointLightComponent>();
@@ -55,7 +54,7 @@ void SandboxLayer::onAttach(){
     });
 
     // Initializing the framebuffer for shadow mapping
-    FramebufferSpecs _shadow_specs({FramebufferTextureFormat::REV_FB_DEPTH32F}, 2048, 2048);
+    FramebufferSpecs _shadow_specs({FramebufferTextureFormat::REV_FB_DEPTH32F}, 1024, 1024);
     _shadow_fbo = Framebuffer::Create(_shadow_specs);
 
 }

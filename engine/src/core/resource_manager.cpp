@@ -15,18 +15,37 @@ void ResourceManager::Init(){
         "revrender/assets/skybox/basicDay/front.jpg"
     };
 
-    default_shader = Shader::Create("default_shader", "revrender/assets/core/default_shader.vert", "revrender/assets/core/default_shader.frag");
+    auto default_shader = Shader::Create("default_shader", "revrender/assets/core/default_shader.vert", "revrender/assets/core/default_shader.frag");
     load_shader(default_shader->getName(), default_shader);
-    default_texture = Texture2D::CreateDefault();
-    load_texture(default_texture);
+
+    // This is something new.
+    // =====.        \     /
+    //  |   |         \   /
+    //  |   |          \ /
+    // =====' EFAULT    =  ALUES
+    //
+    // If you want to access DEFAULT DIFFUSE TEXTURE, use resource_manager.getTexture(0) or resource_manager.getTexture("default_diffuse");
+    // If you want to access DEFAULT SPECULAR TEXTURE, use resource_manager.getTexture(1) or resource_manager.getTexture("default_specular");
+    // If you want to access DEFAULT NORMAL TEXTURE, use resource_manager.getTexture(2) or resource_manager.getTexture("default_normal");
+    _next_tex_id = 0;
+    auto default_texture_diffuse = Texture2D::CreateDefault(REV_TEXTURE_TYPE::REV_DIFFUSE);
+    _textures_2d[_next_tex_id] = default_texture_diffuse;
+    _tex_path_to_id["default_diffuse"] = _next_tex_id++;
+    auto default_texture_specular = Texture2D::CreateDefault(REV_TEXTURE_TYPE::REV_SPECULAR);
+    _textures_2d[_next_tex_id] = default_texture_specular;
+    _tex_path_to_id["default_specular"] = _next_tex_id++;
+    auto default_texture_normal = Texture2D::CreateDefault(REV_TEXTURE_TYPE::REV_NORMAL);
+    _textures_2d[_next_tex_id] = default_texture_normal;
+    _tex_path_to_id["default_normal"] = _next_tex_id++;
 
     Material default_material;
     default_material._diffuse_texture = 0;
-    default_material._specular_texture = 0;
+    default_material._specular_texture = 1;
+    default_material._normal_texture = 2;
     load_material("default_material", default_material);
 
     // Default model loading
-    default_model = {._meshes={}, ._path={}};
+    Model default_model = {._meshes={}, ._path={}};
     load_model(default_model);
 
     // Skybox shader loaded with all the other default shaders
@@ -71,14 +90,14 @@ std::shared_ptr<Shader> ResourceManager::get_shader(const std::string& name) con
     if(_shaders_name_to_id.contains(name)){
         return _shaders.at(_shaders_name_to_id.at(name));
     }
-    return default_shader;
+    return _shaders.at(0);
 }
 
 std::shared_ptr<Shader> ResourceManager::get_shader(uint32_t id) const {
     if(_shaders.contains(id)){
         return _shaders.at(id);
     }
-    return default_shader;
+    return _shaders.at(0);
 }
 
 
@@ -105,7 +124,7 @@ std::shared_ptr<Texture2D> ResourceManager::get_texture(const std::string& path)
         // return _textures_2d.find(_tex_path_to_id.find(path)->second)->second; // Commenting this line cause there's a better way
         return _textures_2d.at(_tex_path_to_id.at(path));
     }
-    return default_texture;
+    return _textures_2d.at(0);
 }
 
 uint32_t ResourceManager::load_texture(const std::shared_ptr<Texture2D>& tex){
@@ -122,7 +141,7 @@ std::shared_ptr<Texture2D> ResourceManager::get_texture(uint32_t id) const {
     if(_textures_2d.contains(id)){
         return _textures_2d.at(id);
     }
-    return default_texture;
+    return _textures_2d.at(0);
 }
 
 
@@ -150,7 +169,7 @@ uint32_t ResourceManager::load_material(const std::string& name, uint32_t diffus
     Material new_mat;
     new_mat._diffuse_texture = diffuse;
     new_mat._specular_texture = specular;
-    new_mat._normal_textures = {0};
+    new_mat._normal_texture = 2; // DEFAULT NORMAL TEXTURE EXISTS AT [texture id = 2]
     _materials[id] = new_mat;
     _materials_name_to_id[name] = id;
 
@@ -194,14 +213,14 @@ const Model& ResourceManager::get_model(const std::string& path) const{
     if(_models_path_to_id.contains(path)){
         return _models.at(_models_path_to_id.at(path));
     }
-    return default_model;
+    return _models.at(0);
 }
 
 const Model& ResourceManager::get_model(uint32_t id) const {
     if(_models.contains(id)){
         return _models.at(id);
     }
-    return default_model;
+    return _models.at(0);
 }
 
 // =========         ||

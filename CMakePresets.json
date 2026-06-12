@@ -1,17 +1,34 @@
 {
-    "version": 8,
-    "configurePresets": [
-        {
-            "name": "clang-preset",
-            "displayName": "Clang 22.1.3 x86_64-pc-linux-gnu",
-            "description": "Using compilers: C = /usr/sbin/clang, CXX = /usr/sbin/clang++",
-            "binaryDir": "${sourceDir}/build",
-            "cacheVariables": {
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-                "CMAKE_C_COMPILER": "/usr/sbin/clang",
-                "CMAKE_CXX_COMPILER": "/usr/sbin/clang++",
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        }
-    ]
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base-clang",
+      "hidden": true,
+      "description": "Base configuration using Clang compiler",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "/usr/sbin/clang",
+        "CMAKE_CXX_COMPILER": "/usr/sbin/clang++"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "Debug build with symbols and no optimizations",
+      "inherits": "base-clang",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "description": "Release build with maximum optimizations (-O3)",
+      "inherits": "base-clang",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ]
 }

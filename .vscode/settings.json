@@ -188,7 +188,7 @@
     "C_Cpp_Runner.msvcSecureNoWarnings": false,
     "C_Cpp_Runner.msvcBatchPath": "",
     "clangd.arguments": [
-        "--compile-commands-dir=${workspaceFolder}/build",
+        "--compile-commands-dir=${workspaceFolder}/build/release",
         "--header-insertion=never"
     ],
     "cmake.buildDirectory": "${workspaceFolder}/build/"

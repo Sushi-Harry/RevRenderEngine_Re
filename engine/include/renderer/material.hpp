@@ -10,9 +10,10 @@ class ResourceManager;
 
 class Material{
 public:
+    // Why are these assigned 0, 1, and 2? Look at the resource_manager.cpp's init function. Under the Default Values note
     uint32_t _diffuse_texture = 0;
-    uint32_t _specular_texture = 0;
-    uint32_t _normal_textures = 0;
+    uint32_t _specular_texture = 1;
+    uint32_t _normal_texture = 2;
     float _shininess = 32.0F;
     uint32_t _id;
     Material() = default;

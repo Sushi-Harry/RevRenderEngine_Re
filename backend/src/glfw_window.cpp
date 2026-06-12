@@ -78,6 +78,8 @@ void glfw_window::Init(const WindowProperties& props){
         MouseMoved e((float)xPosIn, (float)yPosIn);
         data.EventCallback(e);
     });
+
+    glfwSwapInterval(0);
 }
 
 // This function just terminates the current running window
