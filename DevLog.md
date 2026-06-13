@@ -127,3 +127,7 @@ This was so annoying to fix that I managed to forget that I had a cup of coffee 
 And another problem still remains. I need to fix how the material related uniforms are set cause when I'm loading models with no textures defined in the obj file, the loaded model ends up using the texture that a different model is supposed to be using. Definitely gonna fix it by the end of today.
 
 __[12:35 A.M.]__ So I've managed to fix that texture slot issue I talkeed about earlier and I've also set up debug and release presets. Runs great right now. Just need to change the shadow draw distance next time. I'll do point light shadow maps and uniform buffer objects tomorrow and work on some optimization stuff too.
+
+### 13 June, 2026 [9:08 P.M.]
+I underestimated uniform buffer objects. The implementation of the entire thing was easy enough. Too easy to be very honest. But man. The integration gave me a headache. Kill me now. 
+Uniform Buffer objects are done. That's all I can say for today.

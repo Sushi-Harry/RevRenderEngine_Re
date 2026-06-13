@@ -98,10 +98,11 @@ struct MeshComponent{
     uint32_t _shader_id = 0;
 };
 
-struct PointLightComponent{
+struct SpotLightComponent{
     bool _enabled = true;
 
     glm::vec3 _position = {0.0, 0.0, 0.0};
+    glm::vec3 _direction = { 0.0, 0.0, -1.0};
     glm::vec3 _color = { 1.0, 1.0, 1.0 };
 
     // Attenuation variables
@@ -112,6 +113,11 @@ struct PointLightComponent{
     float _diffuse = 1.0F;
     float _ambient = 0.02F;
     float _specular = 1.0F;
+
+    float _inner_cutoff = 30.0F;
+    float _outer_cutoff = 60.0F;
+
+    glm::mat4 _light_space_matrix;
 };
 
 struct DirectionalLightComponent{

@@ -19,7 +19,7 @@ public:
     // Creates a kind of default entity that has just the transform component and the tag component.
     Entity create_entity(const std::string& name = "Empty Entity");
     // Creates a point light type of entity
-    Entity create_point_light(const std::string& name = "Point Light Object", glm::vec3 color = {1.0, 1.0, 1.0});
+    Entity create_spot_light(const std::string& name = "Point Light Object", glm::vec3 color = {1.0, 1.0, 1.0});
     // Creates a DIrectional Light type of entity
     Entity create_directional_light(const std::string& name = "Directional Light Object", glm::vec3 color = {1.0, 1.0, 1.0});
     //  ============================================
@@ -30,7 +30,7 @@ public:
     const entt::registry& get_registry() const { return _registry; }
 
     void onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr);
-    std::vector<PointLightComponent> get_active_point_lights() const;
+    std::vector<SpotLightComponent> get_active_spot_lights() const;
     DirectionalLightComponent get_directional_light() const;
 
 private:

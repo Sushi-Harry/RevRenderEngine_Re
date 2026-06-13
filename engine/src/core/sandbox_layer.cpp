@@ -9,6 +9,7 @@ void SandboxLayer::onAttach(){
     _firstMouse = true;
 
     _resource_manager.Init();
+    _render_system.Init();
 
     _cam = Camera3D(glm::vec3(0.0F, 2.0F, 4.0F));
     _cam.setProjection(glm::perspective(glm::radians(60.0F), (float)Application::getInstance().getWindow().getWidth() / (float)Application::getInstance().getWindow().getHeight(), 0.1F, 1000.0F));
@@ -109,7 +110,7 @@ void SandboxLayer::onUpdate(float deltaTime){
 
     _scene.onUpdate(deltaTime, _cam, _render_system, _resource_manager);
     auto dirLight = _scene.get_directional_light();
-    auto pointLights = _scene.get_active_point_lights();
+    auto pointLights = _scene.get_active_spot_lights();
     if(dirLight._enabled){
         glm::mat4 lightSpaceMat = _render_system.CalculateLightSpaceMatrix(dirLight, _cam);
         _shadow_fbo->bind();

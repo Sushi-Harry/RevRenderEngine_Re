@@ -17,12 +17,12 @@ Entity Scene::create_entity(const std::string& name){
     return entity;
 }
 
-Entity Scene::create_point_light(const std::string& name, glm::vec3 color){
+Entity Scene::create_spot_light(const std::string& name, glm::vec3 color){
     // Only adding the transform component and the point light component to an empty entity to create an entity that works as a point light
     Entity entity(_registry.create(), this);
     entity.addComponent<TransformComponent>();
 
-    auto& light = entity.addComponent<PointLightComponent>();
+    auto& light = entity.addComponent<SpotLightComponent>();
     light._color = color;
 
     auto& tag = entity.addComponent<TagComponent>();
@@ -49,7 +49,7 @@ Entity Scene::create_directional_light(const std::string& name, glm::vec3 color)
 // }
 
 void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr){
-    render_sys.BeginFrame();
+    render_sys.BeginFrame(cam);
 
     auto mesh_view = _registry.view<TransformComponent, MeshComponent>();
     for(auto entity : mesh_view){
@@ -69,11 +69,11 @@ void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_
     }
 }
 
-std::vector<PointLightComponent> Scene::get_active_point_lights() const {
-    std::vector<PointLightComponent> lights;
-    auto view = _registry.view<PointLightComponent>();
+std::vector<SpotLightComponent> Scene::get_active_spot_lights() const {
+    std::vector<SpotLightComponent> lights;
+    auto view = _registry.view<SpotLightComponent>();
     for(auto entity : view) {
-        lights.push_back(view.get<PointLightComponent>(entity));
+        lights.push_back(view.get<SpotLightComponent>(entity));
     }
     return lights;
 }
