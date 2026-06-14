@@ -1,3 +1,4 @@
+#include "core/utilities.hpp"
 #include "ecs/render_buffer_data.hpp"
 #include "renderer/renderer.hpp"
 #include "renderer/render_system.hpp"
@@ -24,7 +25,7 @@ void RenderSystem::Submit(const RenderCall& _render_packet, ResourceManager& res
     _render_queue.push_back(_render_packet);
 }
 
-void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj_mat, const Camera3D& cam, const std::vector<SpotLightComponent>& active_pl_data, const DirectionalLightComponent& dirLight, uint32_t depth_map_texture_directional){
+void RenderSystem::EndFrame(ResourceManager& res_mgr, const SceneData& scene_data){
     std::sort(_render_queue.begin(), _render_queue.end(), [](const RenderCall& a, const RenderCall& b){
         // So first we're gonna be sorting according to the shader
         if(a._shader_id != b._shader_id){
@@ -41,35 +42,36 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj
 
     // This is for the directional light.
     LightBufferData lightData{};
-    lightData._directional_light._direction = dirLight._direction;
-    lightData._directional_light._enabled = dirLight._enabled ? 1 : 0; // lol
-    lightData._directional_light._color = dirLight._color;
-    lightData._directional_light._ambient = dirLight._ambient;
-    lightData._directional_light._diffuse = dirLight._diffuse;
-    lightData._directional_light._specular = dirLight._specular;
-    lightData._directional_light._light_space_matrix = CalculateLightSpaceMatrix(dirLight, cam);
+    lightData._directional_light._direction = scene_data._directional_light._direction;
+    lightData._directional_light._enabled = scene_data._directional_light._enabled ? 1 : 0; // lol
+    lightData._directional_light._color = scene_data._directional_light._color;
+    lightData._directional_light._ambient = scene_data._directional_light._ambient;
+    lightData._directional_light._diffuse = scene_data._directional_light._diffuse;
+    lightData._directional_light._specular = scene_data._directional_light._specular;
+    lightData._directional_light._light_space_matrix = CalculateLightSpaceMatrix(scene_data._directional_light, scene_data._camera);
+
     // Now moving to the spot lights
     for(int i = 0; i < 4; i++){
-        if(i < active_pl_data.size()) {
-            lightData._spot_lights[i]._position     = active_pl_data[i]._position;
-            lightData._spot_lights[i]._enabled      = active_pl_data[i]._enabled ? 1 : 0;
-            lightData._spot_lights[i]._direction    = active_pl_data[i]._direction;
-            lightData._spot_lights[i]._color        = active_pl_data[i]._color;
-            lightData._spot_lights[i]._constant     = active_pl_data[i]._constant;
-            lightData._spot_lights[i]._linear       = active_pl_data[i]._linear;
-            lightData._spot_lights[i]._quadratic    = active_pl_data[i]._quadratic;
-            lightData._spot_lights[i]._ambient      = active_pl_data[i]._ambient;
-            lightData._spot_lights[i]._diffuse      = active_pl_data[i]._diffuse;
-            lightData._spot_lights[i]._specular     = active_pl_data[i]._specular;
+        if(i < scene_data._spot_lights.size()) {
+            lightData._spot_lights[i]._position     = scene_data._spot_lights[i]._position;
+            lightData._spot_lights[i]._enabled      = scene_data._spot_lights[i]._enabled ? 1 : 0;
+            lightData._spot_lights[i]._direction    = scene_data._spot_lights[i]._direction;
+            lightData._spot_lights[i]._color        = scene_data._spot_lights[i]._color;
+            lightData._spot_lights[i]._constant     = scene_data._spot_lights[i]._constant;
+            lightData._spot_lights[i]._linear       = scene_data._spot_lights[i]._linear;
+            lightData._spot_lights[i]._quadratic    = scene_data._spot_lights[i]._quadratic;
+            lightData._spot_lights[i]._ambient      = scene_data._spot_lights[i]._ambient;
+            lightData._spot_lights[i]._diffuse      = scene_data._spot_lights[i]._diffuse;
+            lightData._spot_lights[i]._specular     = scene_data._spot_lights[i]._specular;
 
             // Pre-calculate cosines on the CPU so your fragment shader stays blazing fast!
-            lightData._spot_lights[i]._inner_cutoff = glm::cos(glm::radians(active_pl_data[i]._inner_cutoff));
-            lightData._spot_lights[i]._outer_cutoff = glm::cos(glm::radians(active_pl_data[i]._outer_cutoff));
+            lightData._spot_lights[i]._inner_cutoff = glm::cos(glm::radians(scene_data._spot_lights[i]._inner_cutoff));
+            lightData._spot_lights[i]._outer_cutoff = glm::cos(glm::radians(scene_data._spot_lights[i]._outer_cutoff));
 
             // Leave space matrix placeholder for spotlight shadow maps later
-            lightData._spot_lights[i]._light_space_matrix = glm::mat4(1.0f);
+            lightData._spot_lights[i]._light_space_matrix = scene_data._spot_lights[i]._light_space_matrix;
         } else {
-            lightData._spot_lights[i]._enabled = false;
+            lightData._spot_lights[i]._enabled = 0U;
         }
     }
     _lights_ubo->setData(&lightData, sizeof(LightBufferData));
@@ -81,17 +83,22 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const glm::mat4& view_proj
         if(call._shader_id != current_shader_id){
             std::shared_ptr<Shader> activeShader = res_mgr.get_shader(call._shader_id);
             activeShader->bindShader();
-            if(depth_map_texture_directional){
-                GeneralRenderCalls::bindTexture(depth_map_texture_directional, 2);
-                activeShader->setInt("u_ShadowMap", 2);
+            if(scene_data._directional_shadow_map_id){
+                GeneralRenderCalls::bindTexture(scene_data._directional_shadow_map_id, TextureSlots::REV_SHADOWMAP_DIRECTIONAL);
+                activeShader->setInt("u_ShadowMap", TextureSlots::REV_SHADOWMAP_DIRECTIONAL);
                 // || ||    ========       ||===||
                 // ||=||       ||          ||===<
                 // || || ELD   || OGETHER  ||===|| Y
-                activeShader->setInt("u_ShadowMaps_SpotLight", 3);
+
                 // || ||         /\        ..__,
                 // ||=||        /__\       ||__|
                 // || || OPES  //  \\ ND   ||  RAYERS
             }
+            if(scene_data._spot_shadow_map_id){
+                GeneralRenderCalls::bindTexture(scene_data._spot_shadow_map_id, TextureSlots::REV_SHADOWMAP_SPOTLIGHT);
+                activeShader->setInt("u_ShadowMaps_SpotLight", TextureSlots::REV_SHADOWMAP_SPOTLIGHT);
+            }
+
             current_shader_id = call._shader_id;
             current_material_id = std::numeric_limits<uint32_t>::max();
         }
@@ -134,6 +141,21 @@ glm::mat4 RenderSystem::CalculateLightSpaceMatrix(const DirectionalLightComponen
     glm::mat4 lightView = glm::lookAt(lightPos, cam.getViewPos(), glm::vec3(0.0f, 1.0f, 0.0f));
 
     return lightProj * lightView;
+}
+
+glm::mat4 RenderSystem::CalculateLightSpaceMatrix(const SpotLightComponent& sptLight, const Camera3D& cam){
+    glm::mat4 lightProj = glm::perspective(glm::radians(90.0F), 1.0F, 1.0F, 50.0F);
+    glm::vec3 upVector = glm::vec3(0.0F, 1.0F, 0.0F);
+
+    // So when I tried to use this function for lights that were not completely antiparallel to the upVector, it would work
+    // but without this part, shadows would completely vanish when the light source's direction was completely antiparallel. Why? Look at the devlog entry for 14 June, 2026
+    if (glm::abs(sptLight._direction.y) > 0.999F) {
+        upVector = glm::vec3(0.0F, 0.0F, 1.0F);
+    }
+    glm::mat4 lightView = glm::lookAt(sptLight._position, sptLight._position+sptLight._direction, upVector);
+    glm::mat4 lightSpaceMat = lightProj * lightView;
+
+    return lightSpaceMat;
 }
 
 void RenderSystem::ClearRenderQueue(){

@@ -129,6 +129,8 @@ struct DirectionalLightComponent{
     float _ambient = 0.02F;
     float _specular = 1.0F;
     float _diffuse = 1.0F;
+
+    glm::mat4 _light_space_matrix;
 };
 
 struct CameraComponent{

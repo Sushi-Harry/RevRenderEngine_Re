@@ -1,3 +1,4 @@
+#include "core/utilities.hpp"
 #include "renderer/render_calls.hpp"
 #include "renderer/skybox.hpp"
 #include "core/resource_manager.hpp"
@@ -55,8 +56,8 @@ void Skybox::draw(ResourceManager& res_mgr, const Camera3D& cam, const std::stri
     glm::mat4 view = glm::mat4(glm::mat3(cam.getViewMatrix()));
     glm::mat4 view_proj = cam.getProjectionMatrix() * view;
     shader->setMat4("u_ViewProjection", view_proj);
-    cmap->bind(0);
-    shader->setInt("u_Skybox", 0);
+    cmap->bind(TextureSlots::REV_ENVIRONMENT_SKYBOX);
+    shader->setInt("u_Skybox", TextureSlots::REV_ENVIRONMENT_SKYBOX);
     DrawCommands::DrawIndexed(_vao, 36);
 
     glDepthFunc(GL_LESS);

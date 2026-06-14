@@ -11,8 +11,8 @@ void SandboxLayer::onAttach(){
     _resource_manager.Init();
     _render_system.Init();
 
-    _cam = Camera3D(glm::vec3(0.0F, 2.0F, 4.0F));
-    _cam.setProjection(glm::perspective(glm::radians(60.0F), (float)Application::getInstance().getWindow().getWidth() / (float)Application::getInstance().getWindow().getHeight(), 0.1F, 1000.0F));
+    _scene_data._camera = Camera3D(glm::vec3(0.0F, 2.0F, 4.0F));
+    _scene_data._camera.setProjection(glm::perspective(glm::radians(60.0F), (float)Application::getInstance().getWindow().getWidth() / (float)Application::getInstance().getWindow().getHeight(), 0.1F, 1000.0F));
 
     // ENSURE THE SHADER IS LOADED!
     _resource_manager.get_shader("default_shader");
@@ -36,13 +36,18 @@ void SandboxLayer::onAttach(){
     transform.setScale(glm::vec3(8.0F));
     transform.setRotation(glm::vec3(0.0F, 0.0F, 0.0F));
 
-    // Entity p_light = _scene.create_point_light();
-    // auto& light_comp = p_light.getComponent<PointLightComponent>();
-    // light_comp._position = { 0.0, 0.0, 3.0};
+    Entity s_light = _scene.create_spot_light();
+    auto& light_comp = s_light.getComponent<SpotLightComponent>();
+    light_comp._position = { 0.0,6.0, 6.0};
+    light_comp._direction = {0.0, -1.0, -1.0};
+    light_comp._color = {1.0, 0.0, 1.0};
+    _scene_data._spot_lights.push_back(light_comp);
 
     Entity d_light = _scene.create_directional_light();
-    auto& dl_comp = d_light.getComponent<DirectionalLightComponent>();
-    dl_comp._direction = glm::normalize(glm::vec3(0.0f, -1.0f, -1.0f));
+    auto& dirLight = d_light.getComponent<DirectionalLightComponent>();
+    dirLight._direction = glm::normalize(glm::vec3(0.0f, -1.0f, -1.0f));
+    dirLight._enabled = false;
+    _scene_data._directional_light = dirLight;
 
     // Testing skybox
     _sbox = new Skybox(_resource_manager, "skybox_1", {
@@ -54,10 +59,12 @@ void SandboxLayer::onAttach(){
         "revrender/assets/skybox/basicDay/front.jpg"
     });
 
-    // Initializing the framebuffer for shadow mapping
-    FramebufferSpecs _shadow_specs({FramebufferTextureFormat::REV_FB_DEPTH32F}, 1024, 1024);
-    _shadow_fbo = Framebuffer::Create(_shadow_specs);
-
+    // Initializing the shadowmap for directional Light
+    ShadowMapSpecs dirspecs = {._type=ShadowMapType::REV_SHADOW_MAP_DIRECTIONAL, ._width=1024, ._height=1024, ._slices=1 };
+    _directional_shadow_map = ShadowMap::Create(dirspecs);
+    // Initializing the shadowmap for spot light
+    ShadowMapSpecs spotspecs = {._type=ShadowMapType::REV_SHADOW_MAP_SPOT, ._width=1024, ._height=1024, ._slices=4};
+    _spot_shadow_map = ShadowMap::Create(spotspecs);
 }
 
 void SandboxLayer::onEvent(Event& e){
@@ -67,7 +74,7 @@ void SandboxLayer::onEvent(Event& e){
     });
     ed.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& event){
         float aspect = (float)event.getWidth() / (float)event.getHeight();
-        _cam.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 1000.0F));
+        _scene_data._camera.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 1000.0F));
         return false;
     });
 }
@@ -88,7 +95,7 @@ bool SandboxLayer::onMouseMoved(MouseMoved& e){
     _lastMouseX = xpos;
     _lastMouseY = ypos;
 
-    _cam.processMouseMovement(xOffset, yOffset);
+    _scene_data._camera.processMouseMovement(xOffset, yOffset);
     return false;
 }
 
@@ -96,32 +103,49 @@ void SandboxLayer::onUpdate(float deltaTime){
 
 
     if (Input::isKeyPressed(Key::REV_KEY_W))
-        _cam.processKeyboard(camera_movement::FORWARD, deltaTime);
+        _scene_data._camera.processKeyboard(camera_movement::FORWARD, deltaTime);
     if (Input::isKeyPressed(Key::REV_KEY_S))
-        _cam.processKeyboard(camera_movement::BACKWARD, deltaTime);
+        _scene_data._camera.processKeyboard(camera_movement::BACKWARD, deltaTime);
     if (Input::isKeyPressed(Key::REV_KEY_A))
-        _cam.processKeyboard(camera_movement::LEFT, deltaTime);
+        _scene_data._camera.processKeyboard(camera_movement::LEFT, deltaTime);
     if (Input::isKeyPressed(Key::REV_KEY_D))
-        _cam.processKeyboard(camera_movement::RIGHT, deltaTime);
+        _scene_data._camera.processKeyboard(camera_movement::RIGHT, deltaTime);
 
 
     // "This may look like it's becoming cluttered,
     //          It is, in fact, becoming very cluttered." - Harry Chauhan, 11 June, 2026, 7:47 P.M.
 
-    _scene.onUpdate(deltaTime, _cam, _render_system, _resource_manager);
-    auto dirLight = _scene.get_directional_light();
-    auto pointLights = _scene.get_active_spot_lights();
-    if(dirLight._enabled){
-        glm::mat4 lightSpaceMat = _render_system.CalculateLightSpaceMatrix(dirLight, _cam);
-        _shadow_fbo->bind();
-        GeneralRenderCalls::clear_depth_buffer_bit_only();
-        _render_system.ShadowMappingRenderPass(_resource_manager, lightSpaceMat);
-        _shadow_fbo->unbind();
+    _scene.onUpdate(deltaTime, _scene_data._camera, _render_system, _resource_manager);
+    _scene_data._directional_light = _scene.get_directional_light();
+    _scene_data._spot_lights = _scene.get_active_spot_lights();
+
+    // This is for directional light shadows
+    if(_scene_data._directional_light._enabled){
+        glm::mat4 lightSpaceMat = _render_system.CalculateLightSpaceMatrix(_scene_data._directional_light, _scene_data._camera);
+        // Shadow map Binding
+        _directional_shadow_map->BindFramebuffer();
+            GeneralRenderCalls::clear_depth_buffer_bit_only();
+            _scene_data._directional_light._light_space_matrix = lightSpaceMat;
+            _render_system.ShadowMappingRenderPass(_resource_manager, lightSpaceMat);
+        _directional_shadow_map->UnbindFramebuffer();
+    }
+    // This loop is for spot light shadows
+    if(!_scene_data._spot_lights.empty()){
+        _spot_shadow_map->BindFramebuffer();
+        for(int i = 0; i < _scene_data._spot_lights.size(); i++){
+            glm::mat4 lightSpaceMat = _render_system.CalculateLightSpaceMatrix(_scene_data._spot_lights[i], _scene_data._camera);
+            _scene_data._spot_lights[i]._light_space_matrix = lightSpaceMat;
+            _spot_shadow_map->BindLayerTarget(i);
+                GeneralRenderCalls::clear_depth_buffer_bit_only();
+                _render_system.ShadowMappingRenderPass(_resource_manager, lightSpaceMat);
+        }
+        _spot_shadow_map->UnbindFramebuffer();
     }
     auto& window = Application::getInstance().getWindow();
     GeneralRenderCalls::clear();
-    uint32_t depth_map_texture = _shadow_fbo->get_depth_attachment_id();
-    _render_system.EndFrame(_resource_manager, _cam.getViewProjMatrix(), _cam, pointLights, dirLight, depth_map_texture);
-    _sbox->draw(_resource_manager, _cam);
+    _scene_data._directional_shadow_map_id = _directional_shadow_map->GetTextureID();
+    _scene_data._spot_shadow_map_id = _spot_shadow_map->GetTextureID();
+    _render_system.EndFrame(_resource_manager, _scene_data);
+    _sbox->draw(_resource_manager, _scene_data._camera);
     _render_system.ClearRenderQueue();
 }

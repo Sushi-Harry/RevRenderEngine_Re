@@ -142,6 +142,15 @@ void main() {
     FragColor = vec4(result, diffuseTexColor.a);
 }
 
+// void main() {
+//     // 🔍 Bypassing the matrix entirely: project the depth map using raw mesh UVs
+//     float depthSample = texture(u_ShadowMaps_SpotLight, vec3(u_TexCoords, 0.0)).r;
+
+//     // Force the screen to display it as a grayscale texture
+//     FragColor = vec4(vec3(depthSample), 1.0);
+//     return;
+// }
+
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 texDiffuse, vec3 texSpecular, float shininess) {
     if(!light._enabled) return vec3(0.0);
 
@@ -234,7 +243,7 @@ float calc_shadows_spot(vec3 lightDir, vec4 fragPosLightSpace, vec3 normal, int 
     if(projCoords.z > 1.0) return 0.0;
 
     float currentDepth = projCoords.z;
-    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.001);
     float shadow = 0.0;
 
     vec2 texelSize = 1.0 / vec2(textureSize(u_ShadowMaps_SpotLight, 0).xy);

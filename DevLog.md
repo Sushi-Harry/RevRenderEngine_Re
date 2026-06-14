@@ -131,3 +131,16 @@ __[12:35 A.M.]__ So I've managed to fix that texture slot issue I talkeed about 
 ### 13 June, 2026 [9:08 P.M.]
 I underestimated uniform buffer objects. The implementation of the entire thing was easy enough. Too easy to be very honest. But man. The integration gave me a headache. Kill me now. 
 Uniform Buffer objects are done. That's all I can say for today.
+
+### 14 June, 2026 [2:58 P.M.]
+So I've added an enum in the core/utilities.hpp to define texture binding slots for different kinds of textures and cubemaps to make it more convenient to change the binding slots for textures later if I want to.
+The next thing I'm gonna work on is cleaning up a bit. Will write more about it later.
+After a lot of debugging, I have managed to get the shadows working for spot lights. Might do point light shadow stoday too but not sure if I'm feeling too happy about the effort I just had to put into spotlight shadows. Kinda braindead right now.
+
+__[Explanation for the little block of code in `RenderSystem::CalculateLightSpaceMatrix` function]:__ So when calculating using the glm::LookAt function, it does these 3 things in sequence:
+
+1) Calculating the _forward vector_, (let's call it `f`): `f = normalize(TargetDirection)`
+2) Calculating the _right vector_, (let's call it `r`): `r = normalize(cross(f, up_vector))`
+3) Calculating the _local up vector_, (let's call it `u`): `u = cross(r, up_vector)`
+
+If the point light is looking straight down (-Y direction), `f` becomes `<0, -1, 0>` and before adding that llittle block of code, the up veector being passed to the lookAt function was hardcoded to be `<0, 1, 0>`. Why does that matter though? Here's why: the `f` vector in the mentioned case causes the cross product to be a null vector. And when glm tries to normalize is using the formula `<0, 0, 0>/sqrt(0^2 + 0^2 + 0^2)`. And as you'd imagine, it will return `NaN` for every component. So that's gonna cause all the related calculations after that one to just fail kind of.

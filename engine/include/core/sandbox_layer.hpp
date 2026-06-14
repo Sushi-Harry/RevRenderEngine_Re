@@ -10,6 +10,8 @@
 
 #include "ecs/scene.hpp"
 #include "ecs/entity.hpp"
+#include "renderer/renderables.hpp"
+#include "renderer/shadow_map.hpp"
 #include "renderer/skybox.hpp"
 
 class SandboxLayer : public Layer{
@@ -25,12 +27,13 @@ private:
 
     ResourceManager _resource_manager;
     RenderSystem _render_system;
-    Camera3D _cam;
     Skybox* _sbox;
 
     Scene _scene;
+    SceneData _scene_data;
 
-    std::shared_ptr<Framebuffer> _shadow_fbo;
+    std::shared_ptr<ShadowMap> _directional_shadow_map;
+    std::shared_ptr<ShadowMap> _spot_shadow_map;
 
     uint32_t _model_id;
     uint32_t active_shader_id;
