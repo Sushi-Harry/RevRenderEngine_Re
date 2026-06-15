@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "core/utilities.hpp"
 #include "glm/glm.hpp"
 #include "renderer/vertex_array.hpp"
 
@@ -13,6 +14,7 @@ public:
     virtual void clearColor(const glm::vec4& color) = 0;
     virtual void clear() = 0;
     virtual void clear_depth_buffer_bit_only() = 0;
+    virtual void toggle_cursor_input_mode(CursorInputMode mode) = 0;
 
     virtual void drawElements(const std::shared_ptr<VertexArray>& vert_array, uint32_t idx_cnt = 0) = 0;
     virtual void drawLines(const std::shared_ptr<VertexArray>& vert_array, uint32_t vert_cnt) = 0;

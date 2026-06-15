@@ -30,6 +30,8 @@ public:
     const entt::registry& get_registry() const { return _registry; }
 
     void onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr);
+    void update_active_slights(const std::vector<SpotLightComponent>& updated_data);
+
     std::vector<SpotLightComponent> get_active_spot_lights() const;
     DirectionalLightComponent get_directional_light() const;
 

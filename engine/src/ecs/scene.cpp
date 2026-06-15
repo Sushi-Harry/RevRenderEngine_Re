@@ -69,6 +69,19 @@ void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_
     }
 }
 
+void Scene::update_active_slights(const std::vector<SpotLightComponent>& updated_data){
+    auto view = _registry.view<SpotLightComponent>();
+    unsigned int i = 0;
+    for(auto entity : view){
+        if(i >= updated_data.size()){
+            break;
+        }
+        auto& light = view.get<SpotLightComponent>(entity);
+        light = updated_data[i];
+        i++;
+    }
+}
+
 std::vector<SpotLightComponent> Scene::get_active_spot_lights() const {
     std::vector<SpotLightComponent> lights;
     auto view = _registry.view<SpotLightComponent>();

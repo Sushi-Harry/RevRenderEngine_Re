@@ -10,6 +10,7 @@ public:
     void clearColor(const glm::vec4& color) override;
     void clear() override;
     void clear_depth_buffer_bit_only() override;
+    void toggle_cursor_input_mode(CursorInputMode mode) override;
 
     void drawElements(const std::shared_ptr<VertexArray>& vert_array, uint32_t idx_cnt = 0) override;
     void drawLines(const std::shared_ptr<VertexArray>& vert_array, uint32_t vert_cnt) override;

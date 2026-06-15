@@ -73,6 +73,9 @@ void Application::Run(){
 
         // GUI RENDERING
         _gui->begin();
+        for(Layer* layer : _layer_stack){
+            layer->onRenderGUI();
+        }
         _gui->end();
 
         // This will poll events and swap buffers

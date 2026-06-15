@@ -12,5 +12,4 @@ public:
     double v_getY() override;
     glm::vec2 v_getMousePos() override;
 private:
-
 };

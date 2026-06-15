@@ -144,3 +144,6 @@ __[Explanation for the little block of code in `RenderSystem::CalculateLightSpac
 3) Calculating the _local up vector_, (let's call it `u`): `u = cross(r, up_vector)`
 
 If the point light is looking straight down (-Y direction), `f` becomes `<0, -1, 0>` and before adding that llittle block of code, the up veector being passed to the lookAt function was hardcoded to be `<0, 1, 0>`. Why does that matter though? Here's why: the `f` vector in the mentioned case causes the cross product to be a null vector. And when glm tries to normalize is using the formula `<0, 0, 0>/sqrt(0^2 + 0^2 + 0^2)`. And as you'd imagine, it will return `NaN` for every component. So that's gonna cause all the related calculations after that one to just fail kind of.
+
+### 15 June 2026, [5:42 P.M.]
+So I started working on gui today. Couldn't get much done today at all cause something came up and ruined the rest of the day for me in the morning. But yeah, the gui will probably become passable at thevery least by tonight before I sleep.

@@ -2,6 +2,8 @@
 #include "events/event_dispatcher.hpp"
 #include <chrono>
 #include "core/application.hpp"
+#include "imgui.h"
+#include "imgui_internal.h"
 
 void SandboxLayer::onAttach(){
     _lastMouseX = 0.0F;
@@ -65,6 +67,13 @@ void SandboxLayer::onAttach(){
     // Initializing the shadowmap for spot light
     ShadowMapSpecs spotspecs = {._type=ShadowMapType::REV_SHADOW_MAP_SPOT, ._width=1024, ._height=1024, ._slices=4};
     _spot_shadow_map = ShadowMap::Create(spotspecs);
+
+    // Initializing framebuffer for displaying everything in an imgui window
+    FramebufferSpecs specs{};
+    specs._attachments = { FramebufferTextureFormat::REV_FB_RGBA8, FramebufferTextureFormat::REV_FB_DEPTH32F };
+    specs._width = Application::getInstance().getWindow().getWidth();
+    specs._height = Application::getInstance().getWindow().getHeight();
+    _imgui_fbo = Framebuffer::Create(specs);
 }
 
 void SandboxLayer::onEvent(Event& e){
@@ -77,41 +86,69 @@ void SandboxLayer::onEvent(Event& e){
         _scene_data._camera.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 1000.0F));
         return false;
     });
+    ed.Dispatch<KeyReleased>([this](KeyReleased& e){
+        return onKeyReleased(e);
+    });
+}
+
+bool SandboxLayer::onKeyReleased(KeyReleased& e){
+    if(e.getCode() == Key::REV_KEY_SPACE){
+        if (!_viewport_focused && ImGui::GetIO().WantCaptureKeyboard) {
+            return false;
+        }
+        _viewport_focused = !_viewport_focused;
+        if(!_viewport_focused){
+            GeneralRenderCalls::toggle_cursor_input_mode(REV_CURSOR_NORMAL);
+        }else{
+            GeneralRenderCalls::toggle_cursor_input_mode(REV_CURSOR_DISABLED);
+            ImGui::ClearActiveID();
+            _firstMouse = true;
+        }
+        return true;
+    }
+    return false;
 }
 
 bool SandboxLayer::onMouseMoved(MouseMoved& e){
-    auto xpos = e.X();
-    auto ypos = e.Y();
+    if(_viewport_focused){
+        auto xpos = e.X();
+        auto ypos = e.Y();
 
-    if (_firstMouse) {
+        if (_firstMouse) {
+            _lastMouseX = xpos;
+            _lastMouseY = ypos;
+            _firstMouse = false;
+        }
+
+        float xOffset = xpos - _lastMouseX;
+        float yOffset = _lastMouseY - ypos;
+
         _lastMouseX = xpos;
         _lastMouseY = ypos;
-        _firstMouse = false;
+
+        _scene_data._camera.processMouseMovement(xOffset, yOffset);
+        return false;
     }
+    return true;
 
-    float xOffset = xpos - _lastMouseX;
-    float yOffset = _lastMouseY - ypos;
-
-    _lastMouseX = xpos;
-    _lastMouseY = ypos;
-
-    _scene_data._camera.processMouseMovement(xOffset, yOffset);
-    return false;
 }
 
 void SandboxLayer::onUpdate(float deltaTime){
 
+    if(!_scene_data._spot_lights.empty()){
+        _scene.update_active_slights(_scene_data._spot_lights);
+    }
 
-    if (Input::isKeyPressed(Key::REV_KEY_W))
-        _scene_data._camera.processKeyboard(camera_movement::FORWARD, deltaTime);
-    if (Input::isKeyPressed(Key::REV_KEY_S))
-        _scene_data._camera.processKeyboard(camera_movement::BACKWARD, deltaTime);
-    if (Input::isKeyPressed(Key::REV_KEY_A))
-        _scene_data._camera.processKeyboard(camera_movement::LEFT, deltaTime);
-    if (Input::isKeyPressed(Key::REV_KEY_D))
-        _scene_data._camera.processKeyboard(camera_movement::RIGHT, deltaTime);
-
-
+    if(_viewport_focused){
+        if (Input::isKeyPressed(Key::REV_KEY_W))
+            _scene_data._camera.processKeyboard(camera_movement::FORWARD, deltaTime);
+        if (Input::isKeyPressed(Key::REV_KEY_S))
+            _scene_data._camera.processKeyboard(camera_movement::BACKWARD, deltaTime);
+        if (Input::isKeyPressed(Key::REV_KEY_A))
+            _scene_data._camera.processKeyboard(camera_movement::LEFT, deltaTime);
+        if (Input::isKeyPressed(Key::REV_KEY_D))
+            _scene_data._camera.processKeyboard(camera_movement::RIGHT, deltaTime);
+    }
     // "This may look like it's becoming cluttered,
     //          It is, in fact, becoming very cluttered." - Harry Chauhan, 11 June, 2026, 7:47 P.M.
 
@@ -142,10 +179,41 @@ void SandboxLayer::onUpdate(float deltaTime){
         _spot_shadow_map->UnbindFramebuffer();
     }
     auto& window = Application::getInstance().getWindow();
+    _imgui_fbo->bind();
     GeneralRenderCalls::clear();
     _scene_data._directional_shadow_map_id = _directional_shadow_map->GetTextureID();
     _scene_data._spot_shadow_map_id = _spot_shadow_map->GetTextureID();
     _render_system.EndFrame(_resource_manager, _scene_data);
     _sbox->draw(_resource_manager, _scene_data._camera);
     _render_system.ClearRenderQueue();
+    _imgui_fbo->unbind();
+}
+
+void SandboxLayer::onRenderGUI() {
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0, 0.0});
+    ImGui::Begin("Viewport");
+        ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
+        if((float)Application::getInstance().getWindow().getWidth() !=viewport_panel_size.x  ||
+           (float)Application::getInstance().getWindow().getHeight() != viewport_panel_size.y){
+
+            viewport_panel_size = {
+                static_cast<float>(Application::getInstance().getWindow().getWidth()),
+                static_cast<float>(Application::getInstance().getWindow().getHeight())
+            };
+
+            _imgui_fbo->resize((uint32_t)viewport_panel_size.x, (uint32_t)viewport_panel_size.y);
+            float aspect = viewport_panel_size.x / viewport_panel_size.y;
+            _scene_data._camera.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 100.0F));
+        }
+        uint32_t texID = _imgui_fbo->get_color_attachment_id();
+        ImGui::Image((void*)(intptr_t)texID, ImVec2{ viewport_panel_size.x, viewport_panel_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    ImGui::End();
+    ImGui::PopStyleVar();
+
+    ImGui::Begin("Light Configuration");
+        ImGui::SliderFloat3("Spotlight Position", &_scene_data._spot_lights[0]._position.x, -20.0F, 20.0F);
+        ImGui::SliderFloat3("SpotLight Direction", &_scene_data._spot_lights[0]._direction.x, -1.0F, 1.0F);
+        ImGui::ColorEdit3("Spotlight Color", &_scene_data._spot_lights[0]._color.x);
+        ImGui::Text("Application Performance: %.3f ms/frame (%.1f FPS)", 1000.0F / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
 }

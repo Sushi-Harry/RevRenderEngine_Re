@@ -6,7 +6,7 @@
 // Doing this right now so that I don't have to depend on GLFW when porting this code to a different API.
 // #define  REV_KEY_SPACE 32
 
-enum class Key : uint8_t {
+enum class Key : uint32_t {
     REV_KEY_SPACE = 32,
     REV_KEY_0 = 48,
     REV_KEY_1 = 49,

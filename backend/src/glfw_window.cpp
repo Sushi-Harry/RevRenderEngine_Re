@@ -1,3 +1,4 @@
+#include "events/key_events.hpp"
 #include "events/mouse_events.hpp"
 #include "glad/glad.h"
 #include "glfw_window.hpp"
@@ -77,6 +78,28 @@ void glfw_window::Init(const WindowProperties& props){
 
         MouseMoved e((float)xPosIn, (float)yPosIn);
         data.EventCallback(e);
+    });
+
+    glfwSetKeyCallback(_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+        WinData& data = *(WinData*)glfwGetWindowUserPointer(window);
+        const Key keycode = static_cast<const Key>(key);
+        switch (action) {
+            case GLFW_PRESS:{
+                KeyPressed event(keycode, false);
+                data.EventCallback(event);
+                break;
+            }
+            case GLFW_RELEASE:{
+                KeyReleased event(keycode);
+                data.EventCallback(event);
+                break;
+            }
+            case GLFW_REPEAT:{
+                KeyPressed event(keycode, true);
+                data.EventCallback(event);
+                break;;
+            }
+        }
     });
 
     glfwSwapInterval(0);

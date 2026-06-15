@@ -12,3 +12,8 @@ enum TextureSlots : uint32_t {
     REV_SHADOWMAP_SPOTLIGHT = 4,
     REV_ENVIRONMENT_SKYBOX = 5
 };
+
+enum CursorInputMode : uint8_t{
+    REV_CURSOR_DISABLED,
+    REV_CURSOR_NORMAL
+};

@@ -1,4 +1,6 @@
 #include "opengl_renderer.hpp"
+#include "core/application.hpp"
+#include <GLFW/glfw3.h>
 
 std::unique_ptr<RenderingAPI> RenderingAPI::create(){
     return std::make_unique<opengl_renderer>();
@@ -42,4 +44,19 @@ void opengl_renderer::drawLines(const std::shared_ptr<VertexArray>& vert_array, 
 
 void opengl_renderer::bindTexture(uint32_t _id, uint32_t slot){
     glBindTextureUnit(slot, _id);
+}
+
+void opengl_renderer::toggle_cursor_input_mode(CursorInputMode mode){
+    switch (mode) {
+
+    case REV_CURSOR_DISABLED:{
+        auto *window = static_cast<GLFWwindow*>(Application::getInstance().getWindow().getGLWindow());
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        break;
+    }
+    case REV_CURSOR_NORMAL:
+        auto *window = static_cast<GLFWwindow*>(Application::getInstance().getWindow().getGLWindow());
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        break;
+    }
 }
