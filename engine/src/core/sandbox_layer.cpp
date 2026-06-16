@@ -93,15 +93,15 @@ void SandboxLayer::onEvent(Event& e){
 
 bool SandboxLayer::onKeyReleased(KeyReleased& e){
     if(e.getCode() == Key::REV_KEY_SPACE){
-        if (!_viewport_focused && ImGui::GetIO().WantCaptureKeyboard) {
-            return false;
-        }
         _viewport_focused = !_viewport_focused;
         if(!_viewport_focused){
             GeneralRenderCalls::toggle_cursor_input_mode(REV_CURSOR_NORMAL);
         }else{
             GeneralRenderCalls::toggle_cursor_input_mode(REV_CURSOR_DISABLED);
+
+            ImGui::FocusWindow(nullptr);
             ImGui::ClearActiveID();
+
             _firstMouse = true;
         }
         return true;
@@ -190,6 +190,17 @@ void SandboxLayer::onUpdate(float deltaTime){
 }
 
 void SandboxLayer::onRenderGUI() {
+    ImGui::DockSpaceOverViewport(ImGui::GetID("DockingSpace"), ImGui::GetMainViewport(), ImGuiDockNodeFlags_None);
+
+    ImGui::Begin("Light Configuration");
+        ImGui::SliderFloat3("Spotlight Position", &_scene_data._spot_lights[0]._position.x, -20.0F, 20.0F);
+        ImGui::SliderFloat3("SpotLight Direction", &_scene_data._spot_lights[0]._direction.x, -1.0F, 1.0F);
+        ImGui::ColorEdit3("Spotlight Color", &_scene_data._spot_lights[0]._color.x);
+        ImGui::Text("Application Performance: %.3f ms/frame (%.1f FPS)", 1000.0F / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+
+    drawSceneHierarchyPanel();
+
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0, 0.0});
     ImGui::Begin("Viewport");
         ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
@@ -209,11 +220,17 @@ void SandboxLayer::onRenderGUI() {
         ImGui::Image((void*)(intptr_t)texID, ImVec2{ viewport_panel_size.x, viewport_panel_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
     ImGui::PopStyleVar();
+}
 
-    ImGui::Begin("Light Configuration");
-        ImGui::SliderFloat3("Spotlight Position", &_scene_data._spot_lights[0]._position.x, -20.0F, 20.0F);
-        ImGui::SliderFloat3("SpotLight Direction", &_scene_data._spot_lights[0]._direction.x, -1.0F, 1.0F);
-        ImGui::ColorEdit3("Spotlight Color", &_scene_data._spot_lights[0]._color.x);
-        ImGui::Text("Application Performance: %.3f ms/frame (%.1f FPS)", 1000.0F / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+void SandboxLayer::drawSceneHierarchyPanel(){
+    ImGui::Begin("Scene Hierarchy");
+    auto view = _scene.get_registry().view<TagComponent>();
+    for(auto entityID : view){
+        auto& tag = view.get<TagComponent>(entityID);
+        bool isSelected = (_selected_entity_id == entityID);
+        if(ImGui::Selectable(tag._tag.c_str(), isSelected)){
+            _selected_entity_id = entityID;
+        }
+    }
     ImGui::End();
 }

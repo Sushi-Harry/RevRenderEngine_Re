@@ -147,3 +147,6 @@ If the point light is looking straight down (-Y direction), `f` becomes `<0, -1,
 
 ### 15 June 2026, [5:42 P.M.]
 So I started working on gui today. Couldn't get much done today at all cause something came up and ruined the rest of the day for me in the morning. But yeah, the gui will probably become passable at thevery least by tonight before I sleep.
+
+### 16 June 2026, [11:12 A.M.]
+So the gui is coming along nicely. Swithed to the docking branch of ImGui to get some sick docking features. The viewport now renders in a separate imgui frame that can be moved around using the mouse and docked anywhere in the window. Other gui elements can be docked too. This was a very simple and easy to do thing so that's why I did this before framebuffer based effects and stuff. Wanted to lift my mood up a bit so I had to do something that was quick and easy and gave me a hit of dopamine by looking at the visual results. I will work on adding some basic effects using the framebuffer class today. And maybe after that I'll move on to PBR materials and stuff. So we're officially nearing the completion of this project finally. 

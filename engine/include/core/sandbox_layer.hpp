@@ -5,6 +5,7 @@
 #include "core/resource_manager.hpp"
 #include "events/key_events.hpp"
 #include "events/mouse_events.hpp"
+#include "imgui.h"
 #include "renderer/camera.hpp"
 #include "renderer/framebuffer.hpp"
 #include "renderer/render_system.hpp"
@@ -25,6 +26,7 @@ public:
 private:
     bool onMouseMoved(MouseMoved& e);
     bool onKeyReleased(KeyReleased& e);
+    void drawSceneHierarchyPanel();
     float _lastMouseX, _lastMouseY;
     bool _firstMouse;
 
@@ -42,6 +44,10 @@ private:
 
     uint32_t _model_id;
     uint32_t active_shader_id;
+
+    ImVec2 _viewport_size = {1440.0F, 810.0F};
+
+    entt::entity _selected_entity_id;
 
     bool _viewport_focused = true;
 };
