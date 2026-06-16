@@ -103,6 +103,11 @@ void glfw_window::Init(const WindowProperties& props){
     });
 
     glfwSwapInterval(0);
+    std::cout << "========================================" << std::endl;
+    std::cout << "Active GPU Vendor:   " << glGetString(GL_VENDOR) << std::endl;
+    std::cout << "Renderer Hardware:   " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "Driver Profile GL:   " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "========================================" << std::endl;
 }
 
 // This function just terminates the current running window

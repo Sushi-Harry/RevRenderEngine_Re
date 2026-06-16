@@ -100,6 +100,7 @@ layout(std140, binding=1) uniform LightData {
 };
 
 uniform Material u_Material;
+uniform samplerCube u_Skybox;
 
 uniform sampler2DArray u_ShadowMaps_SpotLight;
 uniform sampler2D u_ShadowMap;
@@ -109,6 +110,13 @@ float calc_shadows_spot(vec3 lightDir, vec4 fragPosLightSpace, vec3 normal, int 
 vec3 calc_spot_light(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 texDiffuse, vec3 texSpecular, float shininess, int layerIndex);
 vec3 calc_directional_light(DirectionalLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 texDiffuse, vec3 texSpecular, float shininess);
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 texDiffuse, vec3 texSpecular, float shininess);
+
+vec3 calc_environment_reflection(samplerCube env_cmap, vec3 normal, vec3 fragpos, vec3 camerapos){
+    vec3 I = normalize(fragpos - camerapos);
+    vec3 R = reflect(I, normalize(normal));
+    vec3 reflectColor = texture(env_cmap, R).rgb;
+    return reflectColor;
+}
 
 void main() {
 
@@ -136,20 +144,14 @@ void main() {
             result += calc_point_light(u_PointLights[i], norm, u_FragPos, viewDir, diffColor, specColor, shininess);
         }
     }
-
     result += calc_directional_light(u_DirectionalLight, norm, u_FragPos, viewDir, diffColor, specColor, shininess);
 
-    FragColor = vec4(result, diffuseTexColor.a);
+    // Now this part is for cubamap reflections from the skybox
+    float material_reflectivity = pow(1.0 - max(dot(norm, viewDir), 0.0), 5.0);
+    vec3 final = mix(result, calc_environment_reflection(u_Skybox, norm, u_FragPos, u_ViewPosition), material_reflectivity);
+    FragColor = vec4(final, diffuseTexColor.a);
 }
 
-// void main() {
-//     // 🔍 Bypassing the matrix entirely: project the depth map using raw mesh UVs
-//     float depthSample = texture(u_ShadowMaps_SpotLight, vec3(u_TexCoords, 0.0)).r;
-
-//     // Force the screen to display it as a grayscale texture
-//     FragColor = vec4(vec3(depthSample), 1.0);
-//     return;
-// }
 
 vec3 calc_point_light(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 texDiffuse, vec3 texSpecular, float shininess) {
     if(!light._enabled) return vec3(0.0);

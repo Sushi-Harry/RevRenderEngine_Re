@@ -4,6 +4,7 @@
 #include "core/application.hpp"
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "glad/glad.h"
 
 void SandboxLayer::onAttach(){
     _lastMouseX = 0.0F;
@@ -179,13 +180,14 @@ void SandboxLayer::onUpdate(float deltaTime){
         _spot_shadow_map->UnbindFramebuffer();
     }
     auto& window = Application::getInstance().getWindow();
+
     _imgui_fbo->bind();
-    GeneralRenderCalls::clear();
-    _scene_data._directional_shadow_map_id = _directional_shadow_map->GetTextureID();
-    _scene_data._spot_shadow_map_id = _spot_shadow_map->GetTextureID();
-    _render_system.EndFrame(_resource_manager, _scene_data);
-    _sbox->draw(_resource_manager, _scene_data._camera);
-    _render_system.ClearRenderQueue();
+        GeneralRenderCalls::clear();
+        _scene_data._directional_shadow_map_id = _directional_shadow_map->GetTextureID();
+        _scene_data._spot_shadow_map_id = _spot_shadow_map->GetTextureID();
+        _render_system.EndFrame(_resource_manager, _scene_data);
+        _sbox->draw(_resource_manager, _scene_data._camera);
+        _render_system.ClearRenderQueue();
     _imgui_fbo->unbind();
 }
 
@@ -204,20 +206,22 @@ void SandboxLayer::onRenderGUI() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0, 0.0});
     ImGui::Begin("Viewport");
         ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
-        if((float)Application::getInstance().getWindow().getWidth() !=viewport_panel_size.x  ||
-           (float)Application::getInstance().getWindow().getHeight() != viewport_panel_size.y){
+        if(viewport_panel_size.x > 0.0F && viewport_panel_size.y > 0.0F){
+            if(_viewport_size.x !=viewport_panel_size.x  ||
+            _viewport_size.y != viewport_panel_size.y){
 
-            viewport_panel_size = {
-                static_cast<float>(Application::getInstance().getWindow().getWidth()),
-                static_cast<float>(Application::getInstance().getWindow().getHeight())
-            };
+                _viewport_size = {
+                    viewport_panel_size.x,
+                    viewport_panel_size.y
+                };
 
-            _imgui_fbo->resize((uint32_t)viewport_panel_size.x, (uint32_t)viewport_panel_size.y);
-            float aspect = viewport_panel_size.x / viewport_panel_size.y;
-            _scene_data._camera.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 100.0F));
+                _imgui_fbo->resize((uint32_t)_viewport_size.x, (uint32_t)_viewport_size.y);
+                float aspect = _viewport_size.x / _viewport_size.y;
+                _scene_data._camera.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 100.0F));
+            }
         }
         uint32_t texID = _imgui_fbo->get_color_attachment_id();
-        ImGui::Image((void*)(intptr_t)texID, ImVec2{ viewport_panel_size.x, viewport_panel_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        ImGui::Image((void*)(intptr_t)texID, ImVec2{ _viewport_size.x, _viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
     ImGui::PopStyleVar();
 }

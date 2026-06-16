@@ -86,6 +86,7 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const SceneData& scene_dat
             if(scene_data._directional_shadow_map_id){
                 GeneralRenderCalls::bindTexture(scene_data._directional_shadow_map_id, TextureSlots::REV_SHADOWMAP_DIRECTIONAL);
                 activeShader->setInt("u_ShadowMap", TextureSlots::REV_SHADOWMAP_DIRECTIONAL);
+
                 // || ||    ========       ||===||
                 // ||=||       ||          ||===<
                 // || || ELD   || OGETHER  ||===|| Y
@@ -98,7 +99,7 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const SceneData& scene_dat
                 GeneralRenderCalls::bindTexture(scene_data._spot_shadow_map_id, TextureSlots::REV_SHADOWMAP_SPOTLIGHT);
                 activeShader->setInt("u_ShadowMaps_SpotLight", TextureSlots::REV_SHADOWMAP_SPOTLIGHT);
             }
-
+            activeShader->setInt("u_Skybox", TextureSlots::REV_ENVIRONMENT_SKYBOX);
             current_shader_id = call._shader_id;
             current_material_id = std::numeric_limits<uint32_t>::max();
         }

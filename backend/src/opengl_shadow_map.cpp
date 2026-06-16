@@ -35,8 +35,8 @@ void opengl_shadow_map::AllocateResources() {
         }
     }
 
-    glTextureParameteri(_texture_id, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTextureParameteri(_texture_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureParameteri(_texture_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureParameteri(_texture_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTextureParameteri(_texture_id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTextureParameteri(_texture_id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 

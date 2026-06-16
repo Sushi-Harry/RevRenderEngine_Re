@@ -55,6 +55,9 @@ struct RenderCall{
     uint32_t _idx_count;
 
     glm::mat4 _model_matrix;
+
+    bool _is_transparent = false;
+    float _dist_to_cam = 0.0F;
 };
 
 class DrawCommands{
