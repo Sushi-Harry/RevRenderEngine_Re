@@ -23,5 +23,7 @@ public:
 
     virtual void bindTexture(uint32_t _id, uint32_t slot) = 0;
 
+    virtual void draw_full_screen_quad() = 0;
+
     static std::unique_ptr<RenderingAPI> create();
 };

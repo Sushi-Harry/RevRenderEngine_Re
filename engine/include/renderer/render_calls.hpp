@@ -41,6 +41,10 @@ public:
         _render_api->bindTexture(_id, slot);
     }
 
+    static void draw_full_screen_quad(){
+        _render_api->draw_full_screen_quad();
+    }
+
 private:
     static std::unique_ptr<RenderingAPI> _render_api;
 };

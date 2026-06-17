@@ -18,4 +18,9 @@ public:
     void setLineWidth(float width) override;
 
     void bindTexture(uint32_t _id, uint32_t slot) override;
+
+    void draw_full_screen_quad() override;
+
+private:
+    std::shared_ptr<VertexArray> _vao;
 };
