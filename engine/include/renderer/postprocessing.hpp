@@ -21,7 +21,7 @@ public:
 private:
     std::shared_ptr<Framebuffer> _ping_pong_fbos[2];
     std::vector<std::unique_ptr<PostProcessingEffect>> _effects;
-}
+};
 
 class PostProcessingEffect{
 public:
