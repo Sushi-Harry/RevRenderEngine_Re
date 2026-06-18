@@ -75,6 +75,13 @@ void SandboxLayer::onAttach(){
     specs._width = Application::getInstance().getWindow().getWidth();
     specs._height = Application::getInstance().getWindow().getHeight();
     _imgui_fbo = Framebuffer::Create(specs);
+
+    // Post Processing System
+    _postprocessing_system.Init(1280, 720);
+    _postprocessing_system.AddEffect<ChromaticAbberation>();
+    _postprocessing_system.AddEffect<Pixelation>();
+    _postprocessing_system.AddEffect<CRT>();
+    _postprocessing_system.AddEffect<FilmGrain>();
 }
 
 void SandboxLayer::onEvent(Event& e){
@@ -181,6 +188,11 @@ void SandboxLayer::onUpdate(float deltaTime){
     }
     auto& window = Application::getInstance().getWindow();
 
+    // .====.       .====.
+    // ||  ||       ||  ||
+    // ||===`       ||===`
+    // ||\\         ||\\
+    // || \\ EGULAR || \\ ENDERING
     _imgui_fbo->bind();
         GeneralRenderCalls::clear();
         _scene_data._directional_shadow_map_id = _directional_shadow_map->GetTextureID();
@@ -189,6 +201,12 @@ void SandboxLayer::onUpdate(float deltaTime){
         _sbox->draw(_resource_manager, _scene_data._camera);
         _render_system.ClearRenderQueue();
     _imgui_fbo->unbind();
+
+    PostProcessingContext ctx{};
+    ctx._resolution = glm::vec2(_viewport_size.x, _viewport_size.y);
+    ctx._time = GeneralRenderCalls::get_time();
+    _final_scene_texture_id = _postprocessing_system.Execute(_imgui_fbo->get_color_attachment_id(), _resource_manager, ctx);
+
 }
 
 void SandboxLayer::onRenderGUI() {
@@ -198,7 +216,20 @@ void SandboxLayer::onRenderGUI() {
         ImGui::SliderFloat3("Spotlight Position", &_scene_data._spot_lights[0]._position.x, -20.0F, 20.0F);
         ImGui::SliderFloat3("SpotLight Direction", &_scene_data._spot_lights[0]._direction.x, -1.0F, 1.0F);
         ImGui::ColorEdit3("Spotlight Color", &_scene_data._spot_lights[0]._color.x);
+    ImGui::End();
+
+    ImGui::Begin("Performance");
         ImGui::Text("Application Performance: %.3f ms/frame (%.1f FPS)", 1000.0F / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+
+    ImGui::Begin("Post Processing");
+        for (const auto& effect : _postprocessing_system.getEffects()) {
+            ImGui::PushID(effect.get());
+            if (ImGui::CollapsingHeader(effect->getName().c_str())) {
+                effect->onRenderGUI();
+            }
+            ImGui::PopID();
+        }
     ImGui::End();
 
     drawSceneHierarchyPanel();
@@ -216,11 +247,13 @@ void SandboxLayer::onRenderGUI() {
                 };
 
                 _imgui_fbo->resize((uint32_t)_viewport_size.x, (uint32_t)_viewport_size.y);
+                _postprocessing_system.Resize((uint32_t)_viewport_size.x, (uint32_t)_viewport_size.y);
+
                 float aspect = _viewport_size.x / _viewport_size.y;
                 _scene_data._camera.setProjection(glm::perspective(glm::radians(60.0F), aspect, 0.1F, 100.0F));
             }
         }
-        uint32_t texID = _imgui_fbo->get_color_attachment_id();
+        uint32_t texID = _final_scene_texture_id;
         ImGui::Image((void*)(intptr_t)texID, ImVec2{ _viewport_size.x, _viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
     ImGui::PopStyleVar();

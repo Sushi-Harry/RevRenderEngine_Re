@@ -150,3 +150,8 @@ So I started working on gui today. Couldn't get much done today at all cause som
 
 ### 16 June 2026, [11:12 A.M.]
 So the gui is coming along nicely. Swithed to the docking branch of ImGui to get some sick docking features. The viewport now renders in a separate imgui frame that can be moved around using the mouse and docked anywhere in the window. Other gui elements can be docked too. This was a very simple and easy to do thing so that's why I did this before framebuffer based effects and stuff. Wanted to lift my mood up a bit so I had to do something that was quick and easy and gave me a hit of dopamine by looking at the visual results. I will work on adding some basic effects using the framebuffer class today. And maybe after that I'll move on to PBR materials and stuff. So we're officially nearing the completion of this project finally. 
+
+### 17 and 18 June 2026, [5:21 P.M.]
+So I didn't write anything yesterday cause I was just a bit too busy and was having a bad day so didn't even want to work on anything at all. But I still did get some work done yesterday. I implemented a basic interface for the post processing pipeline yesterday.
+
+As for today, I've managed to get the entire post processing pipeline working flawlessly. The filmgrain effect is broken but that's a glsl shader issue so it can be fixed later when I feel like it. But for now, major achievement is that the PostProcessing system is done and tested plus the gui implementation for all the effects. I've added a crt scanline, chromatic aberration, pixelation and filmgrain(WIP) effects. And I've also tested them and they work very nicely. Next I'll move on to some more complex stuff like SSR.

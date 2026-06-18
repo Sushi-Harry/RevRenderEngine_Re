@@ -88,3 +88,7 @@ void opengl_renderer::draw_full_screen_quad() {
     _vao->bind();
     glDrawElements(GL_TRIANGLES, _vao->getElementBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 }
+
+float opengl_renderer::get_time(){
+    return (float)glfwGetTime();
+}

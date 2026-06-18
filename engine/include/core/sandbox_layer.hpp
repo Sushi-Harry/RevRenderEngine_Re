@@ -8,6 +8,7 @@
 #include "imgui.h"
 #include "renderer/camera.hpp"
 #include "renderer/framebuffer.hpp"
+#include "renderer/postprocessing.hpp"
 #include "renderer/render_system.hpp"
 
 #include "ecs/scene.hpp"
@@ -31,6 +32,7 @@ private:
     bool _firstMouse;
 
     ResourceManager _resource_manager;
+    PostProcessingSystem _postprocessing_system;
     RenderSystem _render_system;
     Skybox* _sbox;
 
@@ -44,6 +46,7 @@ private:
 
     uint32_t _model_id;
     uint32_t active_shader_id;
+    uint32_t _final_scene_texture_id;
 
     ImVec2 _viewport_size = {0.0F, 0.0F};
 

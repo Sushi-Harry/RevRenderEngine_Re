@@ -21,6 +21,8 @@ public:
 
     void draw_full_screen_quad() override;
 
+    float get_time() override;
+
 private:
     std::shared_ptr<VertexArray> _vao;
 };

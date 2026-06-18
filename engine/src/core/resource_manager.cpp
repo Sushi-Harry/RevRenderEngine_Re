@@ -54,6 +54,15 @@ void ResourceManager::Init(){
     // Shadow Map Shader
     load_shader("shadow_map_shader", "revrender/assets/core/default_shadow_map.vert", "revrender/assets/core/default_shadow_map.frag");
 
+    // Post Processing shaders preloading
+    // Chromatic aberration shader
+    load_shader("chromatic_aberration", "revrender/assets/core/postprocessing_shader/chromatic_aberration.vert", "revrender/assets/core/postprocessing_shader/chromatic_aberration.frag");
+    // Pixelation Shader
+    load_shader("pixelation", "revrender/assets/core/postprocessing_shader/pixelation.vert", "revrender/assets/core/postprocessing_shader/pixelation.frag");
+    // CRT Shader
+    load_shader("crt", "revrender/assets/core/postprocessing_shader/crt.vert", "revrender/assets/core/postprocessing_shader/crt.frag");
+    // Film Grain shader
+    load_shader("filmgrain", "revrender/assets/core/postprocessing_shader/filmgrain.vert", "revrender/assets/core/postprocessing_shader/filmgrain.frag");
     // Loading the default cubemap
     load_cubemap("skybox", std::make_shared<Cubemap>(default_faces));
 }

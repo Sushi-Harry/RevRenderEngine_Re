@@ -25,5 +25,7 @@ public:
 
     virtual void draw_full_screen_quad() = 0;
 
+    virtual float get_time() = 0;
+
     static std::unique_ptr<RenderingAPI> create();
 };

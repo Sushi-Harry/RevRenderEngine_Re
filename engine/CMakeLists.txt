@@ -1,4 +1,4 @@
-file(GLOB_RECURSE ENGINE_SOURCES "src/*.cpp")
+file(GLOB_RECURSE ENGINE_SOURCES "src/*.cpp" "../backend/src/opengl_postprocessing_effects.cpp")
 
 add_library(engine_core STATIC ${ENGINE_SOURCES})
 

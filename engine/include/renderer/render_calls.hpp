@@ -45,6 +45,10 @@ public:
         _render_api->draw_full_screen_quad();
     }
 
+    static float get_time(){
+        return _render_api->get_time();
+    }
+
 private:
     static std::unique_ptr<RenderingAPI> _render_api;
 };
