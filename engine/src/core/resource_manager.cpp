@@ -63,6 +63,8 @@ void ResourceManager::Init(){
     load_shader("crt", "revrender/assets/core/postprocessing_shader/crt.vert", "revrender/assets/core/postprocessing_shader/crt.frag");
     // Film Grain shader
     load_shader("filmgrain", "revrender/assets/core/postprocessing_shader/filmgrain.vert", "revrender/assets/core/postprocessing_shader/filmgrain.frag");
+    // Fxaa shader
+    load_shader("fxaa", "revrender/assets/core/postprocessing_shader/fxaa.vert", "revrender/assets/core/postprocessing_shader/fxaa.frag");
     // Loading the default cubemap
     load_cubemap("skybox", std::make_shared<Cubemap>(default_faces));
 }

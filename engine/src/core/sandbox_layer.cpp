@@ -78,6 +78,7 @@ void SandboxLayer::onAttach(){
 
     // Post Processing System
     _postprocessing_system.Init(1280, 720);
+    _postprocessing_system.AddEffect<FXAA>();
     _postprocessing_system.AddEffect<ChromaticAbberation>();
     _postprocessing_system.AddEffect<Pixelation>();
     _postprocessing_system.AddEffect<CRT>();

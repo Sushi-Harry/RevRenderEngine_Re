@@ -94,3 +94,13 @@ private:
     float _intensity;
 
 };
+
+
+class FXAA : public PostProcessingEffect{
+public:
+    FXAA() : PostProcessingEffect("fxaa") {}
+    void Render(ResourceManager& res_mgr, uint32_t source_texture_id, std::shared_ptr<Framebuffer> dest_fbo, const PostProcessingContext& ctx) override;
+    void onRenderGUI() override;
+private:
+
+};

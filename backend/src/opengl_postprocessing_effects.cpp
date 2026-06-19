@@ -109,3 +109,18 @@ void FilmGrain::Render(ResourceManager& res_mgr, uint32_t source_texture_id, std
         GeneralRenderCalls::draw_full_screen_quad();
     dest_fbo->unbind();
 }
+
+void FXAA::onRenderGUI(){
+    ImGui::Checkbox("Enabled", &_is_enabled);
+}
+
+void FXAA::Render(ResourceManager& res_mgr, uint32_t source_texture_id, std::shared_ptr<Framebuffer> dest_fbo, const PostProcessingContext& ctx){
+    dest_fbo->bind();
+        auto shader = res_mgr.get_shader("fxaa");
+        shader->bindShader();
+        shader->setVec2("u_Resolution", ctx._resolution);
+        glBindTextureUnit(0, source_texture_id);
+        shader->setInt("u_SceneTexture", 0);
+        GeneralRenderCalls::draw_full_screen_quad();
+    dest_fbo->unbind();
+}

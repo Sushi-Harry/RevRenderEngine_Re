@@ -155,3 +155,6 @@ So the gui is coming along nicely. Swithed to the docking branch of ImGui to get
 So I didn't write anything yesterday cause I was just a bit too busy and was having a bad day so didn't even want to work on anything at all. But I still did get some work done yesterday. I implemented a basic interface for the post processing pipeline yesterday.
 
 As for today, I've managed to get the entire post processing pipeline working flawlessly. The filmgrain effect is broken but that's a glsl shader issue so it can be fixed later when I feel like it. But for now, major achievement is that the PostProcessing system is done and tested plus the gui implementation for all the effects. I've added a crt scanline, chromatic aberration, pixelation and filmgrain(WIP) effects. And I've also tested them and they work very nicely. Next I'll move on to some more complex stuff like SSR.
+
+### 19 June 20226, [1:58 P.M.]
+So I'm not gonna be able to do much today cause I'll be quite busy with stuff today. But I did add FXAA effect and it works great. All thanks to the [guide by Simon Rodriguez](https://blog.simonrodriguez.fr/articles/2016/07/implementing_fxaa.html) 
