@@ -42,6 +42,11 @@ void opengl_renderer::clear(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void opengl_renderer::clear_fb_color_attachment(uint32_t attachment_idx, uint32_t clear_value){
+    int clearVal = clear_value;
+    glClearBufferiv(GL_COLOR, attachment_idx, &clearVal);
+}
+
 void opengl_renderer::clear_depth_buffer_bit_only(){
     glClear(GL_DEPTH_BUFFER_BIT);
 }

@@ -113,6 +113,7 @@ void RenderSystem::EndFrame(ResourceManager& res_mgr, const SceneData& scene_dat
         }
         // Uploading the model matrix and other stuff
         activeShader->setMat4("u_ModelMatrix", call._model_matrix);
+        activeShader->setInt("u_EntityID", static_cast<uint32_t>(call._entity_id));
         DrawCommands::DrawIndexed(call._vao, call._idx_count);
     }
 }

@@ -42,7 +42,7 @@ vec3 applyFXAA(sampler2D _texture, vec2 uv, vec2 res){
 
     float lumaRange = lumaMax - lumaMin;
 
-    if(lumaRange < max(EDGE_THRESHOLD_MAX, lumaMax*EDGE_THRESHOLD_MAX)){
+    if(lumaRange < max(EDGE_THRESHOLD_MIN, lumaMax*EDGE_THRESHOLD_MAX)){
         return colorCenter;
     }
 

@@ -9,6 +9,7 @@ public:
     void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
     void clearColor(const glm::vec4& color) override;
     void clear() override;
+    void clear_fb_color_attachment(uint32_t attachment_idx, uint32_t clear_value) override;
     void clear_depth_buffer_bit_only() override;
     void toggle_cursor_input_mode(CursorInputMode mode) override;
 

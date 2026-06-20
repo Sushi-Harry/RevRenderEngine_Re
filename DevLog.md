@@ -158,3 +158,6 @@ As for today, I've managed to get the entire post processing pipeline working fl
 
 ### 19 June 20226, [1:58 P.M.]
 So I'm not gonna be able to do much today cause I'll be quite busy with stuff today. But I did add FXAA effect and it works great. All thanks to the [guide by Simon Rodriguez](https://blog.simonrodriguez.fr/articles/2016/07/implementing_fxaa.html) 
+
+### 20 June 2026, [4:50 P.M.]
+So I added imguizmo to the project and hooked it up to the rest of the engine through the sandbox layer and it works very nicely witht the newly added gizmos. Finally starting to look more like a real game engine.

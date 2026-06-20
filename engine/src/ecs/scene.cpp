@@ -64,6 +64,7 @@ void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_
             packet._vao         = mesh._vert_array;
             packet._idx_count   = mesh._vert_array->getElementBuffer()->getCount();
             packet._model_matrix = entity_transform * mesh._local_transform;
+            packet._entity_id = entity;
             render_sys.Submit(packet, res_mgr);
         }
     }

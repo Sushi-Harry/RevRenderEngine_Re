@@ -1,10 +1,13 @@
 #include "core/sandbox_layer.hpp"
+#include "ImGuizmo.h"
 #include "events/event_dispatcher.hpp"
 #include <chrono>
 #include "core/application.hpp"
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "glad/glad.h"
+
+#include "glm/gtc/type_ptr.hpp"
 
 void SandboxLayer::onAttach(){
     _lastMouseX = 0.0F;
@@ -71,7 +74,7 @@ void SandboxLayer::onAttach(){
 
     // Initializing framebuffer for displaying everything in an imgui window
     FramebufferSpecs specs{};
-    specs._attachments = { FramebufferTextureFormat::REV_FB_RGBA8, FramebufferTextureFormat::REV_FB_DEPTH32F };
+    specs._attachments = { FramebufferTextureFormat::REV_FB_RGBA8, FramebufferTextureFormat::REV_FB_INT32, FramebufferTextureFormat::REV_FB_DEPTH32F };
     specs._width = Application::getInstance().getWindow().getWidth();
     specs._height = Application::getInstance().getWindow().getHeight();
     _imgui_fbo = Framebuffer::Create(specs);
@@ -161,6 +164,9 @@ void SandboxLayer::onUpdate(float deltaTime){
     // "This may look like it's becoming cluttered,
     //          It is, in fact, becoming very cluttered." - Harry Chauhan, 11 June, 2026, 7:47 P.M.
 
+    // Updating the light transforms
+    updateLightTransforms();
+
     _scene.onUpdate(deltaTime, _scene_data._camera, _render_system, _resource_manager);
     _scene_data._directional_light = _scene.get_directional_light();
     _scene_data._spot_lights = _scene.get_active_spot_lights();
@@ -196,6 +202,7 @@ void SandboxLayer::onUpdate(float deltaTime){
     // || \\ EGULAR || \\ ENDERING
     _imgui_fbo->bind();
         GeneralRenderCalls::clear();
+        GeneralRenderCalls::clear_fb_color_attchment(1, -1);
         _scene_data._directional_shadow_map_id = _directional_shadow_map->GetTextureID();
         _scene_data._spot_shadow_map_id = _spot_shadow_map->GetTextureID();
         _render_system.EndFrame(_resource_manager, _scene_data);
@@ -211,6 +218,7 @@ void SandboxLayer::onUpdate(float deltaTime){
 }
 
 void SandboxLayer::onRenderGUI() {
+    ImGuizmo::BeginFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetID("DockingSpace"), ImGui::GetMainViewport(), ImGuiDockNodeFlags_None);
 
     ImGui::Begin("Light Configuration");
@@ -238,6 +246,9 @@ void SandboxLayer::onRenderGUI() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0.0, 0.0});
     ImGui::Begin("Viewport");
         ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
+        ImVec2 window_pos = ImGui::GetWindowPos();
+        ImGuizmo::SetDrawlist();
+        ImGuizmo::SetRect(window_pos.x, window_pos.y, _viewport_size.x, _viewport_size.y);
         if(viewport_panel_size.x > 0.0F && viewport_panel_size.y > 0.0F){
             if(_viewport_size.x !=viewport_panel_size.x  ||
             _viewport_size.y != viewport_panel_size.y){
@@ -256,6 +267,40 @@ void SandboxLayer::onRenderGUI() {
         }
         uint32_t texID = _final_scene_texture_id;
         ImGui::Image((void*)(intptr_t)texID, ImVec2{ _viewport_size.x, _viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        colorPicking(*_imgui_fbo);
+        // ========   .======.
+        //    ||     ||
+        //    ||     ||   ===.
+        //    ||     ||     ||
+        // ======== M `======` UIZMO
+        if(_selected_entity_id != entt::null){
+            Entity selected_entity = {_selected_entity_id, &_scene};
+            if(selected_entity.hasComponent<TransformComponent>()){
+                auto& transform = selected_entity.getComponent<TransformComponent>();
+                glm::mat4 matrix = transform.getTransform();
+                glm::mat4 view = _scene_data._camera.getViewMatrix();
+                glm::mat4 projection = _scene_data._camera.getProjectionMatrix();
+
+                ImGuizmo::Manipulate(
+                    glm::value_ptr(view), glm::value_ptr(projection),
+                    ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::WORLD,
+                    glm::value_ptr(matrix)
+                );
+                if(ImGuizmo::IsUsing()){
+                    glm::vec3 translation, rotation, scale;
+                    ImGuizmo::DecomposeMatrixToComponents(
+                        glm::value_ptr(matrix),
+                        glm::value_ptr(translation),
+                        glm::value_ptr(rotation),
+                        glm::value_ptr(scale)
+                    );
+
+                    transform.setPosition(translation);
+                    transform.setRotation(rotation);
+                    transform.setScale(scale);
+                }
+            }
+        }
     ImGui::End();
     ImGui::PopStyleVar();
 }
@@ -271,4 +316,29 @@ void SandboxLayer::drawSceneHierarchyPanel(){
         }
     }
     ImGui::End();
+}
+
+void SandboxLayer::updateLightTransforms(){
+    // syncing the spot lights
+    auto spt_view = _scene.get_registry().view<TransformComponent, SpotLightComponent>();
+    for(auto entity : spt_view){
+        auto& transform = spt_view.get<TransformComponent>(entity);
+        auto& sptLight = spt_view.get<SpotLightComponent>(entity);
+
+        sptLight._position = transform.GetPosition();
+        glm::mat4 model_matrix = transform.getTransform();
+        glm::vec3 default_forward = glm::vec3(0.0f, 0.0f, -1.0f);
+        sptLight._direction = glm::normalize(glm::vec3(model_matrix * glm::vec4(default_forward, 0.0f)));
+    }
+    // Syncing the directional llights
+    auto dir_view = _scene.get_registry().view<TransformComponent, DirectionalLightComponent>();
+    for (auto entity : dir_view) {
+        auto& transform = dir_view.get<TransformComponent>(entity);
+        auto& dir_light = dir_view.get<DirectionalLightComponent>(entity);
+
+        glm::mat4 model_matrix = transform.getTransform();
+        glm::vec3 default_forward = glm::vec3(0.0f, 0.0f, -1.0f);
+
+        dir_light._direction = glm::normalize(glm::vec3(model_matrix * glm::vec4(default_forward, 0.0f)));
+    }
 }

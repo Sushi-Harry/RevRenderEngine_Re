@@ -1,6 +1,7 @@
 #version 460 core
 
 out vec4 FragColor;
+layout (location = 1) out int OutEntityID;
 
 in vec2 u_TexCoords;
 in vec3 u_Normal;
@@ -105,6 +106,8 @@ uniform samplerCube u_Skybox;
 uniform sampler2DArray u_ShadowMaps_SpotLight;
 uniform sampler2D u_ShadowMap;
 
+uniform int u_EntityID;
+
 float calc_shadows_directional(vec3 lightDir, vec4 fragPosLightSpace, vec3 normal);
 float calc_shadows_spot(vec3 lightDir, vec4 fragPosLightSpace, vec3 normal, int layerIndex);
 vec3 calc_spot_light(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec3 texDiffuse, vec3 texSpecular, float shininess, int layerIndex);
@@ -150,6 +153,8 @@ void main() {
     float material_reflectivity = pow(1.0 - max(dot(norm, viewDir), 0.0), 5.0);
     vec3 final = mix(result, calc_environment_reflection(u_Skybox, norm, u_FragPos, u_ViewPosition), material_reflectivity);
     FragColor = vec4(final, diffuseTexColor.a);
+
+    OutEntityID = u_EntityID;
 }
 
 

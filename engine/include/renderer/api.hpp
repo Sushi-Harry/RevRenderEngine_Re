@@ -13,6 +13,7 @@ public:
     virtual void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
     virtual void clearColor(const glm::vec4& color) = 0;
     virtual void clear() = 0;
+    virtual void clear_fb_color_attachment(uint32_t attachment_idx, uint32_t clear_value) = 0;
     virtual void clear_depth_buffer_bit_only() = 0;
     virtual void toggle_cursor_input_mode(CursorInputMode mode) = 0;
 

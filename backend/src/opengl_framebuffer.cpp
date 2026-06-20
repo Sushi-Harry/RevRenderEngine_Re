@@ -62,6 +62,19 @@ void opengl_framebuffer::init(){
             glTextureParameterfv(_depth_attachment, GL_TEXTURE_BORDER_COLOR, border_color);
 
             glNamedFramebufferTexture(_id, GL_DEPTH_ATTACHMENT, _depth_attachment, 0);
+        }else if(format == FramebufferTextureFormat::REV_FB_INT32){
+            uint32_t color_tex;
+            glCreateTextures(GL_TEXTURE_2D, 1, &color_tex);
+            glTextureStorage2D(color_tex, 1, GL_R32I, _fb_specs._width, _fb_specs._height);
+
+            // Never knew this one. R32I type attachments must always use GL_NEAREST type filtering
+            glTextureParameteri(color_tex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTextureParameteri(color_tex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+            uint32_t index = _color_attachments.size();
+            glNamedFramebufferTexture(_id, GL_COLOR_ATTACHMENT0 + index, color_tex, 0);
+            _color_attachments.push_back(color_tex);
+            hasColor = true;
         }
     }
 
@@ -72,6 +85,21 @@ void opengl_framebuffer::init(){
 
     if(glCheckNamedFramebufferStatus(_id, GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
         std::cerr << "ERROR::OPENGL_FRAMEBUFFER::INCOMPLETE_FRAMEBUFFER\n";
+    }
+
+    // I SWEAR TO GOD I HATE HOW MUCH TROUBLE NOT ADDING THIS CODE GAVE ME.
+    // I HAD NO GOD DAMN IDEA I WAS SUPPOSED TO EXPLICITLY TELL OPENGL EVERYTHING IT HAD TO DO WHEN THERE WERE MULTIPLE
+    // ATTACHMENTS WHICH NEEDED DRAWING
+    if(_color_attachments.size() > 1){
+        std::vector<GLenum> drawBuffers;
+        for (size_t i = 0; i < _color_attachments.size(); i++) {
+            drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + i);
+        }
+
+        glNamedFramebufferDrawBuffers(_id, static_cast<GLsizei>(drawBuffers.size()), drawBuffers.data());
+    }else{
+        GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+        glNamedFramebufferDrawBuffers(_id, 1, &drawBuffer);
     }
 }
 

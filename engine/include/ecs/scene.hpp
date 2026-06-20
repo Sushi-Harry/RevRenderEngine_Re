@@ -28,6 +28,7 @@ public:
     // Entity create_camera(const std::string& name = "Camera Object");
 
     const entt::registry& get_registry() const { return _registry; }
+    entt::registry& get_registry() { return _registry; }
 
     void onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr);
     void update_active_slights(const std::vector<SpotLightComponent>& updated_data);

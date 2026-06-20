@@ -1,5 +1,6 @@
 #pragma once
 
+#include "entt/entity/fwd.hpp"
 #include "renderer/api.hpp"
 
 
@@ -16,6 +17,10 @@ public:
     }
     static void clear(){
         _render_api->clear();
+    }
+
+    static void clear_fb_color_attchment(uint32_t attachment_idx, uint32_t clear_val){
+        _render_api->clear_fb_color_attachment(attachment_idx, clear_val);
     }
 
     static void drawElements(const std::shared_ptr<VertexArray>& vert_array, uint32_t idx_cnt = 0){
@@ -63,6 +68,8 @@ struct RenderCall{
     uint32_t _idx_count;
 
     glm::mat4 _model_matrix;
+
+    entt::entity _entity_id;
 
     bool _is_transparent = false;
     float _dist_to_cam = 0.0F;

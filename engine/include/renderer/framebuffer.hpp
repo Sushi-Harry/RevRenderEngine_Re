@@ -9,6 +9,7 @@ enum class FramebufferTextureFormat : uint8_t{
     // Color attachments
     REV_FB_RGBA8,
     REV_FB_RED_INT,
+    REV_FB_INT32,
 
     // Depth and stencil
     REV_FB_DEPTH24STENCIL8,
