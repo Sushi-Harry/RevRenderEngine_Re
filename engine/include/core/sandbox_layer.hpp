@@ -42,6 +42,7 @@ private:
     SceneData _scene_data;
 
     std::shared_ptr<Framebuffer> _imgui_fbo;
+    std::shared_ptr<Framebuffer> _geometry_fbo;
 
     std::shared_ptr<ShadowMap> _directional_shadow_map;
     std::shared_ptr<ShadowMap> _spot_shadow_map;

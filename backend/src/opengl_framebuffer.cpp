@@ -75,6 +75,30 @@ void opengl_framebuffer::init(){
             glNamedFramebufferTexture(_id, GL_COLOR_ATTACHMENT0 + index, color_tex, 0);
             _color_attachments.push_back(color_tex);
             hasColor = true;
+        }else if (format == FramebufferTextureFormat::REV_FB_RGBA16F) {
+            uint32_t color_tex;
+            glCreateTextures(GL_TEXTURE_2D, 1, &color_tex);
+            glTextureStorage2D(color_tex, 1, GL_RGBA16F, _fb_specs._width, _fb_specs._height);
+
+            glTextureParameteri(color_tex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTextureParameteri(color_tex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+            uint32_t index = _color_attachments.size();
+            glNamedFramebufferTexture(_id, GL_COLOR_ATTACHMENT0 + index, color_tex, 0);
+            _color_attachments.push_back(color_tex);
+            hasColor = true;
+        }else if(format == FramebufferTextureFormat::REV_FB_RGBA32F){
+            uint32_t color_tex;
+            glCreateTextures(GL_TEXTURE_2D, 1, &color_tex);
+            glTextureStorage2D(color_tex, 1, GL_RGBA32F, _fb_specs._width, _fb_specs._height);
+
+            glTextureParameteri(color_tex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTextureParameteri(color_tex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+            uint32_t index = _color_attachments.size();
+            glNamedFramebufferTexture(_id, GL_COLOR_ATTACHMENT0 + index, color_tex, 0);
+            _color_attachments.push_back(color_tex);
+            hasColor = true;
         }
     }
 

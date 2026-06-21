@@ -161,3 +161,6 @@ So I'm not gonna be able to do much today cause I'll be quite busy with stuff to
 
 ### 20 June 2026, [4:50 P.M.]
 So I added imguizmo to the project and hooked it up to the rest of the engine through the sandbox layer and it works very nicely witht the newly added gizmos. Finally starting to look more like a real game engine.
+
+### 21 June 2026, [10:15 P.M.]
+So I spent most of today getting some college work done. (Even though it's summer vacations. Absolutely rotten luck) and also spent a bit of time figuring out how deferred shading works. That's kinda it for today. Will implement deferred shading tomorrow and then move on to SSR.

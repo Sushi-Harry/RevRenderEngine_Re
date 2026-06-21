@@ -79,6 +79,24 @@ void SandboxLayer::onAttach(){
     specs._height = Application::getInstance().getWindow().getHeight();
     _imgui_fbo = Framebuffer::Create(specs);
 
+    // Initializing the geometry buffer
+    FramebufferSpecs gSpecs{};
+    gSpecs._attachments = {
+        // Albedo/specular
+        FramebufferTextureFormat::REV_FB_RGBA8,
+        // Normals
+        FramebufferTextureFormat::REV_FB_RGBA16F,
+        // Position
+        FramebufferTextureFormat::REV_FB_RGBA16F,
+        // Entity ID for mouse picking
+        FramebufferTextureFormat::REV_FB_INT32,
+        // Depth
+        FramebufferTextureFormat::REV_FB_DEPTH32F
+    };
+    gSpecs._width = Application::getInstance().getWindow().getWidth();
+    gSpecs._height = Application::getInstance().getWindow().getHeight();
+    _geometry_fbo = Framebuffer::Create(gSpecs);
+
     // Post Processing System
     _postprocessing_system.Init(1280, 720);
     _postprocessing_system.AddEffect<FXAA>();
