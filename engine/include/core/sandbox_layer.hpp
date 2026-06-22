@@ -29,7 +29,7 @@ private:
     bool onKeyReleased(KeyReleased& e);
     void drawSceneHierarchyPanel();
     void updateLightTransforms();
-    void colorPicking(Framebuffer& _imgui_fbo);
+    void colorPicking(Framebuffer& _framebuffer);
     float _lastMouseX, _lastMouseY;
     bool _firstMouse;
 

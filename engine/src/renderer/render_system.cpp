@@ -136,6 +136,89 @@ void RenderSystem::ShadowMappingRenderPass(ResourceManager& res_mgr, const glm::
     DrawCommands::UnbindVAO();
 }
 
+void RenderSystem::geometryPass(ResourceManager& res_mgr){
+    std::sort(_render_queue.begin(), _render_queue.end(), [](const RenderCall& a, const RenderCall& b){
+        // Next we're gonna sort by materials if the shaders are same
+        if(a._material_id != b._material_id){
+            return a._material_id < b._material_id;
+        }
+        // Now if both shader and material are same, we'll sort by the vao
+        return a._vao < b._vao;
+    });
+
+    auto gbuffer = res_mgr.get_shader("geometry_buffer");
+    gbuffer->bindShader();
+
+        uint32_t current_material_id = std::numeric_limits<uint32_t>::max();
+        // Here, I'm just populating the gbuffer shader with required data
+        for(const auto& call : _render_queue) {
+            if(call._material_id != current_material_id) {
+                const Material& mat = res_mgr.get_material(call._material_id);
+                mat.Apply(res_mgr, gbuffer);
+                current_material_id = call._material_id;
+            }
+            gbuffer->setMat4("u_ModelMatrix", call._model_matrix);
+            gbuffer->setInt("u_EntityID", static_cast<int>(call._entity_id));
+
+            DrawCommands::DrawIndexed(call._vao, call._idx_count);
+        }
+}
+
+void RenderSystem::lightingPass(ResourceManager& res_mgr, const SceneData& scene_data){
+    // This is for the directional light.
+    LightBufferData lightData{};
+    lightData._directional_light._direction = scene_data._directional_light._direction;
+    lightData._directional_light._enabled = scene_data._directional_light._enabled ? 1 : 0; // lol
+    lightData._directional_light._color = scene_data._directional_light._color;
+    lightData._directional_light._ambient = scene_data._directional_light._ambient;
+    lightData._directional_light._diffuse = scene_data._directional_light._diffuse;
+    lightData._directional_light._specular = scene_data._directional_light._specular;
+    lightData._directional_light._light_space_matrix = CalculateLightSpaceMatrix(scene_data._directional_light, scene_data._camera);
+
+    // Now moving to the spot lights
+    for(int i = 0; i < 4; i++){
+        if(i < scene_data._spot_lights.size()) {
+            lightData._spot_lights[i]._position     = scene_data._spot_lights[i]._position;
+            lightData._spot_lights[i]._enabled      = scene_data._spot_lights[i]._enabled ? 1 : 0;
+            lightData._spot_lights[i]._direction    = scene_data._spot_lights[i]._direction;
+            lightData._spot_lights[i]._color        = scene_data._spot_lights[i]._color;
+            lightData._spot_lights[i]._constant     = scene_data._spot_lights[i]._constant;
+            lightData._spot_lights[i]._linear       = scene_data._spot_lights[i]._linear;
+            lightData._spot_lights[i]._quadratic    = scene_data._spot_lights[i]._quadratic;
+            lightData._spot_lights[i]._ambient      = scene_data._spot_lights[i]._ambient;
+            lightData._spot_lights[i]._diffuse      = scene_data._spot_lights[i]._diffuse;
+            lightData._spot_lights[i]._specular     = scene_data._spot_lights[i]._specular;
+
+            // Pre-calculate cosines on the CPU so your fragment shader stays blazing fast!
+            lightData._spot_lights[i]._inner_cutoff = glm::cos(glm::radians(scene_data._spot_lights[i]._inner_cutoff));
+            lightData._spot_lights[i]._outer_cutoff = glm::cos(glm::radians(scene_data._spot_lights[i]._outer_cutoff));
+
+            // Leave space matrix placeholder for spotlight shadow maps later
+            lightData._spot_lights[i]._light_space_matrix = scene_data._spot_lights[i]._light_space_matrix;
+        } else {
+            lightData._spot_lights[i]._enabled = 0U;
+        }
+    }
+    _lights_ubo->setData(&lightData, sizeof(LightBufferData));
+
+    // Binding the deferred lighting shader here
+    auto dShader = res_mgr.get_shader("default_shader_deferred");
+    dShader->bindShader();
+        // Binding the global lighting related data
+        if(scene_data._directional_shadow_map_id){
+            GeneralRenderCalls::bindTexture(scene_data._directional_shadow_map_id, TextureSlots::REV_SHADOWMAP_DIRECTIONAL);
+            dShader->setInt("u_ShadowMap", TextureSlots::REV_SHADOWMAP_DIRECTIONAL);
+        }
+        if(scene_data._spot_shadow_map_id){
+            GeneralRenderCalls::bindTexture(scene_data._spot_shadow_map_id, TextureSlots::REV_SHADOWMAP_SPOTLIGHT);
+            dShader->setInt("u_ShadowMaps_SpotLight", TextureSlots::REV_SHADOWMAP_SPOTLIGHT);
+        }
+
+        dShader->setInt("u_Skybox", TextureSlots::REV_ENVIRONMENT_SKYBOX);
+        GeneralRenderCalls::draw_full_screen_quad();
+
+}
+
 glm::mat4 RenderSystem::CalculateLightSpaceMatrix(const DirectionalLightComponent& dirLight, const Camera3D& cam){
     glm::mat4 lightProj = glm::ortho(-10.0F, 10.0F, -10.0F, 10.0F, 0.1F, 50.0F);
 

@@ -24,7 +24,7 @@ void SandboxLayer::onAttach(){
     _resource_manager.get_shader("default_shader");
 
     // uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/models/cyborg/cyborg.vert", "revrender/assets/models/cyborg/cyborg.frag");
-    uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/core/default_lit_shader.vert", "revrender/assets/core/default_lit_shader.frag");
+    uint32_t _shader_id = _resource_manager.load_shader("cyborg_shader", "revrender/assets/core/default_lit_shader_deferred.vert", "revrender/assets/core/default_lit_shader_deferred.frag");
     _model_id = _resource_manager.load_model("revrender/assets/models/cyborg/cyborg.obj");
 
     Entity model_entity = _scene.create_entity("cyborg");
@@ -34,7 +34,7 @@ void SandboxLayer::onAttach(){
 
     uint32_t _flat_plane_id = _resource_manager.load_model("revrender/assets/models/ground_flat/ground.obj");
     Entity flat_plane = _scene.create_entity("flat_plane");
-    uint32_t _flat_shader_id = _resource_manager.load_shader("flat_plane_shader", "revrender/assets/core/default_lit_shader.vert", "revrender/assets/core/default_lit_shader.frag");
+    uint32_t _flat_shader_id = _resource_manager.load_shader("flat_plane_shader", "revrender/assets/core/default_lit_shader_deferred.vert", "revrender/assets/core/default_lit_shader_deferred.frag");
     auto& flat_plane_model = flat_plane.addComponent<MeshComponent>(MeshComponent{._model_id=_flat_plane_id});
     flat_plane_model._shader_id = _flat_shader_id;
     auto& transform = flat_plane.getComponent<TransformComponent>();
@@ -218,13 +218,52 @@ void SandboxLayer::onUpdate(float deltaTime){
     // ||===`       ||===`
     // ||\\         ||\\
     // || \\ EGULAR || \\ ENDERING
+
+    // .====.
+    // ||  ||
+    // ||===`
+    // ||
+    // || ASS  1
+    _geometry_fbo->bind();
+        GeneralRenderCalls::clear();
+        GeneralRenderCalls::clear_fb_color_attchment(3, -1);
+        _render_system.geometryPass(_resource_manager);
+    _geometry_fbo->unbind();
+
+    // .====.
+    // ||  ||
+    // ||===`
+    // ||
+    // || ASS  2
     _imgui_fbo->bind();
         GeneralRenderCalls::clear();
-        GeneralRenderCalls::clear_fb_color_attchment(1, -1);
+        GeneralRenderCalls::bindTexture(_geometry_fbo->get_color_attachment_id(0), 0);
+        GeneralRenderCalls::bindTexture(_geometry_fbo->get_color_attachment_id(1), 1);
+        GeneralRenderCalls::bindTexture(_geometry_fbo->get_color_attachment_id(2), 2);
+
         _scene_data._directional_shadow_map_id = _directional_shadow_map->GetTextureID();
         _scene_data._spot_shadow_map_id = _spot_shadow_map->GetTextureID();
-        _render_system.EndFrame(_resource_manager, _scene_data);
+
+        glDisable(GL_DEPTH_TEST);
+        _render_system.lightingPass(_resource_manager, _scene_data);
+        glEnable(GL_DEPTH_TEST);
+
+    // .====.
+    // ||  ||
+    // ||===`
+    // ||
+    // || ASS  3 (Kinda...)
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, _geometry_fbo->get_id());
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _imgui_fbo->get_id());
+
+        glBlitFramebuffer(
+            0, 0, (int)_viewport_size.x, (int)_viewport_size.y,
+            0, 0, (int)_viewport_size.x, (int)_viewport_size.y,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST
+        );
+
         _sbox->draw(_resource_manager, _scene_data._camera);
+
         _render_system.ClearRenderQueue();
     _imgui_fbo->unbind();
 
@@ -277,6 +316,7 @@ void SandboxLayer::onRenderGUI() {
                 };
 
                 _imgui_fbo->resize((uint32_t)_viewport_size.x, (uint32_t)_viewport_size.y);
+                _geometry_fbo->resize((uint32_t)_viewport_size.x, (uint32_t)_viewport_size.y);
                 _postprocessing_system.Resize((uint32_t)_viewport_size.x, (uint32_t)_viewport_size.y);
 
                 float aspect = _viewport_size.x / _viewport_size.y;
@@ -285,7 +325,7 @@ void SandboxLayer::onRenderGUI() {
         }
         uint32_t texID = _final_scene_texture_id;
         ImGui::Image((void*)(intptr_t)texID, ImVec2{ _viewport_size.x, _viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-        colorPicking(*_imgui_fbo);
+        colorPicking(*_geometry_fbo);
         // ========   .======.
         //    ||     ||
         //    ||     ||   ===.

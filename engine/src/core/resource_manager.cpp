@@ -42,6 +42,7 @@ void ResourceManager::Init(){
     default_material._diffuse_texture = 0;
     default_material._specular_texture = 1;
     default_material._normal_texture = 2;
+    default_material._shininess = 32.0F;
     load_material("default_material", default_material);
 
     // Default model loading
@@ -65,6 +66,12 @@ void ResourceManager::Init(){
     load_shader("filmgrain", "revrender/assets/core/postprocessing_shader/filmgrain.vert", "revrender/assets/core/postprocessing_shader/filmgrain.frag");
     // Fxaa shader
     load_shader("fxaa", "revrender/assets/core/postprocessing_shader/fxaa.vert", "revrender/assets/core/postprocessing_shader/fxaa.frag");
+
+    // Loading the shader for G-Buffer
+    load_shader("geometry_buffer", "revrender/assets/core/default_gshader.vert", "revrender/assets/core/default_gshader.frag");
+    // Loading the shader for deferred lighting
+    load_shader("default_shader_deferred", "revrender/assets/core/default_lit_shader_deferred.vert", "revrender/assets/core/default_lit_shader_deferred.frag");
+
     // Loading the default cubemap
     load_cubemap("skybox", std::make_shared<Cubemap>(default_faces));
 }

@@ -38,6 +38,7 @@ public:
 
     virtual uint32_t get_color_attachment_id(uint32_t idx = 0) const = 0;
     virtual uint32_t get_depth_attachment_id() const = 0;
+    virtual uint32_t get_id() const = 0;
 
     virtual const FramebufferSpecs& get_specifications() const = 0;
 

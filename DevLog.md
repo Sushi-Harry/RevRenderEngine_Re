@@ -164,3 +164,6 @@ So I added imguizmo to the project and hooked it up to the rest of the engine th
 
 ### 21 June 2026, [10:15 P.M.]
 So I spent most of today getting some college work done. (Even though it's summer vacations. Absolutely rotten luck) and also spent a bit of time figuring out how deferred shading works. That's kinda it for today. Will implement deferred shading tomorrow and then move on to SSR.
+
+### 22 June 2026, [5:23 P.M.]
+After a tonne of debugging and what feels like a million path typos I have finally done it. Deferred shading now works. Now I just need to add SSR and some other screen space effects and this project is as good as finished. Just a tiny bit of work left before I can move on to a new project.

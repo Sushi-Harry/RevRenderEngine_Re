@@ -13,6 +13,10 @@ public:
     void Shutdown();
 
     void BeginFrame(const Camera3D& cam);
+
+    void geometryPass(ResourceManager& res_mgr);
+    void lightingPass(ResourceManager& res_mgr, const SceneData& scene_data);
+
     void Submit(const RenderCall& _render_packet, ResourceManager& res_mgr);
     void ShadowMappingRenderPass(ResourceManager& res_mgr, const glm::mat4& light_space_matrix);
     glm::mat4 CalculateLightSpaceMatrix(const DirectionalLightComponent& dirLight, const Camera3D& cam);

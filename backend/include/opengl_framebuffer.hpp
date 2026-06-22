@@ -14,6 +14,7 @@ public:
 
     uint32_t get_color_attachment_id(uint32_t idx) const override;
     uint32_t get_depth_attachment_id() const override;
+    uint32_t get_id() const override { return _id; }
 
     const FramebufferSpecs& get_specifications() const override;
 private:

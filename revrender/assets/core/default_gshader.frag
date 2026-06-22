@@ -1,7 +1,7 @@
 #version 460
 
 layout (location = 0) out vec4 gAlbedoSpec;
-layout (location = 1) out vec3 gNormal;
+layout (location = 1) out vec4 gNormal;
 layout (location = 2) out vec3 gPosition;
 layout (location = 3) out int gEntityID;
 
@@ -24,7 +24,8 @@ void main(){
 
     gAlbedoSpec.rgb = diffuseTexColor.rgb;
     gAlbedoSpec.a = texture(u_Material._texture_specular, FragTexCoords).r;
-    gNormal = normalize(FragNormal);
+    gNormal.rgb = normalize(FragNormal);
+    gNormal.a = u_Material._shininess / 256.0;
     gPosition = FragWorldPos;
     gEntityID = u_EntityID;
 }
