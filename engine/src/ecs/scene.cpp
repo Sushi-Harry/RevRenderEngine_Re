@@ -48,6 +48,20 @@ Entity Scene::create_directional_light(const std::string& name, glm::vec3 color)
 //     return create_entity(name);
 // }
 
+Entity Scene::create_3d_model(ResourceManager& res_mgr, const std::string& name, const std::string& path, const std::string& shader, const std::string& v_path, const std::string& f_path){
+    Entity entity(_registry.create(), this);
+    entity.addComponent<TransformComponent>();
+
+    uint32_t model_id = res_mgr.load_model(path);
+    uint32_t shader_id = res_mgr.load_shader(shader, v_path, f_path);
+    auto& model = entity.addComponent<MeshComponent>(MeshComponent{._model_id=model_id, ._shader_id=shader_id});
+
+    auto& tag = entity.addComponent<TagComponent>();
+    tag._tag = name;
+
+    return entity;
+}
+
 void Scene::onUpdate(float deltaTime, const Camera3D& cam, RenderSystem& render_sys, ResourceManager& res_mgr){
     render_sys.BeginFrame(cam);
 

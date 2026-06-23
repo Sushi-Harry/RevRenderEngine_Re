@@ -220,7 +220,7 @@ void RenderSystem::lightingPass(ResourceManager& res_mgr, const SceneData& scene
 }
 
 glm::mat4 RenderSystem::CalculateLightSpaceMatrix(const DirectionalLightComponent& dirLight, const Camera3D& cam){
-    glm::mat4 lightProj = glm::ortho(-10.0F, 10.0F, -10.0F, 10.0F, 0.1F, 50.0F);
+    glm::mat4 lightProj = glm::ortho(-50.0F, 50.0F, -50.0F, 50.0F, 0.1F, 100.0F);
 
     glm::vec3 lightPos = cam.getViewPos() - (glm::normalize(dirLight._direction) * 20.0F);
     glm::mat4 lightView = glm::lookAt(lightPos, cam.getViewPos(), glm::vec3(0.0f, 1.0f, 0.0f));

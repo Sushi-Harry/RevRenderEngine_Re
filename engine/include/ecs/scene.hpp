@@ -26,6 +26,7 @@ public:
     //  || THIS PART IS STILL A WORK IN PROGRESS! ||
     //  ============================================
     // Entity create_camera(const std::string& name = "Camera Object");
+    Entity create_3d_model(ResourceManager& res_mgr, const std::string& name, const std::string& path, const std::string& shader = "default_shader_deferred", const std::string& v_path = "revrender/assets/core/default_lit_shader_deferred.vert", const std::string& f_path = "revrender/assets/core/default_lit_shader_deferred.frag");
 
     const entt::registry& get_registry() const { return _registry; }
     entt::registry& get_registry() { return _registry; }

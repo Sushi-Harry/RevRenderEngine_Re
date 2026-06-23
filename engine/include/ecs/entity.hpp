@@ -22,6 +22,8 @@ public:
         return _scene->_registry.all_of<T>(_entity_handle);
     }
 
+    const entt::entity& getEntityID() const { return _entity_handle; }
+
 
 private:
     entt::entity _entity_handle{entt::null};

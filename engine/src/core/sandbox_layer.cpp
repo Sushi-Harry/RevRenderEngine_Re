@@ -165,9 +165,10 @@ bool SandboxLayer::onMouseMoved(MouseMoved& e){
 
 void SandboxLayer::onUpdate(float deltaTime){
 
-    if(!_scene_data._spot_lights.empty()){
-        _scene.update_active_slights(_scene_data._spot_lights);
-    }
+    // Yet to determine if this is important
+    // if(!_scene_data._spot_lights.empty()){
+    //     _scene.update_active_slights(_scene_data._spot_lights);
+    // }
 
     if(_viewport_focused){
         if (Input::isKeyPressed(Key::REV_KEY_W))
@@ -278,11 +279,7 @@ void SandboxLayer::onRenderGUI() {
     ImGuizmo::BeginFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetID("DockingSpace"), ImGui::GetMainViewport(), ImGuiDockNodeFlags_None);
 
-    ImGui::Begin("Light Configuration");
-        ImGui::SliderFloat3("Spotlight Position", &_scene_data._spot_lights[0]._position.x, -20.0F, 20.0F);
-        ImGui::SliderFloat3("SpotLight Direction", &_scene_data._spot_lights[0]._direction.x, -1.0F, 1.0F);
-        ImGui::ColorEdit3("Spotlight Color", &_scene_data._spot_lights[0]._color.x);
-    ImGui::End();
+    drawInspector();
 
     ImGui::Begin("Performance");
         ImGui::Text("Application Performance: %.3f ms/frame (%.1f FPS)", 1000.0F / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -363,16 +360,133 @@ void SandboxLayer::onRenderGUI() {
     ImGui::PopStyleVar();
 }
 
+void SandboxLayer::drawInspector(){
+    ImGui::Begin("Inspector");
+        if(_selected_entity_id != entt::null){
+            Entity selected_entity = { _selected_entity_id, &_scene };
+
+            if (selected_entity.hasComponent<TagComponent>()) {
+                auto& tag = selected_entity.getComponent<TagComponent>()._tag;
+                ImGui::Text("Entity: %s", tag.c_str());
+                ImGui::Separator();
+            }
+
+            if (selected_entity.hasComponent<SpotLightComponent>()) {
+                if (ImGui::CollapsingHeader("Spot Light Configuration", ImGuiTreeNodeFlags_DefaultOpen)) {
+                    auto& light = selected_entity.getComponent<SpotLightComponent>();
+
+                    ImGui::Checkbox("Enabled##SpotLight", &light._enabled);
+
+                    ImGui::ColorEdit3("Color", glm::value_ptr(light._color));
+
+                    ImGui::Spacing();
+                    ImGui::Text("Light Strengths");
+                    ImGui::SliderFloat("Ambient", &light._ambient, 0.0f, 1.0f);
+                    ImGui::SliderFloat("Diffuse", &light._diffuse, 0.0f, 1.0f);
+                    ImGui::SliderFloat("Specular", &light._specular, 0.0f, 1.0f);
+
+                    ImGui::Spacing();
+                    ImGui::Text("Attenuation (Distance Falloff)");
+                    ImGui::SliderFloat("Constant", &light._constant, 0.0f, 1.0f);
+                    ImGui::SliderFloat("Linear", &light._linear, 0.0f, 1.0f);
+                    ImGui::SliderFloat("Quadratic", &light._quadratic, 0.0f, 2.0f);
+
+                    ImGui::Spacing();
+                    ImGui::Text("Cone Angles");
+                    ImGui::SliderFloat("Inner Cutoff", &light._inner_cutoff, 0.0f, 90.0f);
+                    ImGui::SliderFloat("Outer Cutoff", &light._outer_cutoff, 0.0f, 90.0f);
+                }
+            }
+
+            if (selected_entity.hasComponent<DirectionalLightComponent>()) {
+                if (ImGui::CollapsingHeader("Directional Light Configuration", ImGuiTreeNodeFlags_DefaultOpen)) {
+                    auto& dir_light = selected_entity.getComponent<DirectionalLightComponent>();
+
+                    ImGui::Checkbox("Enabled##DirectionalLight", &dir_light._enabled);
+
+                    ImGui::ColorEdit3("Color", glm::value_ptr(dir_light._color));
+                    ImGui::SliderFloat("Ambient", &dir_light._ambient, 0.0f, 1.0f);
+                    ImGui::SliderFloat("Diffuse", &dir_light._diffuse, 0.0f, 1.0f);
+                }
+            }
+        }else{
+            ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "Select an entity in the Hierarchy to view its properties.");
+        }
+    ImGui::End();
+}
+
 void SandboxLayer::drawSceneHierarchyPanel(){
     ImGui::Begin("Scene Hierarchy");
-    auto view = _scene.get_registry().view<TagComponent>();
-    for(auto entityID : view){
-        auto& tag = view.get<TagComponent>(entityID);
-        bool isSelected = (_selected_entity_id == entityID);
-        if(ImGui::Selectable(tag._tag.c_str(), isSelected)){
-            _selected_entity_id = entityID;
+
+        static bool open_model_menu = false;
+        if(ImGui::BeginPopupContextWindow("Menu", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)){
+            if(ImGui::MenuItem("Create Empty Entity")){
+                Entity new_ent = _scene.create_entity("New Entity");
+                _selected_entity_id = new_ent.getEntityID();
+            }
+            if(ImGui::MenuItem("Create Spot Light")){
+                Entity new_ent = _scene.create_spot_light();
+                _selected_entity_id = new_ent.getEntityID();
+            }
+            if(ImGui::MenuItem("Create 3D Object")){
+                open_model_menu = true;
+            }
+
+            ImGui::EndPopup();
         }
-    }
+
+        if(open_model_menu){
+            ImGui::OpenPopup("Load 3D Model");
+            open_model_menu = false;
+        }
+
+        if (ImGui::BeginPopupModal("Load 3D Model", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            static char name_buf[128] = "New Model";
+            static char path_buf[256] = "revrender/assets/models/";
+
+            ImGui::InputText("Entity Name", name_buf, IM_ARRAYSIZE(name_buf));
+            ImGui::InputText("File Path", path_buf, IM_ARRAYSIZE(path_buf));
+
+            ImGui::Separator();
+
+            if (ImGui::Button("Load", ImVec2(120, 0))) {
+                Entity new_model = _scene.create_3d_model(
+                    _resource_manager,
+                    std::string(name_buf),
+                    std::string(path_buf)
+                );
+                _selected_entity_id = new_model.getEntityID();
+
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::EndPopup();
+        }
+
+        auto view = _scene.get_registry().view<TagComponent>();
+        for(auto entityID : view){
+            auto& tag = view.get<TagComponent>(entityID);
+            bool isSelected = (_selected_entity_id == entityID);
+            if(ImGui::Selectable(tag._tag.c_str(), isSelected)){
+                _selected_entity_id = entityID;
+            }
+
+            if(ImGui::BeginPopupContextItem()){
+                if(ImGui::BeginPopup("Delete Entity")){
+                    if (_selected_entity_id == entityID) {
+                        _selected_entity_id = entt::null;
+                    }
+
+                    _scene.get_registry().destroy(entityID);
+                }
+                ImGui::EndPopup();
+            }
+        }
     ImGui::End();
 }
 

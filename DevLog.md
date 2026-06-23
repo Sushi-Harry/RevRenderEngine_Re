@@ -167,3 +167,7 @@ So I spent most of today getting some college work done. (Even though it's summe
 
 ### 22 June 2026, [5:23 P.M.]
 After a tonne of debugging and what feels like a million path typos I have finally done it. Deferred shading now works. Now I just need to add SSR and some other screen space effects and this project is as good as finished. Just a tiny bit of work left before I can move on to a new project.
+
+### 23 June 2026, [11:05 P.M.]
+Man I added quite a bit of stuff to the gui and though it's still not as good as I'd like it to be, it's still extremely good for testing purposes and it is also very satisfying to use. (Cause all this time, I've been manually editing the code and recompiling the entire project again and again when debugging visual bugs that can't be detected by the compiler or the linker)
+And there's a lot of stuff in the project now too. Safe to say that version 1.0 of RevRenderEngine is ready!!!!!!!!!!!!!!111!!!!!!!!!!!!!!!1!!!!!!!!!!!!!!!
